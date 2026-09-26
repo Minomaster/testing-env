@@ -3,6 +3,8 @@ import { evaluateInput } from "$lib/calc/evaluate";
 import { formatQuantity } from "$lib/calc/format";
 import { decode, encode } from "./colourCode";
 import { combineExpr, impedanceExpr } from "./expressions";
+import { amplitudes, partialSum } from "./fourier";
+import { analyse } from "./smith";
 
 const show = (expr: string) => formatQuantity(evaluateInput(expr, "deg"), "deg");
 
@@ -20,6 +22,31 @@ describe("resistor colour code", () => {
     expect(encode(1, 2)).toEqual(["brown", "black", "gold"]);
     expect(encode(4750, 2)).toBeNull();
     expect(encode(4750, 3)).toEqual(["yellow", "violet", "green", "brown"]);
+  });
+});
+
+describe("fourier series", () => {
+  it("converges to each waveform away from jumps", () => {
+    expect(partialSum("square", 0.25, 199, 0)).toBeCloseTo(1, 2);
+    expect(partialSum("triangle", 0.25, 99, 0)).toBeCloseTo(1, 2);
+    expect(partialSum("sawtooth", 0.25, 999, 0)).toBeCloseTo(0.5, 2);
+    expect(partialSum("pulse", 0, 999, 0.25)).toBeCloseTo(1, 2);
+    expect(partialSum("pulse", 0.5, 999, 0.25)).toBeCloseTo(0, 2);
+  });
+
+  it("gives textbook amplitudes", () => {
+    const [a1, a2, a3] = amplitudes("square", 3, 0);
+    expect([a1, a2, a3 * 3]).toEqual([4 / Math.PI, 0, 4 / Math.PI].map((x) => expect.closeTo(x, 10)));
+  });
+});
+
+describe("smith chart", () => {
+  it("computes Γ, VSWR and return loss", () => {
+    const r = analyse({ re: 100, im: 0 }, 50);
+    expect(r.mag).toBeCloseTo(1 / 3, 10);
+    expect(r.vswr).toBeCloseTo(2, 10);
+    expect(r.returnLoss).toBeCloseTo(9.542, 3);
+    expect(analyse({ re: 50, im: 0 }, 50).mag).toBe(0);
   });
 });
 

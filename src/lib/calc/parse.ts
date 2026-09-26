@@ -13,6 +13,7 @@ export type Node =
 export type Line =
   | { kind: "empty" }
   | { kind: "comment" }
+  | { kind: "plot"; curves: { node: Node; text: string }[]; variable: string; from: Node; to: Node }
   | { kind: "expr"; assign?: string; expr: Node; convertTo?: string };
 
 export const FUNCTION_NAMES = new Set([
@@ -224,12 +225,39 @@ export function parseExpression(src: string): Node {
   return new Parser(tokens).parseAll();
 }
 
+const PLOT = /^\s*plot\s+(.+?)(?:\s+for\s+([\p{L}_][\p{L}\p{Nd}_]*))?\s+from\s+(.+?)\s+to\s+(.+?)\s*$/u;
+
+/** Splits on commas that aren't inside brackets: "sin(x), max(a, b)" → two parts. */
+function splitTopLevel(text: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < text.length; i++) {
+    if ("([".includes(text[i])) depth++;
+    else if (")]".includes(text[i])) depth--;
+    else if (text[i] === "," && depth === 0) {
+      parts.push(text.slice(start, i));
+      start = i + 1;
+    }
+  }
+  return [...parts, text.slice(start)].map((p) => p.trim()).filter(Boolean);
+}
+
+function parsePlot(code: string): Line {
+  const m = code.match(PLOT);
+  if (!m) throw new CalcError("Use: plot <expression> from <start> to <end>");
+  const curves = splitTopLevel(m[1]).map((text) => ({ text, node: parseExpression(text) }));
+  return { kind: "plot", curves, variable: m[2] ?? "x", from: parseExpression(m[3]), to: parseExpression(m[4]) };
+}
+
 const ASSIGNMENT =/^\s*([\p{L}_][\p{L}\p{N}_]*)\s*=(.*)$/u;
 
 export function parseLine(src: string): Line {
   const hash = src.indexOf("#");
   const code = hash === -1 ? src : src.slice(0, hash);
   if (!code.trim()) return { kind: src.trim() ? "comment" : "empty" };
+
+  if (/^\s*plot\s/.test(code) && !/^\s*plot\s*=/.test(code)) return parsePlot(code);
 
   const assignment = code.match(ASSIGNMENT);
   const assign = assignment?.[1];

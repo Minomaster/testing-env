@@ -18,7 +18,19 @@ export type LineResult =
   | { kind: "empty" }
   | { kind: "comment" }
   | { kind: "value"; quantity: Quantity; name?: string }
+  | { kind: "plot"; plot: PlotData }
   | { kind: "error"; message: string };
+
+/** Sampled curves in SI; `xUnit`/`yUnit` are representative samples used to choose axis units. */
+export type PlotData = {
+  variable: string;
+  xs: number[];
+  curves: { label: string; ys: number[] }[];
+  xUnit: Unit | null;
+  yUnit: Unit | null;
+};
+
+const PLOT_SAMPLES = 400;
 
 const CONSTANTS: Record<string, Scalar> = {
   pi: Math.PI,
@@ -306,8 +318,56 @@ function convert(q: Quantity, target: string, mode: AngleMode): Quantity {
   return { value: (value as Unit).to(unitExpr), sf: q.sf };
 }
 
+/** Real value in SI plus its unit (null when dimensionless); angles count as dimensionless. */
+export function realSI(q: Quantity): { value: number; unit: Unit | null } {
+  const v = q.value;
+  if (isVector(v)) throw new CalcError("Needs a single value, not a vector");
+  if (typeof v === "number") return { value: v, unit: null };
+  if (math.isComplex(v) || typeof (v as Unit).value !== "number") throw new CalcError("Needs a real value (try abs() or arg())");
+  return { value: (v as Unit).value as number, unit: v as Unit };
+}
+
+function sameUnitKind(a: Unit | null, b: Unit | null): boolean {
+  return a && b ? a.equalBase(b) : a === b;
+}
+
+function evaluatePlot(line: Extract<ReturnType<typeof parseLine>, { kind: "plot" }>, ctx: Context): LineResult {
+  const from = realSI(evalNode(line.from, ctx));
+  const to = realSI(evalNode(line.to, ctx));
+  if (!sameUnitKind(from.unit, to.unit)) throw new CalcError("Start and end need the same unit");
+  const template = from.unit ? math.unit(1, from.unit.formatUnits()) : null;
+  const xs = Array.from({ length: PLOT_SAMPLES }, (_, k) => from.value + ((to.value - from.value) * k) / (PLOT_SAMPLES - 1));
+
+  const vars = new Map(ctx.vars);
+  const local: Context = { vars, mode: ctx.mode };
+  let yUnit: Unit | null = null;
+  let yUnitSeen = false;
+  let peak = -1;
+  const curves = line.curves.map(({ node, text }) => {
+    let firstError: unknown;
+    const ys = xs.map((x) => {
+      vars.set(line.variable, { value: template ? mul(x / (template.value as number), template) : x, sf: Infinity });
+      try {
+        const y = realSI(evalNode(node, local));
+        if (yUnitSeen && !sameUnitKind(y.unit, yUnit)) throw new CalcError("All curves in one plot need the same unit");
+        if (!yUnitSeen || Math.abs(y.value) > peak) [yUnit, peak] = [y.unit, Math.abs(y.value)];
+        yUnitSeen = true;
+        return y.value;
+      } catch (e) {
+        if (e instanceof CalcError && e.message.startsWith("All curves")) throw e;
+        firstError ??= e;
+        return NaN;
+      }
+    });
+    if (ys.every((y) => !isFinite(y))) throw firstError ?? new CalcError(`Nothing to plot for ${text}`);
+    return { label: text, ys };
+  });
+  return { kind: "plot", plot: { variable: line.variable, xs, curves, xUnit: from.unit, yUnit } };
+}
+
 function evaluateLine(src: string, ctx: Context): LineResult {
   const line = parseLine(src);
+  if (line.kind === "plot") return evaluatePlot(line, ctx);
   if (line.kind !== "expr") return line;
   if (line.assign && RESERVED.has(line.assign)) throw new CalcError(`"${line.assign}" is reserved`);
 

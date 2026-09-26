@@ -6,6 +6,8 @@
   import ColourCode from "$lib/ee/ColourCode.svelte";
   import Combine from "$lib/ee/Combine.svelte";
   import Impedance from "$lib/ee/Impedance.svelte";
+  import Fourier from "$lib/ee/Fourier.svelte";
+  import Smith from "$lib/ee/Smith.svelte";
   import FormulaDetail from "$lib/formulas/FormulaDetail.svelte";
   import { library, loadLibrary } from "$lib/formulas/library.svelte";
 
@@ -14,6 +16,8 @@
     { id: "colour", name: "Resistor colour code" },
     { id: "combine", name: "Series & parallel (R, L, C)" },
     { id: "impedance", name: "Series RLC impedance" },
+    { id: "smith", name: "Smith chart" },
+    { id: "fourier", name: "Fourier series" },
     { id: "dc-circuits/ohm-s-law", name: "Ohm's law" },
     { id: "dc-circuits/electrical-power", name: "Power" },
     { id: "dc-circuits/voltage-divider", name: "Voltage divider" },
@@ -63,6 +67,8 @@
       {#if selected === "colour"}<ColourCode />
       {:else if selected === "combine"}<Combine />
       {:else if selected === "impedance"}<Impedance {mode} />
+      {:else if selected === "smith"}<Smith {mode} />
+      {:else if selected === "fourier"}<Fourier />
       {:else if formula}<FormulaDetail {formula} {mode} />{/if}
     </div>
   </div>

@@ -5,6 +5,7 @@
   import { formatQuantity } from "$lib/calc/format";
   import { math } from "$lib/calc/math";
   import { readDataFile, writeDataFile } from "$lib/dataFiles";
+  import Explorer from "./Explorer.svelte";
   import { removeFormula } from "./library.svelte";
   import { obsidianMarkdown, renderLatex, scratchpadLines, symbolLatex, unitText } from "./present";
   import { solve, unitOf } from "./solve";
@@ -152,6 +153,10 @@
         </div>
       {/if}
     </section>
+  {/if}
+
+  {#if formula.expr && formula.variables.length >= 2}
+    <Explorer {formula} {inputs} {mode} />
   {/if}
 
   {#if actionError}

@@ -183,6 +183,17 @@ the magnitude's s.f.); a part that rounds to zero is dropped (`i*i` → `-1`, `1
 applies to trig inputs, inverse-trig outputs (`asin(0.5)` → `30°` in DEG), `∠` angles and
 polar display. An explicit unit always wins (`sin(30 deg)` in RAD mode).
 
+**Plots:** `plot <expr>[, <expr>…] [for <var>] from <a> to <b>` (default variable `x`;
+units allowed, e.g. `for t from 0 s to 5 ms`; earlier variables usable). 400 samples; curves
+must share a unit; gaps where a curve is undefined. The result column shows "plot ↓"; plots
+render below the sheet (`src/lib/plot/CalcPlot.svelte`). Shared SVG plot component
+`src/lib/plot/Plot.svelte`: auto range, nice ticks, scroll to zoom, drag to pan, double-click
+to reset, cursor readout, legend.
+
+**Syntax guide:** a "Syntax" button in the calculator header toggles a side panel
+(`src/lib/calc/CalcGuide.svelte`) with examples for every feature. Keep it in sync when
+syntax changes.
+
 **Interaction:** click a result to copy it (the label briefly shows "Copied"). Errors show
 as a short dimmed message in the result column (e.g. `Unknown name "x"`,
 `Units don't match`) and don't stop later lines from evaluating.
@@ -268,6 +279,10 @@ negative), and zooms into local minima of |f| to catch two close roots. A root i
 only if the residual is ~0, so poles aren't mistaken for roots. For multiple valid roots
 it returns the smallest positive one.
 
+**Explorer** (`src/lib/formulas/Explorer.svelte`, under the solve panel): plot one variable
+against another over a range, other variables taken from the solve panel. Explicit formulas
+(`y = …`) are evaluated directly (300 points); others are solved per point (80 points).
+
 **Editor:** name, category (suggests existing ones), LaTeX with live preview, optional
 expression, variables (symbol / unit / description), tags, note. It validates live
 (symbol rules, reserved names, known units, every variable used, units balancing on both
@@ -287,6 +302,10 @@ A list of tools on the left (`src/routes/ee/+page.svelte`), explicitly **not** a
 - **Series & parallel** for R, L or C: list of values (calculator input), shows both
   combinations with sig figs (capacitors combine the opposite way).
 - **Series RLC impedance**: R, L, C (blank = component absent), f → Z in both complex forms.
+- **Smith chart**: Z_L (e.g. `25 + 50i Ω`; a trailing ` Ω` applies to the whole input) and
+  Z₀ → chart with Γ point and VSWR circle, plus Γ, z, VSWR, return loss.
+- **Fourier series**: square / triangle / sawtooth / pulse (duty slider), harmonics slider
+  1–60, target vs partial sum plot (Gibbs visible) and harmonic amplitude bars.
 - The rest reuse built-in formulas through the formula solve panel: Ohm's law, power,
   voltage/current divider, RC/RL time constants, RC/RL cutoff, LC resonance, X_C, X_L,
   dB (power / voltage), dBm, LED series resistor. Toolbox → formula ids are listed in `TOOLS`.
@@ -444,3 +463,6 @@ resolution into the relevant section above).
   code, series/parallel, RLC impedance, plus formula-backed tools. Fixed sig-fig exponent
   for float noise (10 µF stored as 9.99…e-6 gained a digit). User prefers lean work:
   minimal tokens, no extras.
+- 2026-09-26: Added visual tools the user picked from a brainstorm: calculator plots + syntax
+  guide, formula explorer, Smith chart, Fourier series builder. Not picked (possible later):
+  phasor diagrams, Bode plot, step response, waveform viewer, vector diagrams, lab data fit.
