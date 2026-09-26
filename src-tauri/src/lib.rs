@@ -1,5 +1,5 @@
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
@@ -46,6 +46,47 @@ fn init_data_root(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn resolve_in(root: &Path, relative: &str) -> Result<PathBuf, String> {
+    let rel = Path::new(relative);
+    let is_plain = rel.components().count() > 0
+        && rel.components().all(|c| matches!(c, Component::Normal(_)));
+    if !is_plain {
+        return Err(format!("Invalid data file path: {relative}"));
+    }
+    Ok(root.join(rel))
+}
+
+fn data_file(app: &AppHandle, relative: &str) -> Result<PathBuf, String> {
+    let root = read_config(&config_path(app)?)
+        .data_root
+        .ok_or("No data folder is set")?;
+    resolve_in(&root, relative)
+}
+
+// Write-then-rename so sync clients (OneDrive, Dropbox) never pick up a half-written file.
+fn write_atomic(path: &Path, contents: &str) -> Result<(), String> {
+    if let Some(dir) = path.parent() {
+        fs::create_dir_all(dir).map_err(|e| e.to_string())?;
+    }
+    let tmp = path.with_extension("tmp");
+    fs::write(&tmp, contents).map_err(|e| e.to_string())?;
+    fs::rename(&tmp, path).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn read_data_file(app: AppHandle, path: String) -> Result<Option<String>, String> {
+    match fs::read_to_string(data_file(&app, &path)?) {
+        Ok(text) => Ok(Some(text)),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(e) => Err(e.to_string()),
+    }
+}
+
+#[tauri::command]
+fn write_data_file(app: AppHandle, path: String, contents: String) -> Result<(), String> {
+    write_atomic(&data_file(&app, &path)?, &contents)
+}
+
 #[tauri::command]
 fn get_data_root(app: AppHandle) -> Result<Option<PathBuf>, String> {
     let config = read_config(&config_path(&app)?);
@@ -67,7 +108,12 @@ fn set_data_root(app: AppHandle, path: PathBuf) -> Result<(), String> {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![get_data_root, set_data_root])
+        .invoke_handler(tauri::generate_handler![
+            get_data_root,
+            set_data_root,
+            read_data_file,
+            write_data_file
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -98,6 +144,29 @@ mod tests {
     fn init_rejects_missing_folder() {
         let missing = scratch_dir("missing").join("does-not-exist");
         assert!(init_data_root(&missing).is_err());
+    }
+
+    #[test]
+    fn data_paths_must_stay_inside_the_root() {
+        let root = Path::new("C:/data");
+        assert_eq!(
+            resolve_in(root, "calculator/scratchpad.txt").unwrap(),
+            root.join("calculator/scratchpad.txt")
+        );
+        for bad in ["", "../escape.txt", "calculator/../../x", "C:/Windows/x", "/etc/passwd"] {
+            assert!(resolve_in(root, bad).is_err(), "accepted {bad:?}");
+        }
+    }
+
+    #[test]
+    fn atomic_write_replaces_existing_file() {
+        let dir = scratch_dir("write");
+        let path = dir.join("sub").join("file.txt");
+        write_atomic(&path, "first").unwrap();
+        write_atomic(&path, "second").unwrap();
+        assert_eq!(fs::read_to_string(&path).unwrap(), "second");
+        assert!(!path.with_extension("tmp").exists());
+        fs::remove_dir_all(dir).unwrap();
     }
 
     #[test]
