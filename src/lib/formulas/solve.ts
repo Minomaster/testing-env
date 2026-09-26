@@ -216,28 +216,75 @@ export function solve(formula: Formula, inputs: Record<string, string>, mode: An
   }
 
   try {
-    const { lhs, rhs } = compile(formula.expr);
-    const base = unitOf(unknown);
-    const make = (x: number): Scalar => (base ? mul(x, base) : x);
-    const vars = new Map(known);
-    let checked = false;
-
-    const g = (x: number) => {
-      vars.set(unknown.symbol, { value: make(x), sf: Infinity });
-      const l = siValue(evaluateNode(lhs, vars, mode));
-      const r = siValue(evaluateNode(rhs, vars, mode));
-      if (!checked) {
-        if (!sameDimension(l.unit, r.unit)) throw new UnitMismatch("Units don't match: check the units of your inputs");
-        checked = true;
-      }
-      return { diff: l.value - r.value, scale: Math.abs(l.value) + Math.abs(r.value) };
-    };
-
-    const root = findRoot(g);
-    if (root === null || !isFinite(root)) return { error: "No real solution found for these values" };
-    const sf = Math.min(...[...known.values()].map((q) => q.sf));
-    return { symbol: unknown.symbol, quantity: { value: presentAngle(make(root), mode), sf } };
+    return { symbol: unknown.symbol, quantity: solveFor(formula, known, unknown, mode) };
   } catch (e) {
     return { error: errorMessage(e) };
   }
+}
+
+/** Solves for `unknown` given the other variables' values; throws CalcError if there is no real solution. */
+export function solveFor(formula: Formula, known: Map<string, Quantity>, unknown: Variable, mode: AngleMode): Quantity {
+  const { lhs, rhs } = compile(formula.expr!);
+  const base = unitOf(unknown);
+  const make = (x: number): Scalar => (base ? mul(x, base) : x);
+  const vars = new Map(known);
+  let checked = false;
+
+  const g = (x: number) => {
+    vars.set(unknown.symbol, { value: make(x), sf: Infinity });
+    const l = siValue(evaluateNode(lhs, vars, mode));
+    const r = siValue(evaluateNode(rhs, vars, mode));
+    if (!checked) {
+      if (!sameDimension(l.unit, r.unit)) throw new UnitMismatch("Units don't match: check the units of your inputs");
+      checked = true;
+    }
+    return { diff: l.value - r.value, scale: Math.abs(l.value) + Math.abs(r.value) };
+  };
+
+  const root = findRoot(g);
+  if (root === null || !isFinite(root)) throw new CalcError("No real solution found for these values");
+  const sf = Math.min(...[...known.values()].map((q) => q.sf));
+  return { value: presentAngle(make(root), mode), sf };
+}
+
+/** SI value of `v` as a quantity in the unit declared for `variable`. */
+export function inUnitOf(variable: Variable, si: number): Scalar {
+  const base = unitOf(variable);
+  return base ? mul(si / (base.value as number), base) : si;
+}
+
+/**
+ * The output `y` as input `x` sweeps from `from` to `to` (SI values), others fixed. Explicit
+ * formulas (y = …) are evaluated directly; others are solved point by point (fewer samples).
+ */
+export function sweep(
+  formula: Formula,
+  known: Map<string, Quantity>,
+  x: Variable,
+  y: Variable,
+  from: number,
+  to: number,
+  mode: AngleMode,
+): { xs: number[]; ys: number[]; yUnit: Unit | null } {
+  const { rhs } = compile(formula.expr!);
+  const explicit = formula.expr!.split("=")[0].trim() === y.symbol;
+  const n = explicit ? 300 : 80;
+  const xs = Array.from({ length: n }, (_, k) => from + ((to - from) * k) / (n - 1));
+  const vars = new Map(known);
+  let firstError: unknown;
+  const ys = xs.map((xv) => {
+    vars.set(x.symbol, { value: inUnitOf(x, xv), sf: Infinity });
+    try {
+      if (explicit) return siValue(evaluateNode(rhs, vars, mode)).value;
+      return siValue(solveFor(formula, vars, y, mode)).value;
+    } catch (e) {
+      if (isUnitMismatch(e)) throw e;
+      firstError ??= e;
+      return NaN;
+    }
+  });
+  if (ys.every((v) => !isFinite(v))) throw firstError ?? new CalcError("Nothing to plot");
+  const peak = ys.reduce((m, v) => (isFinite(v) && Math.abs(v) > m ? Math.abs(v) : m), 0);
+  const sample = inUnitOf(y, peak || 1);
+  return { xs, ys, yUnit: math.isUnit(sample) ? (sample as Unit) : null };
 }

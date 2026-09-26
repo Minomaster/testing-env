@@ -2,6 +2,8 @@
   import { onDestroy, onMount } from "svelte";
   import { evaluateSheet, type AngleMode } from "$lib/calc/evaluate";
   import { formatQuantity } from "$lib/calc/format";
+  import CalcGuide from "$lib/calc/CalcGuide.svelte";
+  import CalcPlot from "$lib/plot/CalcPlot.svelte";
   import { readDataFile, readSettings, updateSettings, writeDataFile } from "$lib/dataFiles";
 
   const SHEET_FILE = "calculator/scratchpad.txt";
@@ -25,13 +27,19 @@
   let saveError = $state<string | null>(null);
   let copiedLine = $state<number | null>(null);
 
+  let showGuide = $state(false);
+
+  const evaluated = $derived(evaluateSheet(text, mode));
   const results = $derived(
-    evaluateSheet(text, mode).map((r) => {
+    evaluated.map((r): { value?: string; error?: string; plot?: boolean } => {
       if (r.kind === "value") return { value: formatQuantity(r.quantity, mode) };
       if (r.kind === "error") return { error: r.message };
+      if (r.kind === "plot") return { plot: true };
       return {};
     }),
   );
+  const plots = $derived(evaluated.flatMap((r, line) => (r.kind === "plot" ? [{ line, plot: r.plot }] : [])));
+  const lines = $derived(text.split("\n"));
   const rows = $derived(Math.max(results.length, MIN_ROWS));
 
   let saveTimer: ReturnType<typeof setTimeout> | undefined;
@@ -93,6 +101,7 @@
       {#if saveError}
         <p class="truncate text-xs text-danger" title={saveError}>Not saved: {saveError}</p>
       {/if}
+      <button class={["btn btn-sm", showGuide && "border-accent"]} aria-pressed={showGuide} onclick={() => (showGuide = !showGuide)}>Syntax</button>
       <div role="group" aria-label="Angle unit" class="flex rounded-md border border-line p-0.5 font-mono text-xs">
         {#each MODES as m (m)}
           <button
@@ -111,6 +120,7 @@
   {#if loadError}
     <p class="px-10 py-8 text-sm text-danger">Could not open the scratchpad: {loadError}</p>
   {:else if loaded}
+    <div class="flex min-h-0 flex-1">
     <div class="min-h-0 flex-1 overflow-auto">
       <div class="flex px-10 py-6 font-mono text-sm leading-7">
         <!-- svelte-ignore a11y_autofocus -->
@@ -135,15 +145,33 @@
                 <button
                   class="max-w-full truncate transition-colors duration-100 hover:text-accent"
                   title="Copy {r.value}"
-                  onclick={() => copy(i, r.value)}>{copiedLine === i ? "Copied" : r.value}</button
+                  onclick={() => copy(i, r.value!)}>{copiedLine === i ? "Copied" : r.value}</button
                 >
               {:else if r.error}
                 <span class="text-xs text-muted/60" title={r.error}>{r.error}</span>
+              {:else if r.plot}
+                <button
+                  class="text-muted transition-colors duration-100 hover:text-accent"
+                  onclick={() => document.getElementById(`plot-line-${i}`)?.scrollIntoView({ behavior: "smooth", block: "nearest" })}
+                  >plot ↓</button
+                >
               {/if}
             </div>
           {/each}
         </div>
       </div>
+      {#each plots as p (p.line)}
+        <figure id="plot-line-{p.line}" class="px-10 pb-8">
+          <figcaption class="mb-1 font-mono text-xs text-muted">{lines[p.line].trim()}</figcaption>
+          <CalcPlot plot={p.plot} />
+        </figure>
+      {/each}
+    </div>
+    {#if showGuide}
+      <aside class="w-80 shrink-0 overflow-y-auto border-l border-line" aria-label="Syntax guide">
+        <CalcGuide />
+      </aside>
+    {/if}
     </div>
   {/if}
 </div>

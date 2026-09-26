@@ -101,6 +101,13 @@ function stepUpPrefix(u: UnitInternals, value: number, units: string, sf: number
 }
 
 /** Scale from SI to the displayed unit, plus that unit (simplified, with an everyday prefix where one fits). */
+/** Axis scaling for plots: SI values × scale are in `unit` (chosen from a representative sample). */
+export function axisUnit(sample: Unit | null): { scale: number; unit: string } {
+  if (!sample) return { scale: 1, unit: "" };
+  if (sample.equalBase(math.unit(1, "rad")) && !sample.formatUnits().includes("deg")) return { scale: 1, unit: "rad" };
+  return displayUnit(sample, Infinity);
+}
+
 function displayUnit(u: Unit, sf: number): { scale: number; unit: string } {
   const si = magnitudeSI(u);
   const abs = math.abs(u as never) as unknown as UnitInternals;

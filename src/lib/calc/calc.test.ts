@@ -173,6 +173,30 @@ describe("unit display is independent of what was typed before", () => {
   });
 });
 
+describe("plots", () => {
+  it("samples one or more curves over a range, using earlier variables", () => {
+    const [, r] = evaluateSheet("A = 2\nplot A sin(x), cos(x) from 0 to 180", "deg");
+    if (r.kind !== "plot") throw new Error(JSON.stringify(r));
+    expect(r.plot.curves.map((c) => c.label)).toEqual(["A sin(x)", "cos(x)"]);
+    expect(r.plot.xs[0]).toBe(0);
+    expect(r.plot.xs.at(-1)).toBe(180);
+    expect(Math.max(...r.plot.curves[0].ys)).toBeCloseTo(2, 3);
+  });
+
+  it("supports a named variable with units", () => {
+    const [r] = evaluateSheet("plot 5 V exp(-t / 1 ms) for t from 0 s to 5 ms", "deg");
+    if (r.kind !== "plot") throw new Error(JSON.stringify(r));
+    expect(r.plot.variable).toBe("t");
+    expect(r.plot.xs.at(-1)).toBeCloseTo(0.005, 10);
+    expect(r.plot.curves[0].ys[0]).toBeCloseTo(5, 10);
+  });
+
+  it("explains bad plot lines", () => {
+    expect(one("plot sin(x)")).toBe("error: Use: plot <expression> from <start> to <end>");
+    expect(one("plot x m, x s from 0 to 1")).toBe("error: All curves in one plot need the same unit");
+  });
+});
+
 describe("vectors", () => {
   it("shows components, magnitude, and a direction angle for 2D", () => {
     expect(one("[3, 4]")).toBe("[3, 4] · 5 @ 53.1301°");
