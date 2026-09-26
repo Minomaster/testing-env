@@ -1,4 +1,4 @@
-# Project: Axiom (placeholder name)
+# Project: MkStudy
 
 > This file is the living specification for this project. It is the single source of truth
 > for *what we're building and why*. It must be kept precise and current: every time a
@@ -58,8 +58,13 @@ optimized for speed, minimalism, and low computational needs.
 - **Frontend:** SvelteKit (static adapter) + TypeScript. Svelte compiles away to minimal
   vanilla JS with no virtual-DOM overhead — fits the "fast to run" and "minimalist" goals
   better than React for an app this size.
-- **Styling:** Tailwind CSS, hand-tuned design tokens (see Design System below) rather than
-  a component library — keeps the UI lean and exactly on-brand.
+- **Styling:** Tailwind CSS v4 (via `@tailwindcss/vite`), hand-tuned design tokens in
+  `src/app.css` (see Design System below) rather than a component library — keeps the UI lean
+  and exactly on-brand. Fonts are bundled locally via `@fontsource-variable/*` so the app
+  never needs the network.
+- **Security:** a strict CSP in `tauri.conf.json` (only bundled code, plus Tauri IPC).
+  Tauri permissions are least-privilege: `core:default` + `dialog:allow-open` only. File
+  access goes through our own Rust commands, not the fs plugin.
 - **Math rendering:** [KaTeX](https://katex.org) for LaTeX rendering in the formula library.
   Chosen over MathJax for rendering speed (KaTeX is synchronous and much faster, which
   matters for a "smooth" feel).
@@ -89,8 +94,15 @@ sync across devices is "free" and manual, as decided). No proprietary formats, n
     ... (one JSON file per top-level category, user-extensible)
   calculator/
     history.json                 # recent calculations, saved variables/constants
-  settings.json                  # data-root path, last-opened state, preferences
+  settings.json                  # synced preferences (created once there are any)
 ```
+
+- The **location of the data folder** is remembered outside it, in `config.json` in the OS
+  app-config dir (`%APPDATA%\com.mkstudy.desktop\` on Windows), since it can't live inside
+  the folder it points to. This file is per-device and not synced.
+- On first launch (or if the remembered folder no longer exists) the app shows an onboarding
+  screen asking the user to pick a folder. Picking one creates `formulas/` and `calculator/`
+  inside it, which also confirms the folder is writable.
 
 - **Formula library entries** are JSON objects: `{ name, latex, variables: [{symbol, unit,
   description}], category, tags, course_ref, notes }`. Ships **pre-populated** with a
@@ -140,24 +152,61 @@ one-click way to hand it to Obsidian rather than trying to replace it:
   one-directional and clipboard/URI-based, keeping the two tools decoupled.
 
 ### 5. Settings
-- Choose/change the data-root folder.
-- Theme configuration (see Design System — dark is the default and, for now, the only theme).
+- Choose/change the data-root folder (changing it does not move existing files).
 - (Optional) Obsidian vault name, used only for the "Open in Obsidian" deep link.
+- No theme setting: dark is the only theme (see Design System).
 
 ## Design system
 
 - **Aesthetic:** dark, focused, IDE-like — deliberately chosen over a light or dual-theme
   approach. Think a code editor / terminal, not a document app.
-- **Layout:** minimal chrome, no decorative elements. Sidebar for module navigation +
-  content area. Generous whitespace within panels despite the dark, dense aesthetic —
+- **Layout:** minimal chrome, no decorative elements. A 208px left sidebar (app name, the
+  three modules, Settings pinned to the bottom) + content area. Each module has a one-glyph
+  marker: `=` Calculator, `∑` Formulas, `Ω` EE Toolbox. Generous whitespace within panels —
   minimalism means *few, well-chosen elements*, not cramped density.
-- **Typography:** a clean monospace or near-monospace UI font (e.g. JetBrains Mono / Inter
-  for UI text, KaTeX's own font for math). Math and code-like content (formulas, units)
-  should always be visually distinct from prose.
-- **Color:** dark neutral background (near-black, not pure black), a single accent color for
-  interactive elements/highlights, muted secondary text. No theme toggle for now — revisit
-  only if requested.
-- **Motion:** fast, subtle transitions only (no decorative animation) — speed is a feature.
+- **Typography:** Inter for UI text; JetBrains Mono for anything code-like or numeric (paths,
+  values, units, the app name); KaTeX's own font for math. Math and code-like content should
+  always be visually distinct from prose.
+- **Color tokens** (defined in `src/app.css` under `@theme`, used as Tailwind utilities like
+  `bg-surface`, `text-muted`):
+  `base #0e1014` (window background), `surface #14171d` (sidebar/panels),
+  `raised #1b1f27` (active/hover items, buttons), `line #252a34` (borders),
+  `fg #e3e6ed` (text), `muted #858c9c` (secondary text), `accent #7aa2f7` (the single
+  accent colour), `danger #f7768e` (errors).
+- **Buttons:** `.btn` (neutral, accent border on hover) and `.btn-primary` (filled accent),
+  defined in `src/app.css`.
+- **Window:** 1100×720 default, 760×520 minimum, dark native title bar, and a window
+  background colour matching `base` so there's no white flash on startup.
+- **Motion:** fast, subtle transitions only (~100ms colour changes, no decorative
+  animation) — speed is a feature.
+
+## Current status
+
+- **Built:** the app shell — window, sidebar navigation, first-launch data-folder picker,
+  Settings page to change the folder, and the Rust commands behind it (`get_data_root`,
+  `set_data_root` in `src-tauri/src/lib.rs`, with unit tests).
+- **Placeholders only:** Calculator, Formulas, and EE Toolbox pages show a title and summary.
+- **Not started:** Obsidian integration and every module's actual functionality.
+
+## Development
+
+```
+npm install            # once
+npm run tauri dev      # run the app with hot reload
+npm run check          # Svelte/TypeScript type check
+cd src-tauri && cargo test   # Rust unit tests
+npm run tauri build    # release build + Windows installer
+```
+
+Code layout: `src/routes/<module>/+page.svelte` is one page per module (`/` redirects to
+`/calculator`); `src/lib/` holds shared components and `dataRoot.svelte.ts` (data-folder
+state); `src/routes/+layout.svelte` is the shell and first-launch gate; `src-tauri/` is the
+Rust side.
+
+**Machine note:** Windows Defender's Controlled Folder Access blocked `node`, `git`, `cp` and
+PowerShell from writing inside `Documents\`, where this repo lives. The user turned it off on
+2026-09-26. If builds or git suddenly fail with "No such file or directory" inside the
+repo, check whether it has been re-enabled.
 
 ## Deferred ideas (not in scope now, but worth revisiting)
 
@@ -168,8 +217,10 @@ one-click way to hand it to Obsidian rather than trying to replace it:
 
 ## Open questions
 
-Nothing blocking right now. Log new open questions here as they come up, and remove them
-once resolved (move the resolution into the relevant section above).
+- **App icon:** still the Tauri default. Needs a design (or at least a decision on style).
+
+Log new open questions here as they come up, and remove them once resolved (move the
+resolution into the relevant section above).
 
 ## Decision log
 
@@ -183,3 +234,7 @@ once resolved (move the resolution into the relevant section above).
   support and the `notes/` data folder were removed along with it, since they existed only to
   serve the notes module. A "lab data & error analysis toolkit" idea was raised but explicitly
   deferred rather than added as a replacement module.
+- 2026-09-26: Named the app **MkStudy** (identifier `com.mkstudy.desktop`). Built the app
+  shell first, as its own PR, before any module, to confirm the stack is fast before adding
+  features. The data-folder path is stored in the OS app-config dir rather than in
+  `settings.json`, because the data folder can't hold its own location.
