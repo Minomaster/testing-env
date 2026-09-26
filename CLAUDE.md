@@ -310,6 +310,15 @@ A list of tools on the left (`src/routes/ee/+page.svelte`), explicitly **not** a
   voltage/current divider, RC/RL time constants, RC/RL cutoff, LC resonance, X_C, X_L,
   dB (power / voltage), dBm, LED series resistor. Toolbox → formula ids are listed in `TOOLS`.
 
+### Orbit sandbox (fun tool, `/sandbox`, sidebar glyph `◐`)
+A 2D n-body gravity toy (`src/lib/sandbox/orbits.ts` physics, `src/routes/sandbox/+page.svelte`
+canvas). Drag to launch (drag vector = velocity) with a dotted predicted path; "circular
+orbit" snaps to circular speed around the heaviest body; sizes small/medium/large/star;
+collisions merge (momentum conserved); trails; scroll to zoom; pause and speed 0.25–4×;
+presets Solar system, Binary stars, Figure-eight (Chenciner–Montgomery). The HUD shows total
+energy and angular momentum (conservation visible) and the followed body's a, e and period.
+Leapfrog integrator, G = 1, softening 2 px, dt 0.05 × 8 substeps per frame.
+
 ### 4. Obsidian integration (cross-cutting, not a standalone module)
 The app deliberately does not have a notes feature (the user's Obsidian setup already covers
 this excellently). Instead, every place in the app that produces reusable content offers a
