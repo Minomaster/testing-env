@@ -143,10 +143,10 @@ assignment lines at the top of the scratchpad.
 - Complex numbers: **`i`** is the imaginary unit (decided over j). Polar input uses `∠`,
   or `<` as an easy-to-type alternative: `5.00 V ∠ 30`.
 - Functions: `sqrt cbrt abs re im conj arg exp ln log (base 10) log2 sin cos tan asin acos
-  atan sinh cosh tanh`. Constants: `pi`/`π`, `e`, `i`.
+  atan sinh cosh tanh`, plus the vector functions below. Constants: `pi`/`π`, `e`, `i`.
 - Name lookup order: your variables → constants → units. So a variable may shadow a unit
   (`C = 2` then `3 C` is 6, not 3 coulombs). The names `pi π e i ans to` and function
-  names can't be assigned.
+  names (including `unit`, `angle`, `dot`, `cross`, `proj`) can't be assigned.
 
 **Significant figures (automatic from inputs, as decided)**
 - A number **without a unit is exact** (the 2 in `2 pi f`, and also bare decimals like a
@@ -160,9 +160,12 @@ assignment lines at the top of the scratchpad.
   (decimal places of the result = s.f. of the input).
 - Full precision is kept internally; rounding happens only for display.
 - Display: exactly the s.f. count, keeping trailing zeros (`2.20`). If plain digits would
-  need non-significant trailing zeros, scientific notation is used instead (1540 at 2 s.f. →
-  `1.5 × 10³`). Also scientific below 10⁻⁴. Exact results show at most **6 significant
-  digits** with trailing zeros removed (`1/3` → `0.333333`).
+  need non-significant trailing zeros, the result **steps up one SI prefix** instead
+  (50 mm at 1 s.f. → `0.05 m`, 159 Hz at 2 s.f. → `0.16 kHz`), as the user chose.
+  If that isn't possible (compound units like m/s, or no prefix fits), scientific notation
+  is used (`1.5 × 10² m/s`). Also scientific below 10⁻⁴. A unit fixed with `to` is
+  never re-prefixed. Exact results show at most **6 significant digits** with trailing
+  zeros removed (`1/3` → `0.333333`).
 - Units are simplified and given the best SI prefix by math.js (`220 Ω × 4.70 µF` →
   `1.03 ms`), then shown prettily: `Ω`, `µF`, `m/s²`, `kg·m`, `30°`.
 
@@ -179,7 +182,26 @@ polar display. An explicit unit always wins (`sin(30 deg)` in RAD mode).
 as a short dimmed message in the result column (e.g. `Unknown name "x"`,
 `Units don't match`) and don't stop later lines from evaluating.
 
-**Not built yet:** vectors for mechanics (dot/cross product, magnitude).
+**Vectors (as decided)**
+- Written with **brackets only**: `[3, 4, 0] N` (one unit after the brackets) or
+  `[0.20 m, 0, 0.50 m]` (a unit per component; a bare `0` takes the others' unit).
+  2 or more components; all components must share a dimension; no complex components.
+- **`dot(a, b)` and `cross(a, b)` are functions**; `*`, `·` and `×` stay plain multiplication
+  (vector × vector with `*` is an error pointing to dot/cross). `cross` of two 3D vectors
+  gives a vector; of two 2D vectors, the scalar z-component. Cross products with energy
+  dimensions are shown in **N·m** (torque), not J; `dot` still gives J (work).
+- Also `unit(a)`, `angle(a, b)` (follows DEG/RAD), `proj(a, b)` (projection of a onto b),
+  `abs(a)` (magnitude), and component access **`a.x`, `a.y`, `a.z`** (works on any
+  expression: `(a + b).y`). Vectors add/subtract with vectors, scale by numbers, negate, and
+  convert with `to`.
+- **Display:** components + magnitude, plus the direction angle for 2D:
+  `[3.00, 4.00] N · 5.00 N @ 53.1°`; 3D: `[1, 2, 2] N · |3 N|`. (`@` is display-only.)
+- **Sig figs:** like complex numbers, all components share one decimal place, set by the
+  least precise *non-zero* component, so a written `0` never limits precision:
+  `[3.00, 4.00, 0] N` → `[3.00, 4.00, 0.00] N`. The vector's s.f. count is relative to its
+  magnitude; `a.x` gets the s.f. its digits have at that shared place.
+- If components carry a unit fixed by `to` (or a torque), the magnitude is shown in that
+  same unit.
 
 ### 2. Formula reference library
 - Browsable and full-text searchable, organized by category (see file list above).
@@ -244,10 +266,10 @@ one-click way to hand it to Obsidian rather than trying to replace it:
 ## Current status
 
 - **Built:** the app shell (window, sidebar, first-launch data-folder picker, Settings page)
-  and the **Calculator** (everything in its section above except vectors). Rust commands:
-  `get_data_root`, `set_data_root`, `read_data_file`, `write_data_file`.
+  and the **Calculator** including vectors (everything in its section above). Rust
+  commands: `get_data_root`, `set_data_root`, `read_data_file`, `write_data_file`.
 - **Placeholders only:** Formulas and EE Toolbox pages show a title and summary.
-- **Not started:** calculator vectors, Obsidian integration, Formulas, EE Toolbox.
+- **Not started:** Obsidian integration, Formulas, EE Toolbox, built-in physical constants.
 
 ## Development
 
@@ -263,7 +285,8 @@ npm run tauri build    # release build + Windows installer
 Code layout: `src/routes/<module>/+page.svelte` is one page per module (`/` redirects to
 `/calculator`); `src/lib/` holds shared components, `dataRoot.svelte.ts` (data-folder
 state) and `dataFiles.ts` (data-file and `settings.json` helpers); `src/lib/calc/` is the
-calculator engine (`parse.ts` → `evaluate.ts` → `format.ts`, tests in `calc.test.ts`);
+calculator engine (`parse.ts` → `evaluate.ts` → `format.ts`, with `vector.ts` for vector
+maths, `math.ts` for the math.js instance, tests in `calc.test.ts`);
 `src/routes/+layout.svelte` is the shell and first-launch gate; `src-tauri/` is the Rust
 side.
 
@@ -320,3 +343,10 @@ resolution into the relevant section above).
   notation rather than an SI-prefix change when trailing zeros would be ambiguous;
   variables shadow units; `<` accepted for `∠`; click-to-copy results; `history.json`
   replaced by a plain-text `scratchpad.txt`. Vectors were deferred to a follow-up.
+- 2026-09-26: Added calculator vectors. User decisions: brackets-only syntax; dot()/cross()
+  as functions (·/×/* stay multiplication); display components + magnitude + 2D direction
+  angle; include unit(), angle(), proj() and .x/.y/.z. Also changed the ambiguous-zeros
+  rule from scientific notation to **stepping up an SI prefix** (user's choice; scientific
+  remains the fallback). Claude's decisions (open to change): components share one decimal
+  place and written zeros don't limit precision; 2D cross gives the scalar z-component;
+  cross products with energy dimensions display as N·m.

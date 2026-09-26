@@ -8,7 +8,9 @@ export type Node =
   | { type: "bin"; op: "+" | "-" | "*" | "/"; left: Node; right: Node }
   | { type: "pow"; base: Node; exp: Node }
   | { type: "implicit"; factors: Node[] }
-  | { type: "polar"; mag: Node; angle: Node };
+  | { type: "polar"; mag: Node; angle: Node }
+  | { type: "vector"; items: Node[] }
+  | { type: "component"; base: Node; axis: "x" | "y" | "z" };
 
 export type Line =
   | { kind: "empty" }
@@ -18,6 +20,7 @@ export type Line =
 export const FUNCTION_NAMES = new Set([
   "sqrt", "cbrt", "abs", "re", "im", "conj", "arg", "exp", "ln", "log", "log2",
   "sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
+  "dot", "cross", "unit", "angle", "proj",
 ]);
 
 export class CalcError extends Error {}
@@ -65,7 +68,10 @@ function lex(src: string): { tokens: Token[]; convertTo?: string } {
     } else if (rest[0] === "²" || rest[0] === "³") {
       tokens.push({ t: "op", text: "^" }, { t: "num", text: rest[0] === "²" ? "2" : "3" });
       i += 1;
-    } else if ("+-*/^(),∠<×·÷−".includes(rest[0])) {
+    } else if (/^\.\p{L}/u.test(rest)) {
+      tokens.push({ t: "op", text: "." });
+      i += 1;
+    } else if ("+-*/^(),[]∠<×·÷−".includes(rest[0])) {
       tokens.push({ t: "op", text: OP_ALIASES[rest[0]] ?? rest[0] });
       i += 1;
     } else {
@@ -144,11 +150,11 @@ class Parser {
 
   private startsPrimary(): boolean {
     const tok = this.peek();
-    return tok !== undefined && (tok.t !== "op" || tok.text === "(");
+    return tok !== undefined && (tok.t !== "op" || tok.text === "(" || tok.text === "[");
   }
 
   private power(): Node {
-    const base = this.primary();
+    const base = this.postfix();
     if (!this.isOp("^")) return base;
     this.next();
     return { type: "pow", base, exp: this.exponent() };
@@ -163,6 +169,28 @@ class Parser {
     return this.power();
   }
 
+  private postfix(): Node {
+    let node = this.primary();
+    while (this.isOp(".")) {
+      this.next();
+      const axis = this.next().text;
+      if (axis !== "x" && axis !== "y" && axis !== "z") throw new CalcError("Use .x, .y or .z for a vector component");
+      node = { type: "component", base: node, axis };
+    }
+    return node;
+  }
+
+  private list(close: string): Node[] {
+    const items: Node[] = [];
+    if (this.isOp(close)) return items;
+    items.push(this.additive());
+    while (this.isOp(",")) {
+      this.next();
+      items.push(this.additive());
+    }
+    return items;
+  }
+
   private primary(): Node {
     const tok = this.next();
     if (tok.t === "num") {
@@ -171,18 +199,16 @@ class Parser {
     if (tok.t === "name") {
       if (FUNCTION_NAMES.has(tok.text) && this.isOp("(")) {
         this.next();
-        const args: Node[] = [];
-        if (!this.isOp(")")) {
-          args.push(this.additive());
-          while (this.isOp(",")) {
-            this.next();
-            args.push(this.additive());
-          }
-        }
+        const args = this.list(")");
         this.expect(")");
         return { type: "call", fn: tok.text, args };
       }
       return { type: "name", name: tok.text };
+    }
+    if (tok.text === "[") {
+      const items = this.list("]");
+      this.expect("]");
+      return { type: "vector", items };
     }
     if (tok.text === "(") {
       const inner = this.additive();
