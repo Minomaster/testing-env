@@ -41,6 +41,13 @@ describe("significant figures", () => {
     expect(one("10.52 V - 0.3 V")).toBe("10.2 V");
   });
 
+  it("steps up an SI prefix rather than show ambiguous trailing zeros", () => {
+    expect(one("0.05 m")).toBe("0.05 m");
+    expect(one("0.54 m")).toBe("0.54 m");
+    expect(one("1 / (2 pi 1.0 ms)")).toBe("0.16 kHz");
+    expect(one("1.5e2 m/s")).toBe("1.5 × 10² m/s");
+  });
+
   it("switches to scientific notation instead of showing non-significant zeros", () => {
     expect(formatReal(1540, 2)).toBe("1.5 × 10³");
     expect(formatReal(154, 3)).toBe("154");
@@ -123,5 +130,51 @@ describe("complex numbers and angles", () => {
 
   it("converts bare angles using the current mode", () => {
     expect(one("90 to rad")).toBe("1.5708 rad");
+  });
+});
+
+describe("vectors", () => {
+  it("shows components, magnitude, and a direction angle for 2D", () => {
+    expect(one("[3, 4]")).toBe("[3, 4] · 5 @ 53.1301°");
+    expect(one("[3, 4]", "rad")).toBe("[3, 4] · 5 @ 0.927295 rad");
+    expect(one("[1, 2, 2] N")).toBe("[1, 2, 2] N · |3 N|");
+  });
+
+  it("gives components one shared precision and lets written zeros not limit it", () => {
+    expect(one("[3.00, 4.00, 0] N")).toBe("[3.00, 4.00, 0.00] N · |5.00 N|");
+    expect(one("[0.20 m, 0, 0.50 m]")).toBe("[0.20, 0.00, 0.50] m · |0.54 m|");
+  });
+
+  it("adds, scales and converts", () => {
+    expect(one("[1.0, 2.0] m + [0.5, 0.5] m")).toBe("[1.5, 2.5] m · 2.9 m @ 59°");
+    expect(one("2 [1.0, 2.0] m")).toBe("[2.0, 4.0] m · 4.5 m @ 63°");
+    expect(one("-[1, 2]")).toBe("[-1, -2] · 2.23607 @ -116.565°");
+    expect(one("[1.00, 2.00] cm to mm")).toBe("[10.0, 20.0] mm · 22.4 mm @ 63.4°");
+  });
+
+  it("has dot, cross, unit, angle, proj and abs", () => {
+    expect(run("F = [3.0, 4.0] N\nd = [2.0, 0] m\ndot(F, d)")[2]).toBe("6.0 J");
+    expect(one("cross([1.0, 0, 0] m, [0, 2.0, 0] N)")).toBe("[0.0, 0.0, 2.0] N·m · |2.0 N·m|");
+    expect(one("cross([2.0, 0] m, [0, 3.0] N)")).toBe("6.0 N·m");
+    expect(one("unit([3, 4])")).toBe("[0.6, 0.8] · 1 @ 53.1301°");
+    expect(one("angle([1, 0], [1, 1])")).toBe("45°");
+    expect(one("proj([2, 3], [1, 0])")).toBe("[2, 0] · 2 @ 0°");
+    expect(one("abs([3, 4])")).toBe("5");
+  });
+
+  it("reads single components with .x .y .z", () => {
+    expect(run("F = [3.00, 4.00] N\nF.x\nF.y\nF.z")).toEqual(["[3.00, 4.00] N · 5.00 N @ 53.1°", "3.00 N", "4.00 N", "error: This vector has no z component"]);
+    expect(one("([1, 2] + [3, 4]).y")).toBe("6");
+  });
+
+  it("explains invalid vector operations", () => {
+    expect(one("[1, 2] * [3, 4]")).toBe("error: Use dot() or cross() to multiply vectors");
+    expect(one("[1, 2] + 3")).toBe("error: Can't add a vector and a number");
+    expect(one("sin([1, 2])")).toBe("error: sin() doesn't take a vector");
+    expect(one("[1 m, 2 s]")).toBe("error: Vector components must have the same kind of unit");
+    expect(one("[1 m, 2]")).toBe("error: Vector mixes numbers and units");
+    expect(one("dot([1, 2], [1, 2, 3])")).toBe("error: Vectors have different lengths (2 and 3)");
+    expect(one("[5]")).toBe("error: A vector needs at least 2 components");
+    expect(one("dot([1, 2])")).toBe("error: dot() takes 2 vectors");
   });
 });

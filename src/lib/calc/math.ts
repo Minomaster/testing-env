@@ -1,6 +1,19 @@
-import { create, all } from "mathjs";
+import { create, all, type Complex, type Unit } from "mathjs";
 
 export const math = create(all);
+
+export type Scalar = number | Complex | Unit;
+
+// math.js overloads can't express "number | Complex | Unit in, same out", so its functions are loosened once here.
+type Loose = (...args: unknown[]) => Scalar;
+export const loose = (f: unknown) => f as Loose;
+export const add = loose(math.add);
+export const sub = loose(math.subtract);
+export const mul = loose(math.multiply);
+export const div = loose(math.divide);
+export const pow = loose(math.pow);
+export const neg = loose(math.unaryMinus);
+export const absNumber = (v: unknown) => loose(math.abs)(v) as number;
 
 // Expanded while parsing rather than registered with createUnit: custom units join math.js's
 // preferred-unit table and hijack simplification (seconds start displaying as hours).
