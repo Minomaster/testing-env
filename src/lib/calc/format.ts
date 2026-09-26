@@ -1,5 +1,5 @@
 import type { Complex, Unit } from "mathjs";
-import { math, isUnitName } from "./math";
+import { math, isUnitName, type UnitFlags } from "./math";
 import { exponent10, magnitudeSI, type AngleMode, type Quantity } from "./evaluate";
 import { isVector, magnitude, siComponents, type Vector } from "./vector";
 
@@ -70,39 +70,60 @@ function withUnit(number: string, unit: string): string {
 }
 
 // Fields math.js sets on Unit objects but doesn't declare in its types.
-type UnitInternals = Unit & {
-  fixPrefix: boolean;
-  skipAutomaticSimplification: boolean;
+type UnitInternals = UnitFlags & {
   units: { unit: { name: string; prefixes: Record<string, { value: number; scientific: boolean }> }; power: number }[];
+  clone(): UnitInternals;
 };
+
+/** Only everyday prefixes are chosen automatically; anything else is shown as × 10ⁿ in the base unit. */
+const AUTO_PREFIXES = new Set(["p", "n", "u", "m", "", "k", "M", "G", "T"]);
+const AUTO_MASS_PREFIXES = new Set(["u", "m", "", "k"]);
+const allowedPrefix = (unitName: string, prefix: string) =>
+  (unitName === "g" ? AUTO_MASS_PREFIXES : AUTO_PREFIXES).has(prefix);
+
+function splitFormatted(u: Unit): { value: number; units: string } {
+  const text = u.format({ precision: 15 });
+  const space = text.indexOf(" ");
+  return { value: Number(text.slice(0, space)), units: text.slice(space + 1) };
+}
 
 /** If a measured value would need ambiguous trailing zeros (50 mm at 1 s.f.), try the next larger prefix (0.05 m). */
 function stepUpPrefix(u: UnitInternals, value: number, units: string, sf: number): { value: number; units: string } | null {
-  if (u.units.length !== 1 || u.units[0].power !== 1) return null;
   const { name, prefixes } = u.units[0].unit;
-  if (!units.endsWith(name)) return null;
   const current = prefixes[units.slice(0, units.length - name.length)];
   if (!current) return null;
   const larger = Object.entries(prefixes)
-    .filter(([, p]) => p.scientific && p.value > current.value)
+    .filter(([prefix, p]) => p.scientific && p.value > current.value && allowedPrefix(name, prefix))
     .sort((a, b) => a[1].value - b[1].value)[0];
   if (!larger) return null;
   const stepped = (value * current.value) / larger[1].value;
   return exponent10(stepped) < sf ? { value: stepped, units: larger[0] + name } : null;
 }
 
-/** Scale from SI to the displayed unit, plus that unit: simplified, with the best prefix. */
+/** Scale from SI to the displayed unit, plus that unit (simplified, with an everyday prefix where one fits). */
 function displayUnit(u: Unit, sf: number): { scale: number; unit: string } {
   const si = magnitudeSI(u);
   const abs = math.abs(u as never) as unknown as UnitInternals;
   const simple = (abs.skipAutomaticSimplification ? abs : abs.simplify()) as UnitInternals;
   if (si === 0) return { scale: 1, unit: prettyUnit(simple.formatUnits()) };
 
-  const text = simple.format({ precision: 15 });
-  const space = text.indexOf(" ");
-  let value = Number(text.slice(0, space));
-  let units = text.slice(space + 1);
-  if (isFinite(sf) && exponent10(value) >= sf && !simple.fixPrefix) {
+  const single = simple.units.length === 1 && simple.units[0].power === 1;
+  if (simple.fixPrefix || !single) {
+    // Compound units (J·s, mol⁻¹, km/h) keep the prefixes they already have; none are added.
+    const fixed = simple.clone();
+    fixed.fixPrefix = true;
+    const { value, units } = splitFormatted(fixed);
+    return { scale: value / si, unit: prettyUnit(units) };
+  }
+
+  const name = simple.units[0].unit.name;
+  let { value, units } = splitFormatted(simple);
+  if (!units.endsWith(name) || !allowedPrefix(name, units.slice(0, units.length - name.length))) {
+    // e.g. 1.6 × 10⁻¹⁹ C rather than 160 zC; mass falls back to kg, the SI base unit.
+    const target = name === "g" ? "kg" : name;
+    return { scale: simple.toNumber(target) / si, unit: prettyUnit(target) };
+  }
+  if (isFinite(sf) && exponent10(value) >= sf) {
     ({ value, units } = stepUpPrefix(simple, value, units, sf) ?? { value, units });
   }
   return { scale: value / si, unit: prettyUnit(units) };

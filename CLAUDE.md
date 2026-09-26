@@ -75,7 +75,10 @@ optimized for speed, minimalism, and low computational needs.
   trailing zeros when formatting, and doesn't accept `Ω`, `µ`, `∠` or `°`.
   Never register custom units with `math.createUnit`: they join math.js's preferred-unit
   table and hijack simplification (seconds start displaying as hours). Aliases like `mph`
-  are expanded by the parser instead (see `UNIT_ALIASES` in `src/lib/calc/math.ts`).
+  resolve to `math.unit(1, "mi/h")` instead (see `UNIT_ALIASES` in `src/lib/calc/math.ts`).
+  math.js runs with `Unit.setUnitSystem("si")`: its default "auto" system globally remembers
+  the last unit typed per dimension and simplifies into it, which made display depend on
+  earlier input (typing `500 nm` turned later speeds into nm/s).
 - **Tests:** Vitest for the TypeScript engine (`npm test`), `cargo test` for Rust.
 - **No backend server, no database engine.** Data lives entirely in plain files (next
   section), read/written via Tauri's filesystem APIs.
@@ -166,8 +169,14 @@ assignment lines at the top of the scratchpad.
   is used (`1.5 × 10² m/s`). Also scientific below 10⁻⁴. A unit fixed with `to` is
   never re-prefixed. Exact results show at most **6 significant digits** with trailing
   zeros removed (`1/3` → `0.333333`).
-- Units are simplified and given the best SI prefix by math.js (`220 Ω × 4.70 µF` →
-  `1.03 ms`), then shown prettily: `Ω`, `µF`, `m/s²`, `kg·m`, `30°`.
+- **Unit display:** results of combining different units are simplified to SI
+  (`220 Ω × 4.70 µF` → `1.03 ms`, N·m → J). Units the user spells out stay as typed
+  (`4.70 µF`, `9.81 m/s²`, `60 mph`), including when scaled by a number
+  (`3.0 km/h * 2` → `6.0 km/h`). Shown prettily: `Ω`, `µF`, `m/s²`, `kg·m`, `30°`.
+- **Prefixes:** a single unit gets an automatic prefix only from the everyday set
+  p n µ m k M G T (for mass: µg mg g kg). Otherwise the base unit with × 10ⁿ is used, as in
+  textbooks: `9.10938 × 10⁻³¹ kg`, `1.60218 × 10⁻¹⁹ C`, not `0.91 rg` or `160 zC`.
+  Compound units (`J·s`, `mol⁻¹`, `km/h`) are never given an automatic prefix.
 
 **Complex results** show **both forms**: `3 + 4i · 5∠53.1301°`, with units
 `(4.33 + 2.50i) V · 5.00∠30.0° V`. Both parts are rounded to the same decimal place (set by
@@ -181,6 +190,21 @@ polar display. An explicit unit always wins (`sin(30 deg)` in RAD mode).
 **Interaction:** click a result to copy it (the label briefly shows "Copied"). Errors show
 as a short dimmed message in the result column (e.g. `Unknown name "x"`,
 `Units don't match`) and don't stop later lines from evaluating.
+
+**Physical constants (as decided)** — defined in `src/lib/calc/constants.ts`, CODATA 2018
+values, all **exact** (never limit sig figs). Named with **plain symbols, and units win**:
+where a symbol is already a unit, the unit keeps it and the constant uses an alternative.
+Your variables can shadow any of them (`R = 220 Ω` works; before that, `R` is the gas
+constant).
+
+| Group | Names |
+|---|---|
+| Core | `c`/`c_0`, `h_P` (h = hour), `hbar`/`ħ`, `G`/`G_N`, `g_n` (g = gram), `k_B` (kB = kilobyte), `N_A`, `R`, `σ`/`sigma` |
+| EM | `q_e` (e = Euler's number), `ε_0`/`ε0`/`eps_0`/`eps0`, `µ_0`/`µ0`/`mu_0`/`mu0`, `k_e`, `Z_0`/`Z0` |
+| Particles & atomic | `m_e`, `m_p`, `m_n`, `m_u` (u is already the atomic mass unit), `a_0`/`a0`, `R_inf`, `α`/`alpha` |
+| Semiconductor / EE | `V_T` (thermal voltage at 300 K), `Faraday` (F = farad); electron-volt is the unit `eV` |
+
+`hbar` is the one exception to "units win": math.js reads it as hectobar, which nobody means.
 
 **Vectors (as decided)**
 - Written with **brackets only**: `[3, 4, 0] N` (one unit after the brackets) or
@@ -266,10 +290,11 @@ one-click way to hand it to Obsidian rather than trying to replace it:
 ## Current status
 
 - **Built:** the app shell (window, sidebar, first-launch data-folder picker, Settings page)
-  and the **Calculator** including vectors (everything in its section above). Rust
+  and the **Calculator** including vectors and physical constants (everything in its
+  section above). Rust
   commands: `get_data_root`, `set_data_root`, `read_data_file`, `write_data_file`.
 - **Placeholders only:** Formulas and EE Toolbox pages show a title and summary.
-- **Not started:** Obsidian integration, Formulas, EE Toolbox, built-in physical constants.
+- **Not started:** Obsidian integration, Formulas, EE Toolbox.
 
 ## Development
 
@@ -311,10 +336,6 @@ repo, check whether it has been re-enabled.
 ## Open questions
 
 - **App icon:** still the Tauri default. Needs a design (or at least a decision on style).
-- **Built-in physical constants** (c, h, ħ, G, g, k_B, ε₀, µ₀, m_e, e…): not included yet
-  because the obvious names clash with units (`h` = hour, `g` = gram, `C` = coulomb) and with
-  Euler's `e`. Needs a naming decision, e.g. a prefix (`#c`), subscripted names (`c_0`, `g_n`,
-  `q_e`), or constants living in the Formula library.
 
 Log new open questions here as they come up, and remove them once resolved (move the
 resolution into the relevant section above).
@@ -350,3 +371,11 @@ resolution into the relevant section above).
   remains the fallback). Claude's decisions (open to change): components share one decimal
   place and written zeros don't limit precision; 2D cross gives the scalar z-component;
   cross products with energy dimensions display as N·m.
+- 2026-09-26: Added built-in physical constants. User decisions: plain symbols with units
+  winning clashes; all four groups (core, EM, particles & atomic, semiconductor/EE); exact
+  values. Claude's decisions: alternative names `h_P`, `g_n`, `q_e`, `m_u`, `Faraday`;
+  `hbar` overrides the unused hectobar unit; constants are shadowable, not reserved.
+  Fixed two display bugs found along the way: math.js's global "auto" unit system (display
+  depended on earlier input) replaced by the fixed SI system, with user-typed units kept as
+  typed; and automatic prefixes limited to p–T (mass µg–kg), so tiny constants show as
+  × 10ⁿ in the base unit instead of zC/rg/ymol⁻¹.
