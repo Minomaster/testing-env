@@ -133,6 +133,46 @@ describe("complex numbers and angles", () => {
   });
 });
 
+describe("physical constants", () => {
+  it("are available by symbol and exact", () => {
+    expect(one("c")).toBe("2.99792 × 10⁸ m/s");
+    expect(one("g_n")).toBe("9.80665 m/s²");
+    expect(one("hbar")).toBe("1.05457 × 10⁻³⁴ J·s");
+    expect(one("ħ")).toBe("1.05457 × 10⁻³⁴ J·s");
+    expect(one("V_T")).toBe("25.852 mV");
+    expect(one("h_P c / (500 nm)")).toBe("3.97 × 10⁻¹⁹ J");
+    expect(one("1 / sqrt(ε_0 µ_0)")).toBe("2.99792 × 10⁸ m/s");
+  });
+
+  it("never override units (h is hours, g is grams)", () => {
+    expect(one("5 h")).toBe("5 h");
+    expect(one("2 g")).toBe("2 g");
+  });
+
+  it("can be shadowed by your own variables", () => {
+    expect(run("R\nR = 220 Ω\nR")).toEqual(["8.31446 J/(mol·K)", "220 Ω", "220 Ω"]);
+  });
+
+  it("uses × 10ⁿ in the base unit instead of exotic prefixes", () => {
+    expect(one("m_e")).toBe("9.10938 × 10⁻³¹ kg");
+    expect(one("q_e")).toBe("1.60218 × 10⁻¹⁹ C");
+    expect(one("N_A")).toBe("6.02214 × 10²³ mol⁻¹");
+    expect(one("a_0")).toBe("52.9177 pm");
+  });
+});
+
+describe("unit display is independent of what was typed before", () => {
+  it("doesn't let an earlier nm turn later speeds into nm/s", () => {
+    expect(run("500 nm\n10.0 m / 2.00 s")).toEqual(["500 nm", "5.00 m/s"]);
+    expect(one("10.0 m / 2.00 s")).toBe("5.00 m/s");
+  });
+
+  it("keeps units as you typed them", () => {
+    expect(one("60 mph")).toBe("60 mph");
+    expect(one("3.0 km/h * 2")).toBe("6.0 km/h");
+  });
+});
+
 describe("vectors", () => {
   it("shows components, magnitude, and a direction angle for 2D", () => {
     expect(one("[3, 4]")).toBe("[3, 4] · 5 @ 53.1301°");

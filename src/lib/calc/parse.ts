@@ -1,5 +1,3 @@
-import { UNIT_ALIASES } from "./math";
-
 export type Node =
   | { type: "num"; value: number; digits: number }
   | { type: "name"; name: string }
@@ -55,13 +53,7 @@ function lex(src: string): { tokens: Token[]; convertTo?: string } {
       i += m[0].length;
     } else if ((m = rest.match(/^[\p{L}_][\p{L}\p{Nd}_]*/u))) {
       if (m[0] === "to") return { tokens, convertTo: rest.slice(2).trim() };
-      const alias = UNIT_ALIASES[m[0]];
-      if (alias) {
-        const [top, bottom] = alias.split("/");
-        tokens.push({ t: "op", text: "(" }, { t: "name", text: top }, { t: "op", text: "/" }, { t: "name", text: bottom }, { t: "op", text: ")" });
-      } else {
-        tokens.push({ t: "name", text: m[0] });
-      }
+      tokens.push({ t: "name", text: m[0] });
       i += m[0].length;
     } else if (rest.startsWith("->") || rest.startsWith("→")) {
       return { tokens, convertTo: rest.slice(rest.startsWith("->") ? 2 : 1).trim() };

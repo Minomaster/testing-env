@@ -1,5 +1,6 @@
 import type { Complex, Unit } from "mathjs";
-import { absNumber, add, div, isUnitName, loose, math, mul, neg, normalizeUnitExpr, normalizeUnitName, pow, sub, type Scalar } from "./math";
+import { absNumber, add, div, isUnitName, keepAsTyped, loose, math, mul, neg, normalizeUnitExpr, pow, sub, unitNamed, type Scalar } from "./math";
+import { PHYSICAL_CONSTANTS } from "./constants";
 import { CalcError, FUNCTION_NAMES, parseLine, type Node } from "./parse";
 import {
   Vector, addVectors, angleBetween, convertVector, cross, dot, isVector, magnitude, negate, project, scale, unitVector, vectorFrom,
@@ -65,7 +66,9 @@ function scalarOf(q: Quantity, what: string): Scalar {
 }
 
 function resolvesToUnit(name: string, ctx: Context): boolean {
-  return !ctx.vars.has(name) && !(name in CONSTANTS) && name !== "ans" && isUnitName(name);
+  return (
+    !ctx.vars.has(name) && !(name in CONSTANTS) && !(name in PHYSICAL_CONSTANTS) && name !== "ans" && isUnitName(name)
+  );
 }
 
 function resolveName(name: string, ctx: Context): Quantity {
@@ -76,7 +79,8 @@ function resolveName(name: string, ctx: Context): Quantity {
     return ctx.ans;
   }
   if (name in CONSTANTS) return exact(CONSTANTS[name]);
-  if (isUnitName(name)) return exact(math.unit(1, normalizeUnitName(name)));
+  if (name in PHYSICAL_CONSTANTS) return exact(PHYSICAL_CONSTANTS[name]);
+  if (isUnitName(name)) return exact(unitNamed(name));
   throw new CalcError(`Unknown name "${name}"`);
 }
 
@@ -93,6 +97,13 @@ function isUnitExpr(node: Node, ctx: Context): boolean {
     default:
       return false;
   }
+}
+
+/** Keeps units the user spelled out (4.7 µF, 9.81 m/s², [3, 4] N) as typed instead of simplifying them. */
+function asTyped(q: Quantity): Quantity {
+  if (isVector(q.value)) q.value.components.forEach(keepAsTyped);
+  else keepAsTyped(q.value);
+  return q;
 }
 
 /** Digit count of a plain numeric literal (optionally negated), or undefined for anything else. */
@@ -229,7 +240,10 @@ function evalNode(node: Node, ctx: Context): Quantity {
     case "bin": {
       const a = evalNode(node.left, ctx);
       const b = evalNode(node.right, ctx);
-      return node.op === "+" || node.op === "-" ? addSub(a, b, node.op) : multiply(a, b, node.op);
+      if (node.op === "+" || node.op === "-") return addSub(a, b, node.op);
+      const q = multiply(a, b, node.op);
+      const spellsUnit = isUnitExpr(node.right, ctx) || (node.op === "*" && isUnitExpr(node.left, ctx));
+      return spellsUnit ? asTyped(q) : q;
     }
     case "pow": {
       const base = evalNode(node.base, ctx);
@@ -250,7 +264,8 @@ function evalNode(node: Node, ctx: Context): Quantity {
             : factor.type === "vector"
               ? evalVector(factor, ctx, measured)
               : evalNode(factor, ctx);
-        result = result ? multiply(result, q, "*") : q;
+        if (!result) result = q;
+        else result = i > 0 && isUnitExpr(factor, ctx) ? asTyped(multiply(result, q, "*")) : multiply(result, q, "*");
       });
       return result!;
     }
