@@ -11,6 +11,7 @@
     { href: "/calculator", label: "Calculator", glyph: "=" },
     { href: "/formulas", label: "Formulas", glyph: "∑" },
     { href: "/ee", label: "EE Toolbox", glyph: "Ω" },
+    { href: "/sandbox", label: "Orbit sandbox", glyph: "◐" },
   ];
 
   onMount(loadDataRoot);
