@@ -1,0 +1,166 @@
+@category AC circuits
+
+= Capacitive reactance
+latex: X_C = \frac{1}{\omega C} = \frac{1}{2\pi f C}
+expr: X_C = 1 / (2 π f C)
+v: X_C | Ω | capacitive reactance
+v: f | Hz | frequency
+v: C | F | capacitance
+tags: ac, reactance, capacitor, impedance
+
+= Inductive reactance
+latex: X_L = \omega L = 2\pi f L
+expr: X_L = 2 π f L
+v: X_L | Ω | inductive reactance
+v: f | Hz | frequency
+v: L | H | inductance
+tags: ac, reactance, inductor, impedance
+
+= Complex impedances
+latex: Z_R = R,\quad Z_L = j\omega L,\quad Z_C = \frac{1}{j\omega C}
+note: In the calculator (i is the imaginary unit): Z_L = 2 pi f L i, Z_C = 1 / (2 pi f C i).
+tags: ac, impedance, phasor, complex
+
+= Series RLC impedance magnitude
+latex: |Z| = \sqrt{R^2 + (X_L - X_C)^2}
+expr: Z = sqrt(R^2 + (X_L - X_C)^2)
+v: Z | Ω | impedance magnitude
+v: R | Ω | resistance
+v: X_L | Ω | inductive reactance
+v: X_C | Ω | capacitive reactance
+tags: ac, impedance, rlc
+
+= Series RLC phase angle
+latex: \varphi = \arctan\frac{X_L - X_C}{R}
+expr: tan(φ) = (X_L - X_C) / R
+v: φ | rad | phase of voltage relative to current
+v: X_L | Ω | inductive reactance
+v: X_C | Ω | capacitive reactance
+v: R | Ω | resistance
+tags: ac, phase, rlc, phasor
+
+= Resonant frequency
+latex: f_0 = \frac{1}{2\pi\sqrt{LC}}
+expr: f_0 = 1 / (2 π sqrt(L C))
+v: f_0 | Hz | resonant frequency
+v: L | H | inductance
+v: C | F | capacitance
+tags: ac, resonance, rlc, lc
+
+= Series RLC quality factor
+latex: Q = \frac{1}{R}\sqrt{\frac{L}{C}}
+expr: Q = sqrt(L / C) / R
+v: Q | 1 | quality factor
+v: L | H | inductance
+v: C | F | capacitance
+v: R | Ω | resistance
+tags: ac, resonance, rlc, q factor
+
+= Bandwidth and Q
+latex: BW = \frac{f_0}{Q}
+expr: BW = f_0 / Q
+v: BW | Hz | −3 dB bandwidth
+v: f_0 | Hz | centre (resonant) frequency
+v: Q | 1 | quality factor
+tags: ac, resonance, bandwidth, filter
+
+= RC low-pass / high-pass cutoff
+latex: f_c = \frac{1}{2\pi RC}
+expr: f_c = 1 / (2 π R C)
+v: f_c | Hz | −3 dB cutoff frequency
+v: R | Ω | resistance
+v: C | F | capacitance
+tags: ac, filter, rc, cutoff
+
+= RL cutoff frequency
+latex: f_c = \frac{R}{2\pi L}
+expr: f_c = R / (2 π L)
+v: f_c | Hz | −3 dB cutoff frequency
+v: R | Ω | resistance
+v: L | H | inductance
+tags: ac, filter, rl, cutoff
+
+= First-order low-pass magnitude
+latex: |H(f)| = \frac{1}{\sqrt{1 + (f/f_c)^2}}
+expr: H = 1 / sqrt(1 + (f / f_c)^2)
+v: H | 1 | gain magnitude (linear)
+v: f | Hz | frequency
+v: f_c | Hz | cutoff frequency
+tags: ac, filter, frequency response
+
+= RMS of a sine wave
+latex: V_\text{rms} = \frac{V_p}{\sqrt{2}}
+expr: V_rms = V_p / sqrt(2)
+v: V_rms | V | RMS voltage
+v: V_p | V | peak voltage
+tags: ac, rms, sine
+
+= Peak-to-peak voltage
+latex: V_{pp} = 2V_p
+expr: V_pp = 2 V_p
+v: V_pp | V | peak-to-peak voltage
+v: V_p | V | peak (amplitude) voltage
+tags: ac, sine
+
+= Average (real) power
+latex: P = V_\text{rms} I_\text{rms}\cos\varphi
+expr: P = V_rms I_rms cos(φ)
+v: P | W | real power
+v: V_rms | V | RMS voltage
+v: I_rms | A | RMS current
+v: φ | rad | phase angle between voltage and current
+tags: ac, power, power factor
+
+= Apparent power
+latex: S = V_\text{rms} I_\text{rms}
+expr: S = V_rms I_rms
+v: S | W | apparent power (VA)
+v: V_rms | V | RMS voltage
+v: I_rms | A | RMS current
+tags: ac, power
+
+= Reactive power
+latex: Q = V_\text{rms} I_\text{rms}\sin\varphi
+expr: Q_r = V_rms I_rms sin(φ)
+v: Q_r | W | reactive power (var)
+v: V_rms | V | RMS voltage
+v: I_rms | A | RMS current
+v: φ | rad | phase angle
+tags: ac, power
+
+= Power triangle
+latex: S^2 = P^2 + Q^2
+expr: S^2 = P^2 + Q_r^2
+v: S | W | apparent power (VA)
+v: P | W | real power
+v: Q_r | W | reactive power (var)
+tags: ac, power, power factor
+
+= Power factor
+latex: \mathrm{pf} = \frac{P}{S} = \cos\varphi
+expr: pf = P / S
+v: pf | 1 | power factor
+v: P | W | real power
+v: S | W | apparent power
+tags: ac, power, power factor
+
+= Three-phase line and phase voltage (star)
+latex: V_L = \sqrt{3}\,V_\text{ph}
+expr: V_L = sqrt(3) V_ph
+v: V_L | V | line-to-line voltage
+v: V_ph | V | phase (line-to-neutral) voltage
+tags: ac, three-phase, power
+
+= Three-phase power
+latex: P = \sqrt{3}\,V_L I_L\cos\varphi
+expr: P = sqrt(3) V_L I_L cos(φ)
+v: P | W | total real power
+v: V_L | V | line voltage
+v: I_L | A | line current
+v: φ | rad | phase angle
+tags: ac, three-phase, power
+
+= Admittance
+latex: Y = \frac{1}{Z} = G + jB
+note: In the calculator: Y = 1 / Z with a complex Z.
+tags: ac, admittance, impedance, complex

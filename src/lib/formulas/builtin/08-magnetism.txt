@@ -1,0 +1,161 @@
+@category Magnetism
+
+= Magnetic force on a moving charge
+latex: F = qvB\sin\theta
+expr: F = q v B sin(θ)
+v: F | N | magnetic force
+v: q | C | charge
+v: v | m/s | speed
+v: B | T | magnetic flux density
+v: θ | rad | angle between v and B
+tags: magnetism, force, lorentz
+
+= Lorentz force
+latex: \vec F = q(\vec E + \vec v\times\vec B)
+note: In the calculator: q (E + cross(v, B)).
+tags: magnetism, electrostatics, force, lorentz
+
+= Force on a current-carrying wire
+latex: F = BIL\sin\theta
+expr: F = B I L sin(θ)
+v: F | N | force
+v: B | T | magnetic flux density
+v: I | A | current
+v: L | m | wire length in the field
+v: θ | rad | angle between wire and field
+tags: magnetism, force, current
+
+= Radius of circular motion in a magnetic field
+latex: r = \frac{mv}{qB}
+expr: r = m v / (q B)
+v: r | m | radius
+v: m | kg | particle mass
+v: v | m/s | speed perpendicular to B
+v: q | C | charge
+v: B | T | magnetic flux density
+tags: magnetism, cyclotron, circular motion
+
+= Cyclotron frequency
+latex: f = \frac{qB}{2\pi m}
+expr: f = q B / (2 π m)
+v: f | Hz | cyclotron frequency
+v: q | C | charge
+v: B | T | magnetic flux density
+v: m | kg | particle mass
+tags: magnetism, cyclotron
+
+= Field of a long straight wire
+latex: B = \frac{\mu_0 I}{2\pi r}
+expr: B = µ_0 I / (2 π r)
+v: B | T | magnetic flux density
+v: I | A | current
+v: r | m | distance from the wire
+tags: magnetism, field, ampere
+
+= Field at the centre of a circular loop
+latex: B = \frac{\mu_0 N I}{2R}
+expr: B = µ_0 N I / (2 r)
+v: B | T | magnetic flux density
+v: N | 1 | number of turns
+v: I | A | current
+v: r | m | loop radius
+tags: magnetism, field, coil
+
+= Field inside a solenoid
+latex: B = \mu_0 n I = \frac{\mu_0 N I}{L}
+expr: B = µ_0 N I / L
+v: B | T | magnetic flux density
+v: N | 1 | number of turns
+v: I | A | current
+v: L | m | solenoid length
+tags: magnetism, field, solenoid, inductor
+
+= Field inside a toroid
+latex: B = \frac{\mu_0 N I}{2\pi r}
+expr: B = µ_0 N I / (2 π r)
+v: B | T | magnetic flux density
+v: N | 1 | number of turns
+v: I | A | current
+v: r | m | radius inside the toroid
+tags: magnetism, field, toroid
+
+= Force between parallel wires (per length)
+latex: \frac{F}{L} = \frac{\mu_0 I_1 I_2}{2\pi d}
+expr: F / L = µ_0 I_1 I_2 / (2 π d)
+v: F | N | force
+v: L | m | length
+v: I_1 | A | current 1
+v: I_2 | A | current 2
+v: d | m | separation
+tags: magnetism, force, ampere
+
+= Magnetic flux
+latex: \Phi_B = BA\cos\theta
+expr: Φ = B A cos(θ)
+v: Φ | Wb | magnetic flux
+v: B | T | magnetic flux density
+v: A | m^2 | area
+v: θ | rad | angle between B and the surface normal
+tags: magnetism, flux, induction
+
+= Magnetic dipole moment of a loop
+latex: \mu = NIA
+expr: m_d = N I A
+v: m_d | A m^2 | magnetic dipole moment
+v: N | 1 | number of turns
+v: I | A | current
+v: A | m^2 | loop area
+tags: magnetism, dipole, coil
+
+= Torque on a current loop
+latex: \tau = NIAB\sin\theta
+expr: τ = N I A B sin(θ)
+v: τ | N m | torque
+v: N | 1 | number of turns
+v: I | A | current
+v: A | m^2 | loop area
+v: B | T | magnetic flux density
+v: θ | rad | angle between normal and B
+tags: magnetism, torque, motor
+
+= Magnetic dipole energy
+latex: U = -\vec\mu\cdot\vec B = -\mu B\cos\theta
+expr: U = -m_d B cos(θ)
+v: U | J | potential energy
+v: m_d | A m^2 | magnetic dipole moment
+v: B | T | magnetic flux density
+v: θ | rad | angle between μ and B
+tags: magnetism, dipole, energy
+
+= Hall voltage
+latex: V_H = \frac{IB}{nqt}
+expr: V_H = I B / (n q_e t)
+v: V_H | V | Hall voltage
+v: I | A | current
+v: B | T | magnetic flux density
+v: n | m^-3 | charge carrier density
+v: t | m | sample thickness along B
+tags: magnetism, hall effect, semiconductors
+
+= Magnetic field energy density
+latex: u = \frac{B^2}{2\mu_0}
+expr: u = B^2 / (2 µ_0)
+v: u | J/m^3 | energy density
+v: B | T | magnetic flux density
+tags: magnetism, energy, field
+
+= Magnetic field and H-field
+latex: B = \mu_0\mu_r H
+expr: B = µ_0 µ_r H
+v: B | T | magnetic flux density
+v: µ_r | 1 | relative permeability
+v: H | A/m | magnetic field strength
+tags: magnetism, materials, permeability
+
+= Biot–Savart law
+latex: d\vec B = \frac{\mu_0}{4\pi}\frac{I\,d\vec l\times\hat r}{r^2}
+tags: magnetism, field, biot-savart
+
+= Ampère's law
+latex: \oint \vec B\cdot d\vec l = \mu_0 I_\text{enc}
+tags: magnetism, ampere, maxwell

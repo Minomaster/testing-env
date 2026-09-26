@@ -1,0 +1,388 @@
+@category Mechanics
+
+= Velocity from constant acceleration
+latex: v = v_0 + at
+expr: v = v_0 + a t
+v: v | m/s | final velocity
+v: v_0 | m/s | initial velocity
+v: a | m/s^2 | acceleration
+v: t | s | time
+tags: kinematics, suvat
+
+= Displacement from constant acceleration
+latex: s = v_0 t + \tfrac{1}{2}at^2
+expr: s = v_0 t + a t^2 / 2
+v: s | m | displacement
+v: v_0 | m/s | initial velocity
+v: t | s | time
+v: a | m/s^2 | acceleration
+tags: kinematics, suvat
+
+= Velocity–displacement relation
+latex: v^2 = v_0^2 + 2as
+expr: v^2 = v_0^2 + 2 a s
+v: v | m/s | final velocity
+v: v_0 | m/s | initial velocity
+v: a | m/s^2 | acceleration
+v: s | m | displacement
+tags: kinematics, suvat
+
+= Displacement from average velocity
+latex: s = \frac{v_0 + v}{2}\,t
+expr: s = (v_0 + v) t / 2
+v: s | m | displacement
+v: v_0 | m/s | initial velocity
+v: v | m/s | final velocity
+v: t | s | time
+tags: kinematics, suvat
+
+= Projectile range
+latex: R = \frac{v_0^2 \sin 2\theta}{g}
+expr: R_p = v_0^2 sin(2 θ) / g_n
+v: R_p | m | horizontal range on level ground
+v: v_0 | m/s | launch speed
+v: θ | rad | launch angle above horizontal
+note: Uses standard gravity g_n = 9.80665 m/s².
+tags: projectile, kinematics
+
+= Projectile maximum height
+latex: H = \frac{v_0^2 \sin^2\theta}{2g}
+expr: H = v_0^2 sin(θ)^2 / (2 g_n)
+v: H | m | maximum height above launch point
+v: v_0 | m/s | launch speed
+v: θ | rad | launch angle above horizontal
+note: Uses standard gravity g_n.
+tags: projectile, kinematics
+
+= Projectile time of flight
+latex: T = \frac{2 v_0 \sin\theta}{g}
+expr: T = 2 v_0 sin(θ) / g_n
+v: T | s | time of flight on level ground
+v: v_0 | m/s | launch speed
+v: θ | rad | launch angle above horizontal
+note: Uses standard gravity g_n.
+tags: projectile, kinematics
+
+= Newton's second law
+latex: \vec F = m\vec a
+expr: F = m a
+v: F | N | net force
+v: m | kg | mass
+v: a | m/s^2 | acceleration
+tags: dynamics, force
+
+= Weight
+latex: W = mg
+expr: W = m g_n
+v: W | N | weight
+v: m | kg | mass
+note: Uses standard gravity g_n.
+tags: dynamics, gravity, force
+
+= Friction
+latex: F_f = \mu N
+expr: F_f = μ F_N
+v: F_f | N | friction force (maximum, for static friction)
+v: μ | 1 | coefficient of friction
+v: F_N | N | normal force
+tags: dynamics, friction, force
+
+= Hooke's law
+latex: F = -kx
+expr: F = k x
+v: F | N | restoring force magnitude
+v: k | N/m | spring constant
+v: x | m | extension from equilibrium
+tags: spring, elasticity, force
+
+= Centripetal acceleration
+latex: a_c = \frac{v^2}{r} = \omega^2 r
+expr: a_c = v^2 / r
+v: a_c | m/s^2 | centripetal acceleration
+v: v | m/s | speed
+v: r | m | radius
+tags: circular motion, kinematics
+
+= Centripetal force
+latex: F_c = \frac{mv^2}{r}
+expr: F_c = m v^2 / r
+v: F_c | N | centripetal force
+v: m | kg | mass
+v: v | m/s | speed
+v: r | m | radius
+tags: circular motion, dynamics, force
+
+= Momentum
+latex: \vec p = m\vec v
+expr: p = m v
+v: p | kg m/s | momentum
+v: m | kg | mass
+v: v | m/s | velocity
+tags: momentum, dynamics
+
+= Impulse
+latex: J = F\Delta t = \Delta p
+expr: J = F Δt
+v: J | N s | impulse (change in momentum)
+v: F | N | average force
+v: Δt | s | duration
+tags: momentum, collision, force
+
+= Elastic collision (1D), final velocity of mass 1
+latex: v_1' = \frac{m_1 - m_2}{m_1 + m_2}v_1 + \frac{2m_2}{m_1 + m_2}v_2
+expr: v_1f = ((m_1 - m_2) v_1 + 2 m_2 v_2) / (m_1 + m_2)
+v: v_1f | m/s | final velocity of mass 1
+v: m_1 | kg | mass 1
+v: m_2 | kg | mass 2
+v: v_1 | m/s | initial velocity of mass 1
+v: v_2 | m/s | initial velocity of mass 2
+tags: collision, momentum, energy
+
+= Perfectly inelastic collision
+latex: v_f = \frac{m_1 v_1 + m_2 v_2}{m_1 + m_2}
+expr: v_f = (m_1 v_1 + m_2 v_2) / (m_1 + m_2)
+v: v_f | m/s | common final velocity
+v: m_1 | kg | mass 1
+v: v_1 | m/s | velocity of mass 1
+v: m_2 | kg | mass 2
+v: v_2 | m/s | velocity of mass 2
+tags: collision, momentum
+
+= Kinetic energy
+latex: K = \tfrac{1}{2}mv^2
+expr: K = m v^2 / 2
+v: K | J | kinetic energy
+v: m | kg | mass
+v: v | m/s | speed
+tags: energy
+
+= Gravitational potential energy (near Earth)
+latex: U = mgh
+expr: U = m g_n h
+v: U | J | potential energy
+v: m | kg | mass
+v: h | m | height
+note: Uses standard gravity g_n.
+tags: energy, gravity
+
+= Elastic potential energy
+latex: U = \tfrac{1}{2}kx^2
+expr: U = k x^2 / 2
+v: U | J | stored energy
+v: k | N/m | spring constant
+v: x | m | extension
+tags: energy, spring
+
+= Work
+latex: W = Fd\cos\theta
+expr: W = F d cos(θ)
+v: W | J | work done
+v: F | N | force
+v: d | m | displacement
+v: θ | rad | angle between force and displacement
+tags: energy, work
+
+= Power
+latex: P = \frac{W}{t}
+expr: P = W / t
+v: P | W | average power
+v: W | J | work or energy
+v: t | s | time
+tags: energy, power
+
+= Power from force and velocity
+latex: P = Fv
+expr: P = F v
+v: P | W | power
+v: F | N | force along the motion
+v: v | m/s | speed
+tags: power, energy
+
+= Efficiency
+latex: \eta = \frac{E_\text{out}}{E_\text{in}}
+expr: η = E_out / E_in
+v: η | 1 | efficiency (fraction)
+v: E_out | J | useful energy out
+v: E_in | J | energy in
+tags: energy, efficiency
+
+= Angular velocity
+latex: \omega = \frac{v}{r}
+expr: ω = v / r
+v: ω | rad/s | angular velocity
+v: v | m/s | tangential speed
+v: r | m | radius
+tags: rotation, circular motion
+
+= Angular frequency
+latex: \omega = 2\pi f = \frac{2\pi}{T}
+expr: ω = 2 π f
+v: ω | rad/s | angular frequency
+v: f | Hz | frequency
+tags: rotation, oscillation, frequency
+
+= Period and frequency
+latex: T = \frac{1}{f}
+expr: T = 1 / f
+v: T | s | period
+v: f | Hz | frequency
+tags: oscillation, frequency, period
+
+= Torque
+latex: \tau = rF\sin\theta
+expr: τ = r F sin(θ)
+v: τ | N m | torque
+v: r | m | lever arm length
+v: F | N | force
+v: θ | rad | angle between r and F
+note: As a vector: τ = r × F (cross(r, F) in the calculator).
+tags: rotation, torque
+
+= Newton's second law for rotation
+latex: \tau = I\alpha
+expr: τ = I α
+v: τ | N m | net torque
+v: I | kg m^2 | moment of inertia
+v: α | rad/s^2 | angular acceleration
+tags: rotation, torque, dynamics
+
+= Rotational kinetic energy
+latex: K = \tfrac{1}{2}I\omega^2
+expr: K = I ω^2 / 2
+v: K | J | rotational kinetic energy
+v: I | kg m^2 | moment of inertia
+v: ω | rad/s | angular velocity
+tags: rotation, energy
+
+= Angular momentum
+latex: L = I\omega
+expr: L = I ω
+v: L | kg m^2/s | angular momentum
+v: I | kg m^2 | moment of inertia
+v: ω | rad/s | angular velocity
+tags: rotation, momentum
+
+= Moment of inertia: point mass
+latex: I = mr^2
+expr: I = m r^2
+v: I | kg m^2 | moment of inertia
+v: m | kg | mass
+v: r | m | distance from axis
+tags: rotation, moment of inertia
+
+= Moment of inertia: solid disc or cylinder
+latex: I = \tfrac{1}{2}MR^2
+expr: I = M r^2 / 2
+v: I | kg m^2 | moment of inertia about the symmetry axis
+v: M | kg | mass
+v: r | m | radius
+tags: rotation, moment of inertia
+
+= Moment of inertia: solid sphere
+latex: I = \tfrac{2}{5}MR^2
+expr: I = 2 M r^2 / 5
+v: I | kg m^2 | moment of inertia about a diameter
+v: M | kg | mass
+v: r | m | radius
+tags: rotation, moment of inertia
+
+= Moment of inertia: thin rod about its centre
+latex: I = \tfrac{1}{12}ML^2
+expr: I = M L^2 / 12
+v: I | kg m^2 | moment of inertia
+v: M | kg | mass
+v: L | m | length
+tags: rotation, moment of inertia
+
+= Parallel axis theorem
+latex: I = I_\text{cm} + Md^2
+expr: I = I_cm + M d^2
+v: I | kg m^2 | moment of inertia about the new axis
+v: I_cm | kg m^2 | moment of inertia about the centre of mass
+v: M | kg | mass
+v: d | m | distance between the axes
+tags: rotation, moment of inertia
+
+= Newton's law of gravitation
+latex: F = \frac{G m_1 m_2}{r^2}
+expr: F = G m_1 m_2 / r^2
+v: F | N | gravitational force
+v: m_1 | kg | mass 1
+v: m_2 | kg | mass 2
+v: r | m | distance between centres
+tags: gravity, force
+
+= Gravitational potential energy (general)
+latex: U = -\frac{G M m}{r}
+expr: U = -G M m / r
+v: U | J | potential energy (zero at infinity)
+v: M | kg | central mass
+v: m | kg | orbiting mass
+v: r | m | distance between centres
+tags: gravity, energy
+
+= Surface gravity
+latex: g = \frac{GM}{R^2}
+expr: g = G M / r^2
+v: g | m/s^2 | gravitational acceleration
+v: M | kg | planet mass
+v: r | m | distance from centre
+tags: gravity
+
+= Circular orbital speed
+latex: v = \sqrt{\frac{GM}{r}}
+expr: v = sqrt(G M / r)
+v: v | m/s | orbital speed
+v: M | kg | central mass
+v: r | m | orbital radius
+tags: gravity, orbit
+
+= Escape velocity
+latex: v_e = \sqrt{\frac{2GM}{r}}
+expr: v_e = sqrt(2 G M / r)
+v: v_e | m/s | escape speed
+v: M | kg | central mass
+v: r | m | distance from centre
+tags: gravity, orbit
+
+= Kepler's third law
+latex: T^2 = \frac{4\pi^2}{GM}a^3
+expr: T^2 = 4 π^2 a^3 / (G M)
+v: T | s | orbital period
+v: a | m | semi-major axis
+v: M | kg | central mass
+tags: gravity, orbit
+
+= Pressure
+latex: p = \frac{F}{A}
+expr: p = F / A
+v: p | Pa | pressure
+v: F | N | normal force
+v: A | m^2 | area
+tags: pressure, force
+
+= Density
+latex: \rho = \frac{m}{V}
+expr: ρ = m / V
+v: ρ | kg/m^3 | density
+v: m | kg | mass
+v: V | m^3 | volume
+tags: density, matter
+
+= Stress
+latex: \sigma = \frac{F}{A}
+expr: σ = F / A
+v: σ | Pa | stress
+v: F | N | force
+v: A | m^2 | cross-sectional area
+tags: elasticity, materials
+
+= Young's modulus
+latex: E = \frac{\sigma}{\varepsilon} = \frac{F L_0}{A\,\Delta L}
+expr: E_Y = F L_0 / (A ΔL)
+v: E_Y | Pa | Young's modulus
+v: F | N | force
+v: L_0 | m | original length
+v: A | m^2 | cross-sectional area
+v: ΔL | m | extension
+tags: elasticity, materials

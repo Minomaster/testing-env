@@ -1,0 +1,161 @@
+@category Optics
+
+= Refractive index
+latex: n = \frac{c}{v}
+expr: n = c / v
+v: n | 1 | refractive index
+v: v | m/s | speed of light in the medium
+tags: optics, refraction
+
+= Snell's law
+latex: n_1\sin\theta_1 = n_2\sin\theta_2
+expr: n_1 sin(θ_1) = n_2 sin(θ_2)
+v: n_1 | 1 | refractive index of medium 1
+v: θ_1 | rad | angle of incidence
+v: n_2 | 1 | refractive index of medium 2
+v: θ_2 | rad | angle of refraction
+tags: optics, refraction
+
+= Critical angle
+latex: \sin\theta_c = \frac{n_2}{n_1}
+expr: sin(θ_c) = n_2 / n_1
+v: θ_c | rad | critical angle
+v: n_2 | 1 | refractive index of the outer (lower) medium
+v: n_1 | 1 | refractive index of the inner (higher) medium
+tags: optics, total internal reflection, fibre
+
+= Numerical aperture of a fibre
+latex: \mathrm{NA} = \sqrt{n_\text{core}^2 - n_\text{clad}^2}
+expr: NA = sqrt(n_core^2 - n_clad^2)
+v: NA | 1 | numerical aperture
+v: n_clad | 1 | cladding index
+v: n_core | 1 | core index
+tags: optics, fibre
+
+= Brewster's angle
+latex: \tan\theta_B = \frac{n_2}{n_1}
+expr: tan(θ_B) = n_2 / n_1
+v: θ_B | rad | Brewster angle
+v: n_2 | 1 | refractive index of the second medium
+v: n_1 | 1 | refractive index of the first medium
+tags: optics, polarization
+
+= Malus's law
+latex: I = I_0\cos^2\theta
+expr: I = I_0 cos(θ)^2
+v: I | W/m^2 | transmitted intensity
+v: I_0 | W/m^2 | incident (polarized) intensity
+v: θ | rad | angle between polarization and polarizer axis
+tags: optics, polarization
+
+= Thin lens equation
+latex: \frac{1}{f} = \frac{1}{d_o} + \frac{1}{d_i}
+expr: 1 / f = 1 / d_o + 1 / d_i
+v: f | m | focal length
+v: d_o | m | object distance
+v: d_i | m | image distance
+tags: optics, lens
+
+= Magnification
+latex: m = -\frac{d_i}{d_o} = \frac{h_i}{h_o}
+expr: M = d_i / d_o
+v: M | 1 | magnification (magnitude)
+v: d_i | m | image distance
+v: d_o | m | object distance
+tags: optics, lens, mirror
+
+= Lensmaker's equation
+latex: \frac{1}{f} = (n - 1)\left(\frac{1}{R_1} - \frac{1}{R_2}\right)
+expr: 1 / f = (n - 1) (1 / R_1 - 1 / R_2)
+v: f | m | focal length
+v: n | 1 | lens refractive index
+v: R_1 | m | radius of the first surface
+v: R_2 | m | radius of the second surface
+tags: optics, lens
+
+= Spherical mirror focal length
+latex: f = \frac{R}{2}
+expr: f = R_c / 2
+v: f | m | focal length
+v: R_c | m | radius of curvature
+tags: optics, mirror
+
+= Optical power
+latex: P = \frac{1}{f}
+expr: P = 1 / f
+v: P | m^-1 | optical power in dioptres
+v: f | m | focal length
+tags: optics, lens
+
+= Double-slit bright fringes
+latex: y_m = \frac{m\lambda L}{d}
+expr: y = m λ L / d
+v: y | m | fringe position from the centre
+v: m | 1 | order
+v: λ | m | wavelength
+v: L | m | distance to the screen
+v: d | m | slit separation
+tags: optics, interference, young
+
+= Double-slit interference condition
+latex: d\sin\theta = m\lambda
+expr: d sin(θ) = m λ
+v: d | m | slit separation
+v: θ | rad | angle to the bright fringe
+v: m | 1 | order
+v: λ | m | wavelength
+tags: optics, interference
+
+= Single-slit minima
+latex: a\sin\theta = m\lambda
+expr: a sin(θ) = m λ
+v: a | m | slit width
+v: θ | rad | angle to the dark fringe
+v: m | 1 | order (1, 2, …)
+v: λ | m | wavelength
+tags: optics, diffraction
+
+= Diffraction grating
+latex: d\sin\theta = m\lambda,\quad d = \frac{1}{N}
+expr: sin(θ) / N = m λ
+v: θ | rad | angle of the maximum
+v: N | m^-1 | lines per metre
+v: m | 1 | order
+v: λ | m | wavelength
+tags: optics, diffraction, spectroscopy
+
+= Rayleigh criterion
+latex: \theta \approx 1.22\frac{\lambda}{D}
+expr: θ = 1.22 λ / D
+v: θ | rad | minimum resolvable angle
+v: λ | m | wavelength
+v: D | m | aperture diameter
+tags: optics, diffraction, resolution
+
+= Thin-film constructive reflection
+latex: 2nt = \left(m + \tfrac{1}{2}\right)\lambda
+expr: 2 n t = (m + 0.5) λ
+v: n | 1 | film refractive index
+v: t | m | film thickness
+v: m | 1 | order (0, 1, 2, …)
+v: λ | m | wavelength in vacuum
+note: For one phase-flipping reflection (e.g. soap film in air).
+tags: optics, interference, thin film
+
+= Bragg's law
+latex: 2d\sin\theta = n\lambda
+expr: 2 d sin(θ) = n λ
+v: d | m | lattice plane spacing
+v: θ | rad | glancing angle
+v: n | 1 | order
+v: λ | m | wavelength
+tags: optics, diffraction, x-ray, crystal
+
+= Apparent depth
+latex: d' = d\,\frac{n_2}{n_1}
+expr: d_a = d n_2 / n_1
+v: d_a | m | apparent depth
+v: d | m | real depth
+v: n_2 | 1 | index of the observer's medium
+v: n_1 | 1 | index of the object's medium
+tags: optics, refraction

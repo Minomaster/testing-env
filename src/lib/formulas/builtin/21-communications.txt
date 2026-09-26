@@ -1,0 +1,100 @@
+@category Communications
+
+= Shannon–Hartley capacity
+latex: C = B\log_2(1 + \mathrm{SNR})
+expr: C_ch = B log2(1 + SNR)
+v: C_ch | Hz | channel capacity in bit/s
+v: B | Hz | bandwidth
+v: SNR | 1 | signal-to-noise ratio (linear)
+tags: communications, information theory, capacity
+
+= Nyquist bit rate (noiseless channel)
+latex: R = 2B\log_2 M
+expr: R_b = 2 B log2(M)
+v: R_b | Hz | maximum bit rate in bit/s
+v: B | Hz | bandwidth
+v: M | 1 | number of signal levels
+tags: communications, bit rate, nyquist
+
+= Noise power
+latex: P_n = k_B T B
+expr: P_n = k_B T B
+v: P_n | W | thermal noise power
+v: T | K | noise temperature
+v: B | Hz | bandwidth
+tags: communications, noise
+
+= Noise figure
+latex: F = \frac{\mathrm{SNR_{in}}}{\mathrm{SNR_{out}}},\quad NF = 10\log_{10}F
+expr: NF = 10 log(SNR_in / SNR_out)
+v: NF | 1 | noise figure in dB
+v: SNR_in | 1 | input SNR (linear)
+v: SNR_out | 1 | output SNR (linear)
+tags: communications, noise, amplifier
+
+= Friis noise formula (two stages)
+latex: F = F_1 + \frac{F_2 - 1}{G_1}
+expr: F = F_1 + (F_2 - 1) / G_1
+v: F | 1 | total noise factor (linear)
+v: F_1 | 1 | first stage noise factor
+v: F_2 | 1 | second stage noise factor
+v: G_1 | 1 | first stage gain (linear)
+tags: communications, noise, receiver
+
+= Link budget
+latex: P_r = P_t + G_t + G_r - L_\text{path} - L_\text{misc}\quad(\mathrm{dB})
+expr: P_r = P_t + G_t + G_r - L
+v: P_r | 1 | received power (dBm)
+v: P_t | 1 | transmitted power (dBm)
+v: G_t | 1 | transmit gain (dBi)
+v: G_r | 1 | receive gain (dBi)
+v: L | 1 | total losses (dB)
+tags: communications, link budget, rf, decibel
+
+= AM modulation index
+latex: m = \frac{A_m}{A_c}
+expr: m = A_m / A_c
+v: m | 1 | modulation index
+v: A_m | V | message amplitude
+v: A_c | V | carrier amplitude
+tags: communications, am, modulation
+
+= AM total power
+latex: P_t = P_c\left(1 + \frac{m^2}{2}\right)
+expr: P_t = P_c (1 + m^2 / 2)
+v: P_t | W | total transmitted power
+v: P_c | W | carrier power
+v: m | 1 | modulation index
+tags: communications, am, modulation, power
+
+= AM bandwidth
+latex: B = 2f_m
+expr: B = 2 f_m
+v: B | Hz | bandwidth (DSB)
+v: f_m | Hz | highest message frequency
+tags: communications, am, bandwidth
+
+= FM modulation index
+latex: \beta = \frac{\Delta f}{f_m}
+expr: β = Δf / f_m
+v: β | 1 | modulation index
+v: Δf | Hz | peak frequency deviation
+v: f_m | Hz | message frequency
+tags: communications, fm, modulation
+
+= Carson's rule
+latex: B \approx 2(\Delta f + f_m)
+expr: B = 2 (Δf + f_m)
+v: B | Hz | FM bandwidth
+v: Δf | Hz | peak frequency deviation
+v: f_m | Hz | highest message frequency
+tags: communications, fm, bandwidth
+
+= Eb/N0 and SNR
+latex: \frac{E_b}{N_0} = \mathrm{SNR}\cdot\frac{B}{R_b}
+expr: EbN0 = SNR B / R_b
+v: EbN0 | 1 | energy per bit to noise density ratio (linear)
+v: SNR | 1 | signal-to-noise ratio (linear)
+v: B | Hz | bandwidth
+v: R_b | Hz | bit rate in bit/s
+tags: communications, digital, snr

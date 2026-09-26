@@ -1,0 +1,240 @@
+@category Thermodynamics
+
+= Ideal gas law (moles)
+latex: pV = nRT
+expr: p V = n R T
+v: p | Pa | pressure
+v: V | m^3 | volume
+v: n | mol | amount of substance
+v: T | K | temperature
+tags: gas, thermodynamics
+
+= Ideal gas law (molecules)
+latex: pV = N k_B T
+expr: p V = N k_B T
+v: p | Pa | pressure
+v: V | m^3 | volume
+v: N | 1 | number of molecules
+v: T | K | temperature
+tags: gas, thermodynamics
+
+= Sensible heat
+latex: Q = mc\Delta T
+expr: Q = m c_p ΔT
+v: Q | J | heat added
+v: m | kg | mass
+v: c_p | J/(kg K) | specific heat capacity
+v: ΔT | K | temperature change
+tags: heat, calorimetry
+
+= Latent heat
+latex: Q = mL
+expr: Q = m L_h
+v: Q | J | heat for the phase change
+v: m | kg | mass
+v: L_h | J/kg | specific latent heat
+tags: heat, phase change
+
+= Linear thermal expansion
+latex: \Delta L = \alpha L_0 \Delta T
+expr: ΔL = α L_0 ΔT
+v: ΔL | m | change in length
+v: α | K^-1 | linear expansion coefficient
+v: L_0 | m | original length
+v: ΔT | K | temperature change
+tags: expansion, heat
+
+= Volume thermal expansion
+latex: \Delta V = \beta V_0 \Delta T
+expr: ΔV = β V_0 ΔT
+v: ΔV | m^3 | change in volume
+v: β | K^-1 | volume expansion coefficient (≈ 3α)
+v: V_0 | m^3 | original volume
+v: ΔT | K | temperature change
+tags: expansion, heat
+
+= Heat conduction (Fourier's law)
+latex: P = \frac{kA\,\Delta T}{d}
+expr: P = k A ΔT / d
+v: P | W | heat flow rate
+v: k | W/(m K) | thermal conductivity
+v: A | m^2 | area
+v: ΔT | K | temperature difference
+v: d | m | thickness
+tags: heat transfer, conduction
+
+= Thermal resistance
+latex: R_\text{th} = \frac{d}{kA},\quad P = \frac{\Delta T}{R_\text{th}}
+expr: P = ΔT / R_th
+v: P | W | heat flow rate
+v: ΔT | K | temperature difference
+v: R_th | K/W | thermal resistance
+tags: heat transfer, conduction, heatsink
+
+= Convection (Newton's law of cooling)
+latex: P = hA(T_s - T_\infty)
+expr: P = h A (T_s - T_f)
+v: P | W | heat flow rate
+v: h | W/(m^2 K) | heat transfer coefficient
+v: A | m^2 | surface area
+v: T_s | K | surface temperature
+v: T_f | K | fluid temperature
+tags: heat transfer, convection
+
+= Stefan–Boltzmann law
+latex: P = \varepsilon\sigma A T^4
+expr: P = ε σ A T^4
+v: P | W | radiated power
+v: ε | 1 | emissivity (1 for a black body)
+v: A | m^2 | surface area
+v: T | K | absolute temperature
+tags: radiation, heat transfer, black body
+
+= Wien's displacement law
+latex: \lambda_\text{max} = \frac{b}{T},\quad b = 2.898\times10^{-3}\ \mathrm{m\,K}
+expr: λ_max = 2.897771955e-3 m K / T
+v: λ_max | m | peak wavelength
+v: T | K | temperature
+tags: radiation, black body
+
+= First law of thermodynamics
+latex: \Delta U = Q - W
+expr: ΔU = Q - W
+v: ΔU | J | change in internal energy
+v: Q | J | heat added to the system
+v: W | J | work done by the system
+tags: thermodynamics, energy
+
+= Work at constant pressure
+latex: W = p\,\Delta V
+expr: W = p ΔV
+v: W | J | work done by the gas
+v: p | Pa | pressure
+v: ΔV | m^3 | volume change
+tags: thermodynamics, work, gas
+
+= Isothermal work (ideal gas)
+latex: W = nRT\ln\frac{V_2}{V_1}
+expr: W = n R T ln(V_2 / V_1)
+v: W | J | work done by the gas
+v: n | mol | amount of substance
+v: T | K | temperature
+v: V_2 | m^3 | final volume
+v: V_1 | m^3 | initial volume
+tags: thermodynamics, work, gas
+
+= Adiabatic process
+latex: p_1 V_1^\gamma = p_2 V_2^\gamma
+expr: p_1 V_1^γ = p_2 V_2^γ
+v: p_1 | Pa | initial pressure
+v: V_1 | m^3 | initial volume
+v: γ | 1 | adiabatic index
+v: p_2 | Pa | final pressure
+v: V_2 | m^3 | final volume
+tags: thermodynamics, gas, adiabatic
+
+= Adiabatic temperature relation
+latex: T_1 V_1^{\gamma-1} = T_2 V_2^{\gamma-1}
+expr: T_1 (V_1 / V_2)^(γ - 1) = T_2
+v: T_1 | K | initial temperature
+v: V_1 | m^3 | initial volume
+v: V_2 | m^3 | final volume
+v: γ | 1 | adiabatic index
+v: T_2 | K | final temperature
+tags: thermodynamics, gas, adiabatic
+
+= Adiabatic index
+latex: \gamma = \frac{C_p}{C_V}
+expr: γ = C_p / C_V
+v: γ | 1 | adiabatic index
+v: C_p | J/(mol K) | molar heat capacity at constant pressure
+v: C_V | J/(mol K) | molar heat capacity at constant volume
+tags: thermodynamics, gas, heat capacity
+
+= Mayer's relation
+latex: C_p - C_V = R
+expr: C_p - C_V = R
+v: C_p | J/(mol K) | molar heat capacity at constant pressure
+v: C_V | J/(mol K) | molar heat capacity at constant volume
+tags: thermodynamics, gas, heat capacity
+
+= Internal energy of a monatomic ideal gas
+latex: U = \tfrac{3}{2}nRT
+expr: U = 3 n R T / 2
+v: U | J | internal energy
+v: n | mol | amount of substance
+v: T | K | temperature
+tags: thermodynamics, gas, energy
+
+= Heat engine efficiency
+latex: \eta = \frac{W}{Q_h} = 1 - \frac{Q_c}{Q_h}
+expr: η = 1 - Q_c / Q_h
+v: η | 1 | efficiency
+v: Q_c | J | heat rejected to the cold reservoir
+v: Q_h | J | heat taken from the hot reservoir
+tags: thermodynamics, heat engine, efficiency
+
+= Carnot efficiency
+latex: \eta_C = 1 - \frac{T_c}{T_h}
+expr: η = 1 - T_c / T_h
+v: η | 1 | maximum efficiency
+v: T_c | K | cold reservoir temperature
+v: T_h | K | hot reservoir temperature
+tags: thermodynamics, heat engine, carnot
+
+= Refrigerator coefficient of performance
+latex: \mathrm{COP}_R = \frac{Q_c}{W},\quad \mathrm{COP}_{R,\max} = \frac{T_c}{T_h - T_c}
+expr: COP = T_c / (T_h - T_c)
+v: COP | 1 | ideal (Carnot) coefficient of performance
+v: T_c | K | cold side temperature
+v: T_h | K | hot side temperature
+tags: thermodynamics, refrigerator, carnot
+
+= Heat pump coefficient of performance
+latex: \mathrm{COP}_{HP,\max} = \frac{T_h}{T_h - T_c}
+expr: COP = T_h / (T_h - T_c)
+v: COP | 1 | ideal (Carnot) coefficient of performance
+v: T_h | K | hot side temperature
+v: T_c | K | cold side temperature
+tags: thermodynamics, heat pump, carnot
+
+= Entropy change (reversible, isothermal)
+latex: \Delta S = \frac{Q}{T}
+expr: ΔS = Q / T
+v: ΔS | J/K | entropy change
+v: Q | J | heat added reversibly
+v: T | K | temperature
+tags: thermodynamics, entropy
+
+= Entropy change of an ideal gas (isothermal)
+latex: \Delta S = nR\ln\frac{V_2}{V_1}
+expr: ΔS = n R ln(V_2 / V_1)
+v: ΔS | J/K | entropy change
+v: n | mol | amount of substance
+v: V_2 | m^3 | final volume
+v: V_1 | m^3 | initial volume
+tags: thermodynamics, entropy, gas
+
+= RMS speed of gas molecules
+latex: v_\text{rms} = \sqrt{\frac{3k_BT}{m}}
+expr: v_rms = sqrt(3 k_B T / m)
+v: v_rms | m/s | root-mean-square speed
+v: T | K | temperature
+v: m | kg | mass of one molecule
+tags: kinetic theory, gas
+
+= Mean kinetic energy per molecule
+latex: \langle E_k\rangle = \tfrac{3}{2}k_BT
+expr: E_k = 3 k_B T / 2
+v: E_k | J | mean translational kinetic energy
+v: T | K | temperature
+tags: kinetic theory, gas, energy
+
+= Mean free path
+latex: \lambda = \frac{k_BT}{\sqrt{2}\,\pi d^2 p}
+expr: λ = k_B T / (sqrt(2) π d^2 p)
+v: λ | m | mean free path
+v: T | K | temperature
+v: d | m | molecular diameter
+v: p | Pa | pressure
+tags: kinetic theory, gas

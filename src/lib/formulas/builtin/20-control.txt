@@ -1,0 +1,80 @@
+@category Control systems
+
+= First-order transfer function
+latex: G(s) = \frac{K}{\tau s + 1}
+tags: control, transfer function, first order
+
+= Second-order standard form
+latex: G(s) = \frac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}
+tags: control, transfer function, second order
+
+= Closed-loop transfer function
+latex: T(s) = \frac{G(s)}{1 + G(s)H(s)}
+tags: control, feedback, transfer function
+
+= PID controller
+latex: u(t) = K_p e(t) + K_i\int_0^t e(\tau)\,d\tau + K_d\frac{de}{dt}
+tags: control, pid, controller
+
+= Damped natural frequency
+latex: \omega_d = \omega_n\sqrt{1 - \zeta^2}
+expr: ω_d = ω_n sqrt(1 - ζ^2)
+v: ω_d | rad/s | damped natural frequency
+v: ω_n | rad/s | natural frequency
+v: ζ | 1 | damping ratio
+tags: control, second order, damping
+
+= Percent overshoot
+latex: \%OS = 100\,e^{-\zeta\pi/\sqrt{1 - \zeta^2}}
+expr: OS = 100 exp(-ζ π / sqrt(1 - ζ^2))
+v: OS | 1 | percent overshoot
+v: ζ | 1 | damping ratio (0 < ζ < 1)
+tags: control, second order, step response, overshoot
+
+= Peak time
+latex: t_p = \frac{\pi}{\omega_n\sqrt{1 - \zeta^2}}
+expr: t_p = π / (ω_n sqrt(1 - ζ^2))
+v: t_p | s | time to the first peak
+v: ω_n | rad/s | natural frequency
+v: ζ | 1 | damping ratio
+tags: control, second order, step response
+
+= Settling time (2%)
+latex: t_s \approx \frac{4}{\zeta\omega_n}
+expr: t_s = 4 / (ζ ω_n)
+v: t_s | s | 2% settling time
+v: ζ | 1 | damping ratio
+v: ω_n | rad/s | natural frequency
+tags: control, second order, step response
+
+= Rise time (approximation)
+latex: t_r \approx \frac{1.8}{\omega_n}
+expr: t_r = 1.8 / ω_n
+v: t_r | s | 10–90% rise time (ζ ≈ 0.5)
+v: ω_n | rad/s | natural frequency
+tags: control, second order, step response
+
+= Steady-state error (step input)
+latex: e_{ss} = \frac{1}{1 + K_p},\quad K_p = \lim_{s\to0}G(s)
+expr: e_ss = 1 / (1 + K_p)
+v: e_ss | 1 | steady-state error (fraction of the step)
+v: K_p | 1 | position error constant
+tags: control, steady-state error
+
+= Steady-state error (ramp input)
+latex: e_{ss} = \frac{1}{K_v},\quad K_v = \lim_{s\to0}sG(s)
+expr: e_ss = 1 / K_v
+v: e_ss | s | steady-state error per unit ramp slope
+v: K_v | s^-1 | velocity error constant
+tags: control, steady-state error
+
+= Phase margin and damping
+latex: \zeta \approx \frac{\mathrm{PM}}{100^\circ}
+expr: ζ = PM / (100 deg)
+v: ζ | 1 | damping ratio (rule of thumb, PM < 70°)
+v: PM | rad | phase margin
+tags: control, stability, phase margin
+
+= Final value theorem
+latex: \lim_{t\to\infty} f(t) = \lim_{s\to0} sF(s)
+tags: control, laplace, steady state

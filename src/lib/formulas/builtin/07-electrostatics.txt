@@ -1,0 +1,182 @@
+@category Electrostatics
+
+= Coulomb's law
+latex: F = k_e\frac{q_1 q_2}{r^2} = \frac{1}{4\pi\varepsilon_0}\frac{q_1 q_2}{r^2}
+expr: F = k_e q_1 q_2 / r^2
+v: F | N | electrostatic force
+v: q_1 | C | charge 1
+v: q_2 | C | charge 2
+v: r | m | separation
+tags: electrostatics, force, charge
+
+= Electric field definition
+latex: \vec E = \frac{\vec F}{q}
+expr: E = F / q
+v: E | V/m | electric field strength
+v: F | N | force on the test charge
+v: q | C | test charge
+tags: electrostatics, field
+
+= Field of a point charge
+latex: E = k_e\frac{q}{r^2}
+expr: E = k_e q / r^2
+v: E | V/m | electric field strength
+v: q | C | charge
+v: r | m | distance
+tags: electrostatics, field
+
+= Potential of a point charge
+latex: V = k_e\frac{q}{r}
+expr: V = k_e q / r
+v: V | V | electric potential (zero at infinity)
+v: q | C | charge
+v: r | m | distance
+tags: electrostatics, potential
+
+= Potential energy of two charges
+latex: U = k_e\frac{q_1 q_2}{r}
+expr: U = k_e q_1 q_2 / r
+v: U | J | potential energy
+v: q_1 | C | charge 1
+v: q_2 | C | charge 2
+v: r | m | separation
+tags: electrostatics, energy
+
+= Energy of a charge in a potential
+latex: U = qV
+expr: U = q V
+v: U | J | potential energy
+v: q | C | charge
+v: V | V | potential
+tags: electrostatics, energy, potential
+
+= Uniform field between plates
+latex: E = \frac{V}{d}
+expr: E = V / d
+v: E | V/m | field strength
+v: V | V | potential difference
+v: d | m | plate separation
+tags: electrostatics, field, capacitor
+
+= Field of an infinite line charge
+latex: E = \frac{\lambda}{2\pi\varepsilon_0 r}
+expr: E = λ / (2 π ε_0 r)
+v: E | V/m | field strength
+v: λ | C/m | linear charge density
+v: r | m | distance from the line
+tags: electrostatics, field, gauss
+
+= Field of an infinite sheet of charge
+latex: E = \frac{\sigma}{2\varepsilon_0}
+expr: E = σ / (2 ε_0)
+v: E | V/m | field strength
+v: σ | C/m^2 | surface charge density
+tags: electrostatics, field, gauss
+
+= Field just outside a conductor
+latex: E = \frac{\sigma}{\varepsilon_0}
+expr: E = σ / ε_0
+v: E | V/m | field strength at the surface
+v: σ | C/m^2 | surface charge density
+tags: electrostatics, field, conductor
+
+= Gauss's law
+latex: \oint \vec E\cdot d\vec A = \frac{Q_\text{enc}}{\varepsilon_0}
+expr: Φ_E = Q / ε_0
+v: Φ_E | V m | electric flux through a closed surface
+v: Q | C | enclosed charge
+tags: electrostatics, gauss, maxwell, flux
+
+= Capacitance definition
+latex: C = \frac{Q}{V}
+expr: C = Q / V
+v: C | F | capacitance
+v: Q | C | charge on one plate
+v: V | V | voltage across the capacitor
+tags: capacitor, capacitance
+
+= Parallel-plate capacitor
+latex: C = \frac{\varepsilon_0\varepsilon_r A}{d}
+expr: C = ε_0 ε_r A / d
+v: C | F | capacitance
+v: ε_r | 1 | relative permittivity of the dielectric
+v: A | m^2 | plate area
+v: d | m | plate separation
+tags: capacitor, capacitance, dielectric
+
+= Spherical capacitor (isolated sphere)
+latex: C = 4\pi\varepsilon_0 R
+expr: C = 4 π ε_0 r
+v: C | F | capacitance
+v: r | m | sphere radius
+tags: capacitor, capacitance
+
+= Cylindrical (coaxial) capacitor
+latex: C = \frac{2\pi\varepsilon_0\varepsilon_r L}{\ln(b/a)}
+expr: C = 2 π ε_0 ε_r L / ln(b / a)
+v: C | F | capacitance
+v: ε_r | 1 | relative permittivity
+v: L | m | length
+v: b | m | outer radius
+v: a | m | inner radius
+tags: capacitor, capacitance, coax
+
+= Energy stored in a capacitor
+latex: U = \tfrac{1}{2}CV^2 = \frac{Q^2}{2C}
+expr: U = C V^2 / 2
+v: U | J | stored energy
+v: C | F | capacitance
+v: V | V | voltage
+tags: capacitor, energy
+
+= Electric field energy density
+latex: u = \tfrac{1}{2}\varepsilon_0 E^2
+expr: u = ε_0 E^2 / 2
+v: u | J/m^3 | energy density
+v: E | V/m | field strength
+tags: electrostatics, energy, field
+
+= Capacitors in series (two)
+latex: \frac{1}{C} = \frac{1}{C_1} + \frac{1}{C_2}
+expr: 1 / C = 1 / C_1 + 1 / C_2
+v: C | F | equivalent capacitance
+v: C_1 | F | capacitor 1
+v: C_2 | F | capacitor 2
+tags: capacitor, series, circuits
+
+= Capacitors in parallel (two)
+latex: C = C_1 + C_2
+expr: C = C_1 + C_2
+v: C | F | equivalent capacitance
+v: C_1 | F | capacitor 1
+v: C_2 | F | capacitor 2
+tags: capacitor, parallel, circuits
+
+= Electric dipole moment
+latex: p = qd
+expr: p = q d
+v: p | C m | dipole moment
+v: q | C | charge magnitude
+v: d | m | separation
+tags: electrostatics, dipole
+
+= Torque on an electric dipole
+latex: \tau = pE\sin\theta
+expr: τ = p E sin(θ)
+v: τ | N m | torque
+v: p | C m | dipole moment
+v: E | V/m | field strength
+v: θ | rad | angle between p and E
+tags: electrostatics, dipole, torque
+
+= Dipole field on its axis (far away)
+latex: E = \frac{2 k_e p}{r^3}
+expr: E = 2 k_e p / r^3
+v: E | V/m | field strength
+v: p | C m | dipole moment
+v: r | m | distance (r ≫ d)
+tags: electrostatics, dipole, field
+
+= Poisson's equation
+latex: \nabla^2 V = -\frac{\rho}{\varepsilon_0}
+tags: electrostatics, potential, differential equation

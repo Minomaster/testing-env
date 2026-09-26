@@ -1,0 +1,97 @@
+@category Statistical mechanics
+
+= Boltzmann factor (population ratio)
+latex: \frac{N_2}{N_1} = e^{-(E_2 - E_1)/k_BT}
+expr: N_ratio = exp(-ΔE / (k_B T))
+v: N_ratio | 1 | population ratio N₂/N₁
+v: ΔE | eV | energy difference E₂ − E₁
+v: T | K | temperature
+tags: statistical mechanics, boltzmann
+
+= Boltzmann entropy
+latex: S = k_B \ln \Omega
+expr: S = k_B ln(Ω)
+v: S | J/K | entropy
+v: Ω | 1 | number of microstates
+tags: statistical mechanics, entropy
+
+= Partition function
+latex: Z = \sum_i g_i\, e^{-E_i/k_BT},\quad P_i = \frac{g_i e^{-E_i/k_BT}}{Z}
+tags: statistical mechanics, partition function
+
+= Helmholtz free energy
+latex: F = U - TS = -k_BT\ln Z
+expr: F = U - T S
+v: F | J | Helmholtz free energy
+v: U | J | internal energy
+v: T | K | temperature
+v: S | J/K | entropy
+tags: statistical mechanics, thermodynamics, free energy
+
+= Gibbs free energy
+latex: G = H - TS
+expr: G_f = H - T S
+v: G_f | J | Gibbs free energy
+v: H | J | enthalpy
+v: T | K | temperature
+v: S | J/K | entropy
+tags: thermodynamics, free energy, chemistry
+
+= Enthalpy
+latex: H = U + pV
+expr: H = U + p V
+v: H | J | enthalpy
+v: U | J | internal energy
+v: p | Pa | pressure
+v: V | m^3 | volume
+tags: thermodynamics, enthalpy
+
+= Equipartition theorem
+latex: \langle E\rangle = \tfrac{f}{2}k_BT
+expr: E = f k_B T / 2
+v: E | J | mean energy per particle
+v: f | 1 | degrees of freedom
+v: T | K | temperature
+tags: statistical mechanics, kinetic theory
+
+= Maxwell–Boltzmann most probable speed
+latex: v_p = \sqrt{\frac{2k_BT}{m}}
+expr: v_p = sqrt(2 k_B T / m)
+v: v_p | m/s | most probable speed
+v: T | K | temperature
+v: m | kg | particle mass
+tags: statistical mechanics, kinetic theory, gas
+
+= Maxwell–Boltzmann mean speed
+latex: \langle v\rangle = \sqrt{\frac{8k_BT}{\pi m}}
+expr: v_mean = sqrt(8 k_B T / (π m))
+v: v_mean | m/s | mean speed
+v: T | K | temperature
+v: m | kg | particle mass
+tags: statistical mechanics, kinetic theory, gas
+
+= Fermi–Dirac distribution
+latex: f(E) = \frac{1}{e^{(E - \mu)/k_BT} + 1}
+expr: f = 1 / (exp((E - μ) / (k_B T)) + 1)
+v: f | 1 | occupation probability
+v: E | eV | state energy
+v: μ | eV | chemical potential (Fermi level)
+v: T | K | temperature
+tags: statistical mechanics, fermions, semiconductors
+
+= Bose–Einstein distribution
+latex: n(E) = \frac{1}{e^{(E - \mu)/k_BT} - 1}
+expr: n = 1 / (exp((E - μ) / (k_B T)) - 1)
+v: n | 1 | mean occupation number
+v: E | eV | state energy
+v: μ | eV | chemical potential
+v: T | K | temperature
+tags: statistical mechanics, bosons
+
+= Planck's law (spectral radiance)
+latex: B_\lambda(T) = \frac{2hc^2}{\lambda^5}\frac{1}{e^{hc/\lambda k_BT} - 1}
+expr: B = 2 h_P c^2 / λ^5 / (exp(h_P c / (λ k_B T)) - 1)
+v: B | W/m^3 | spectral radiance (per steradian, per metre of wavelength)
+v: λ | m | wavelength
+v: T | K | temperature
+tags: radiation, black body, quantum

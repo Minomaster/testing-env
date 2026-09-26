@@ -92,15 +92,7 @@ sync across devices is "free" and manual, as decided). No proprietary formats, n
 ```
 <data-root>/
   formulas/
-    mechanics.json
-    electromagnetism.json
-    thermodynamics.json
-    waves-optics.json
-    circuits-dc-ac.json
-    signals-systems.json
-    electronics-semiconductors.json
-    control-systems.json
-    ... (one JSON file per top-level category, user-extensible)
+    my-formulas.json             # your own formulas + your edits of built-ins: { "formulas": [...] }
   calculator/
     scratchpad.txt               # the calculator sheet, exactly as typed (plain text)
   settings.json                  # synced preferences, e.g. { "calculator": { "angleMode": "deg" } }
@@ -119,10 +111,11 @@ sync across devices is "free" and manual, as decided). No proprietary formats, n
   screen asking the user to pick a folder. Picking one creates `formulas/` and `calculator/`
   inside it, which also confirms the folder is writable.
 
-- **Formula library entries** are JSON objects: `{ name, latex, variables: [{symbol, unit,
-  description}], category, tags, course_ref, notes }`. Ships **pre-populated** with a
-  standard baseline curriculum set across the categories above, and the user extends/edits
-  freely from within the app.
+- **Formula entries** (`src/lib/formulas/types.ts`): `{ id, name, category, latex, expr?,
+  variables: [{ symbol, unit, description }], tags, note? }`. `expr` is the equation in
+  calculator syntax (`V = I R`); without it a formula is reference-only. The built-in set
+  ships inside the app (see Formula library); only the user's additions and edits live in
+  `my-formulas.json`. An entry there with a built-in's `id` replaces that built-in.
 - **Sync** is manual/implicit: since it's just files, the user can put `<data-root>` inside
   any synced folder. The app has no knowledge of sync and needs none.
 
@@ -173,6 +166,9 @@ assignment lines at the top of the scratchpad.
   (`220 Ω × 4.70 µF` → `1.03 ms`, N·m → J). Units the user spells out stay as typed
   (`4.70 µF`, `9.81 m/s²`, `60 mph`), including when scaled by a number
   (`3.0 km/h * 2` → `6.0 km/h`). Shown prettily: `Ω`, `µF`, `m/s²`, `kg·m`, `30°`.
+- **Radians are dimensionless in + and −:** quantities whose units differ only by radians
+  (`ω₀²` in rad²/s² and `(b/2m)²` in 1/s²) can be added; the radians are divided out. A bare
+  angle plus a plain number (`30° + 1`) stays an error, as it's ambiguous.
 - **Prefixes:** a single unit gets an automatic prefix only from the everyday set
   p n µ m k M G T (for mass: µg mg g kg). Otherwise the base unit with × 10ⁿ is used, as in
   textbooks: `9.10938 × 10⁻³¹ kg`, `1.60218 × 10⁻¹⁹ C`, not `0.91 rg` or `160 zC`.
@@ -228,11 +224,61 @@ constant).
   same unit.
 
 ### 2. Formula reference library
-- Browsable and full-text searchable, organized by category (see file list above).
-- Pre-populated with a standard Physics + EE curriculum baseline; fully user-editable/extensible.
-- Each formula renders in proper LaTeX and lists variables with units.
-- Quick-insert into the calculator, and "Copy as Markdown" to paste into Obsidian (see
-  Obsidian Integration below).
+**Content:** a built-in **BSc + MSc** set (as decided): 420 formulas in 22 categories, 371 of
+them solvable. Categories: Maths, Mechanics, Oscillations & waves, Fluids, Thermodynamics,
+Statistical mechanics, Electrostatics, Magnetism, Induction & Maxwell's equations,
+EM waves & transmission lines, Optics, Special relativity, Quantum & atomic physics, Nuclear
+physics, Solid state & semiconductors, DC circuits, AC circuits, Electronics, Signals &
+systems, Control systems, Communications, Power & machines. Reference-only entries cover
+things that can't be solved numerically (Maxwell's equations, transforms, identities).
+
+**Built-in storage** (as decided: built in, user additions separate): one text file per
+category in `src/lib/formulas/builtin/NN-name.txt`, parsed at startup by `builtin.ts`:
+```
+@category Mechanics
+
+= Newton's second law
+latex: \vec F = m\vec a
+expr: F = m a
+v: F | N | net force          # symbol | unit ("1" = dimensionless) | description
+tags: force, dynamics
+note: optional
+```
+Formula ids are `slug(category)/slug(name)`, so renaming a built-in orphans any user edit of it.
+
+**Browsing:** **search only** (as decided; no category list, favourites or constants page).
+One search box over names, categories, tags, notes, variable symbols and descriptions;
+every word must match; name matches first, shorter names before longer. Empty search lists
+everything. ↑/↓ in the search box moves through results.
+
+**Detail view:** category, name, the formula large in KaTeX, note, and a **solve panel**
+(as decided): one input per variable, each accepting calculator input (`25.0 mA`, `q_e`,
+`30 deg`). Leave exactly one blank and it is solved live, with sig figs from the inputs
+(calculator rules), shown in accent as that field's placeholder; type over it to use it as
+an input. Angles follow the calculator's DEG/RAD setting. Actions: **Send to calculator**
+(appends `# name`, the known values as assignments, and the equation, or for an implicit
+equation the solved value plus the equation as a comment, to the scratchpad, then opens
+it), **Copy for Obsidian** (Markdown with a `$$…$$` block and a variable list), **Edit**,
+and for non-built-ins **Delete** / **Reset to built-in** (click twice to confirm).
+
+**Solver** (`src/lib/formulas/solve.ts`): numeric, not symbolic (CAS is a non-goal). It
+scans ±10⁻⁴⁰…10⁴⁰ (positive first, so physical roots win) for sign changes and bisects.
+It also checks x = 0, finds roots just inside domain edges (before a square root goes
+negative), and zooms into local minima of |f| to catch two close roots. A root is accepted
+only if the residual is ~0, so poles aren't mistaken for roots. For multiple valid roots
+it returns the smallest positive one.
+
+**Editor:** name, category (suggests existing ones), LaTeX with live preview, optional
+expression, variables (symbol / unit / description), tags, note. It validates live
+(symbol rules, reserved names, known units, every variable used, units balancing on both
+sides) and won't save until the formula is valid. New formulas get id `user/<slug>-<time>`.
+
+**Quality checks on the built-in set** (`formulas.test.ts`), which any new built-in must pass:
+KaTeX renders; every variable is used; units balance; **every denominator is a single term
+or a bracket** (implicit multiplication binds tighter than `/`, so `a / b c` = a/(bc); this
+caught real mistakes that units alone couldn't); and a **round trip**: solve each variable
+from the others and get the original value back. Formulas that need realistic magnitudes
+(exponentials of E/kT etc.) get explicit test values in `TEST_VALUES`.
 
 ### 3. EE toolbox (formula-based only, no topology solver)
 Dedicated calculators, each a thin UI over a known formula — explicitly **not** a general
@@ -251,7 +297,8 @@ this excellently). Instead, every place in the app that produces reusable conten
 one-click way to hand it to Obsidian rather than trying to replace it:
 - **Copy as Markdown**: formula library entries, calculator results, and EE toolbox results
   can be copied as Obsidian-flavored Markdown (using `$$...$$` KaTeX-compatible math blocks)
-  ready to paste directly into a vault note.
+  ready to paste directly into a vault note. *Done for formulas ("Copy for Obsidian");
+  calculator results currently copy as plain text.*
 - **Open in Obsidian** (stretch goal, not required for v1): if the user configures their
   vault name, a formula/result can optionally deep-link into Obsidian via the `obsidian://`
   URI scheme to jump to a related note.
@@ -280,8 +327,9 @@ one-click way to hand it to Obsidian rather than trying to replace it:
   `raised #1b1f27` (active/hover items, buttons), `line #252a34` (borders),
   `fg #e3e6ed` (text), `muted #858c9c` (secondary text), `accent #7aa2f7` (the single
   accent colour), `danger #f7768e` (errors).
-- **Buttons:** `.btn` (neutral, accent border on hover) and `.btn-primary` (filled accent),
-  defined in `src/app.css`.
+- **Controls** (in `src/app.css`): `.btn` (neutral, accent border on hover), `.btn-primary`
+  (filled accent), `.btn-sm`, `.field` (text inputs), `.label` (small uppercase section
+  labels).
 - **Window:** 1100×720 default, 760×520 minimum, dark native title bar, and a window
   background colour matching `base` so there's no white flash on startup.
 - **Motion:** fast, subtle transitions only (~100ms colour changes, no decorative
@@ -289,12 +337,13 @@ one-click way to hand it to Obsidian rather than trying to replace it:
 
 ## Current status
 
-- **Built:** the app shell (window, sidebar, first-launch data-folder picker, Settings page)
-  and the **Calculator** including vectors and physical constants (everything in its
-  section above). Rust
-  commands: `get_data_root`, `set_data_root`, `read_data_file`, `write_data_file`.
-- **Placeholders only:** Formulas and EE Toolbox pages show a title and summary.
-- **Not started:** Obsidian integration, Formulas, EE Toolbox.
+- **Built:** the app shell (window, sidebar, first-launch data-folder picker, Settings page),
+  the **Calculator** including vectors and physical constants, and the **Formula library**
+  (everything in their sections above). Rust commands: `get_data_root`, `set_data_root`,
+  `read_data_file`, `write_data_file`.
+- **Placeholders only:** the EE Toolbox page shows a title and summary.
+- **Not started:** EE Toolbox; the rest of Obsidian integration (Markdown copy of
+  calculator/toolbox results, optional `obsidian://` link).
 
 ## Development
 
@@ -311,7 +360,10 @@ Code layout: `src/routes/<module>/+page.svelte` is one page per module (`/` redi
 `/calculator`); `src/lib/` holds shared components, `dataRoot.svelte.ts` (data-folder
 state) and `dataFiles.ts` (data-file and `settings.json` helpers); `src/lib/calc/` is the
 calculator engine (`parse.ts` → `evaluate.ts` → `format.ts`, with `vector.ts` for vector
-maths, `math.ts` for the math.js instance, tests in `calc.test.ts`);
+maths, `math.ts` for the math.js instance, tests in `calc.test.ts`); `src/lib/formulas/`
+is the formula library (`builtin/*.txt` content, `builtin.ts` parser, `solve.ts` solver,
+`library.svelte.ts` merge/search/save, `present.ts` KaTeX/Markdown/scratchpad helpers,
+`FormulaDetail.svelte`, `FormulaEditor.svelte`, tests in `formulas.test.ts`);
 `src/routes/+layout.svelte` is the shell and first-launch gate; `src-tauri/` is the Rust
 side.
 
@@ -379,3 +431,13 @@ resolution into the relevant section above).
   depended on earlier input) replaced by the fixed SI system, with user-typed units kept as
   typed; and automatic prefixes limited to p–T (mass µg–kg), so tiny constants show as
   × 10ⁿ in the base unit instead of zC/rg/ymol⁻¹.
+- 2026-09-26: Built the Formula library. User decisions: a solve panel plus send-to-calculator;
+  built-in starter set with user additions stored separately; BSc + MSc breadth (~350,
+  delivered 420); browse by search only. Claude's decisions (open to change): built-ins as
+  per-category text files in the app; user formulas in one `formulas/my-formulas.json`
+  (replacing the earlier per-category-JSON idea); numeric root-finding solver; live solving
+  with the result as the blank field's placeholder; in-app editor with live validation;
+  energies in quantum/statistical/semiconductor formulas declared in eV; formulas use `g_n`
+  (standard gravity) for near-Earth mechanics but take g as an input for pendulums, fluids
+  and planets. Also made the calculator treat radians as dimensionless in +/−, which the
+  damped-oscillator formula needed.

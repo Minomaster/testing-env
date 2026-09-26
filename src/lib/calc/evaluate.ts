@@ -1,7 +1,7 @@
 import type { Complex, Unit } from "mathjs";
-import { absNumber, add, div, isUnitName, keepAsTyped, loose, math, mul, neg, normalizeUnitExpr, pow, sub, unitNamed, type Scalar } from "./math";
+import { absNumber, add, alignAngles, div,isUnitName, keepAsTyped, loose, math, mul, neg, normalizeUnitExpr, pow, sub, unitNamed, type Scalar } from "./math";
 import { PHYSICAL_CONSTANTS } from "./constants";
-import { CalcError, FUNCTION_NAMES, parseLine, type Node } from "./parse";
+import { CalcError, FUNCTION_NAMES, parseExpression, parseLine, type Node } from "./parse";
 import {
   Vector, addVectors, angleBetween, convertVector, cross, dot, isVector, magnitude, negate, project, scale, unitVector, vectorFrom,
 } from "./vector";
@@ -198,7 +198,10 @@ function addSub(a: Quantity, b: Quantity, op: "+" | "-"): Quantity {
   let value: Value;
   if (isVector(a.value) && isVector(b.value)) value = addVectors(a.value, b.value, op);
   else if (isVector(a.value) || isVector(b.value)) throw new CalcError(`Can't ${op === "+" ? "add" : "subtract"} a vector and a number`);
-  else value = op === "+" ? add(a.value, b.value) : sub(a.value, b.value);
+  else {
+    const [x, y] = alignAngles(a.value, b.value);
+    value = op === "+" ? add(x, y) : sub(x, y);
+  }
 
   if (!isFinite(a.sf) && !isFinite(b.sf)) return exact(value);
   return { value, sf: sfAtPlace(value, Math.max(lastPlace(a), lastPlace(b))) };
@@ -316,10 +319,20 @@ function evaluateLine(src: string, ctx: Context): LineResult {
   return { kind: "value", quantity, name: line.assign };
 }
 
-function errorMessage(e: unknown): string {
+export function errorMessage(e: unknown): string {
   const message = e instanceof Error ? e.message : String(e);
   if (/Units do not match/i.test(message)) return "Units don't match";
   return message.replace(/\.$/, "");
+}
+
+/** Evaluates a parsed expression with the given variables (used by the formula solver). */
+export function evaluateNode(node: Node, vars: Map<string, Quantity>, mode: AngleMode): Quantity {
+  return evalNode(node, { vars, mode });
+}
+
+/** Evaluates a single input such as "25.0 mA" or "q_e"; throws CalcError on bad input. */
+export function evaluateInput(src: string, mode: AngleMode): Quantity {
+  return evalNode(parseExpression(src), { vars: new Map(), mode });
 }
 
 export function evaluateSheet(text: string, mode: AngleMode): LineResult[] {
