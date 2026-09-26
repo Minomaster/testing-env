@@ -10,7 +10,7 @@
   import { solve, unitOf } from "./solve";
   import type { LibraryFormula, Variable } from "./types";
 
-  let { formula, mode, onEdit }: { formula: LibraryFormula; mode: AngleMode; onEdit: () => void } = $props();
+  let { formula, mode, onEdit }: { formula: LibraryFormula; mode: AngleMode; onEdit?: () => void } = $props();
 
   let inputs = $state<Record<string, string>>({});
   let copied = $state(false);
@@ -89,7 +89,7 @@
     </div>
     <div class="flex shrink-0 gap-2">
       <button class="btn btn-sm" onclick={copyForObsidian}>{copied ? "Copied" : "Copy for Obsidian"}</button>
-      <button class="btn btn-sm" onclick={onEdit}>Edit</button>
+      {#if onEdit}<button class="btn btn-sm" onclick={onEdit}>Edit</button>{/if}
       {#if formula.source !== "builtin"}
         <button class="btn btn-sm" onclick={remove} onblur={() => (confirmRemove = false)}>
           {confirmRemove ? "Click again to confirm" : formula.source === "edited" ? "Reset to built-in" : "Delete"}

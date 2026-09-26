@@ -281,15 +281,15 @@ from the others and get the original value back. Formulas that need realistic ma
 (exponentials of E/kT etc.) get explicit test values in `TEST_VALUES`.
 
 ### 3. EE toolbox (formula-based only, no topology solver)
-Dedicated calculators, each a thin UI over a known formula — explicitly **not** a general
-circuit solver:
-- Ohm's law / Kirchhoff's voltage & current law helpers
-- Series/parallel combination for R, L, C
-- RC / RL / RLC time constant and cutoff-frequency calculators
-- Impedance & phasor calculator (leans on the complex-number engine above)
-- Resistor color-code decoder/encoder
-- dB / gain / power ratio conversions
-- Voltage divider calculator
+A list of tools on the left (`src/routes/ee/+page.svelte`), explicitly **not** a circuit solver:
+- **Resistor colour code** (`src/lib/ee/ColourCode.svelte`): 4/5/6 bands, pick colours →
+  value ± tolerance (+ tempco for 6 bands), or type a value (`4.7 kΩ`) → bands.
+- **Series & parallel** for R, L or C: list of values (calculator input), shows both
+  combinations with sig figs (capacitors combine the opposite way).
+- **Series RLC impedance**: R, L, C (blank = component absent), f → Z in both complex forms.
+- The rest reuse built-in formulas through the formula solve panel: Ohm's law, power,
+  voltage/current divider, RC/RL time constants, RC/RL cutoff, LC resonance, X_C, X_L,
+  dB (power / voltage), dBm, LED series resistor. Toolbox → formula ids are listed in `TOOLS`.
 
 ### 4. Obsidian integration (cross-cutting, not a standalone module)
 The app deliberately does not have a notes feature (the user's Obsidian setup already covers
@@ -341,9 +341,8 @@ one-click way to hand it to Obsidian rather than trying to replace it:
   the **Calculator** including vectors and physical constants, and the **Formula library**
   (everything in their sections above). Rust commands: `get_data_root`, `set_data_root`,
   `read_data_file`, `write_data_file`.
-- **Placeholders only:** the EE Toolbox page shows a title and summary.
-- **Not started:** EE Toolbox; the rest of Obsidian integration (Markdown copy of
-  calculator/toolbox results, optional `obsidian://` link).
+- **EE Toolbox** built. All three modules are done.
+- **Not started (optional):** Markdown copy of calculator/toolbox results, `obsidian://` link.
 
 ## Development
 
@@ -441,3 +440,7 @@ resolution into the relevant section above).
   (standard gravity) for near-Earth mechanics but take g as an input for pendulums, fluids
   and planets. Also made the calculator treat radians as dimensionless in +/−, which the
   damped-oscillator formula needed.
+- 2026-09-26: Built the EE Toolbox (user asked to "just have it work", no questions): colour
+  code, series/parallel, RLC impedance, plus formula-backed tools. Fixed sig-fig exponent
+  for float noise (10 µF stored as 9.99…e-6 gained a digit). User prefers lean work:
+  minimal tokens, no extras.

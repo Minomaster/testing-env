@@ -32,7 +32,8 @@ const RESERVED = new Set([...Object.keys(CONSTANTS), ...FUNCTION_NAMES, "ans", "
 type Context = { vars: Map<string, Quantity>; ans?: Quantity; mode: AngleMode };
 
 export function exponent10(x: number): number {
-  return x === 0 ? 0 : Number(Math.abs(x).toExponential().split("e")[1]);
+  // 12 digits so float noise like 9.999999999999999e-6 (from 10 µF) counts as 1e-5.
+  return x === 0 ? 0 : Number(Math.abs(x).toExponential(12).split("e")[1]);
 }
 
 /** Magnitude in SI base units (math.js stores Unit values in SI internally). */
