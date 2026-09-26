@@ -1,0 +1,129 @@
+@category Maths
+
+= Quadratic formula
+latex: x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+note: Roots of a x² + b x + c = 0. Reference only; solve a specific quadratic in the calculator.
+tags: algebra, roots, polynomial
+
+= Pythagorean theorem
+latex: c^2 = a^2 + b^2
+expr: c_h^2 = a^2 + b^2
+v: c_h | 1 | hypotenuse
+v: a | 1 | first leg
+v: b | 1 | second leg
+tags: geometry, triangle, right angle
+
+= Law of cosines
+latex: c^2 = a^2 + b^2 - 2ab\cos\gamma
+expr: c_s^2 = a^2 + b^2 - 2 a b cos(γ)
+v: c_s | 1 | side opposite γ
+v: a | 1 | side a
+v: b | 1 | side b
+v: γ | rad | angle between a and b
+tags: geometry, triangle, trigonometry
+
+= Law of sines
+latex: \frac{a}{\sin\alpha} = \frac{b}{\sin\beta}
+expr: a / sin(α_a) = b / sin(β_b)
+v: a | 1 | side opposite α
+v: α_a | rad | angle opposite a
+v: b | 1 | side opposite β
+v: β_b | rad | angle opposite b
+tags: geometry, triangle, trigonometry
+
+= Pythagorean identity
+latex: \sin^2\theta + \cos^2\theta = 1
+tags: trigonometry, identity
+
+= Double-angle identities
+latex: \sin 2\theta = 2\sin\theta\cos\theta,\quad \cos 2\theta = \cos^2\theta - \sin^2\theta
+tags: trigonometry, identity
+
+= Angle-sum identities
+latex: \sin(a \pm b) = \sin a\cos b \pm \cos a\sin b,\quad \cos(a \pm b) = \cos a\cos b \mp \sin a\sin b
+tags: trigonometry, identity
+
+= Euler's formula
+latex: e^{i\theta} = \cos\theta + i\sin\theta
+note: Basis of phasor notation: A∠θ = A e^{iθ}.
+tags: complex, phasor, exponential
+
+= Logarithm rules
+latex: \ln(ab) = \ln a + \ln b,\quad \ln\frac{a}{b} = \ln a - \ln b,\quad \ln a^n = n\ln a
+tags: logarithm, algebra
+
+= Change of logarithm base
+latex: \log_b x = \frac{\ln x}{\ln b}
+expr: y = ln(x) / ln(b)
+v: y | 1 | log base b of x
+v: x | 1 | argument
+v: b | 1 | base
+tags: logarithm
+
+= Small-angle approximations
+latex: \sin\theta \approx \tan\theta \approx \theta,\quad \cos\theta \approx 1 - \frac{\theta^2}{2}
+note: θ in radians; good to ~1% below about 14°.
+tags: approximation, trigonometry
+
+= Binomial approximation
+latex: (1 + x)^n \approx 1 + nx \quad (|x| \ll 1)
+tags: approximation, series
+
+= Taylor series
+latex: f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x - a)^n
+tags: series, calculus
+
+= Circle circumference and area
+latex: C = 2\pi r,\quad A = \pi r^2
+expr: A = π r^2
+v: A | m^2 | area
+v: r | m | radius
+tags: geometry, circle
+
+= Arc length
+latex: s = r\theta
+expr: s = r θ
+v: s | m | arc length
+v: r | m | radius
+v: θ | rad | angle subtended
+tags: geometry, circle, angle
+
+= Sphere surface area
+latex: A = 4\pi r^2
+expr: A = 4 π r^2
+v: A | m^2 | surface area
+v: r | m | radius
+tags: geometry, sphere
+
+= Sphere volume
+latex: V = \frac{4}{3}\pi r^3
+expr: V = 4 π r^3 / 3
+v: V | m^3 | volume
+v: r | m | radius
+tags: geometry, sphere
+
+= Cylinder volume
+latex: V = \pi r^2 h
+expr: V = π r^2 h
+v: V | m^3 | volume
+v: r | m | radius
+v: h | m | height
+tags: geometry, cylinder
+
+= Dot product
+latex: \vec a \cdot \vec b = |\vec a||\vec b|\cos\theta = a_x b_x + a_y b_y + a_z b_z
+note: In the calculator: dot(a, b).
+tags: vector, linear algebra
+
+= Cross product
+latex: |\vec a \times \vec b| = |\vec a||\vec b|\sin\theta
+note: In the calculator: cross(a, b).
+tags: vector, linear algebra
+
+= Integration by parts
+latex: \int u\,dv = uv - \int v\,du
+tags: calculus, integral
+
+= Fundamental theorem of calculus
+latex: \int_a^b f'(x)\,dx = f(b) - f(a)
+tags: calculus, integral, derivative

@@ -1,0 +1,114 @@
+@category Fluids
+
+= Hydrostatic pressure
+latex: p = p_0 + \rho g h
+expr: p = p_0 + ρ g h
+v: p | Pa | pressure at depth
+v: p_0 | Pa | surface pressure
+v: ρ | kg/m^3 | fluid density
+v: g | m/s^2 | gravitational acceleration
+v: h | m | depth
+tags: fluids, pressure
+
+= Buoyant force (Archimedes)
+latex: F_b = \rho_f V g
+expr: F_b = ρ V g
+v: F_b | N | buoyant force
+v: ρ | kg/m^3 | fluid density
+v: V | m^3 | displaced volume
+v: g | m/s^2 | gravitational acceleration
+tags: fluids, buoyancy, force
+
+= Continuity equation
+latex: A_1 v_1 = A_2 v_2
+expr: A_1 v_1 = A_2 v_2
+v: A_1 | m^2 | area at point 1
+v: v_1 | m/s | speed at point 1
+v: A_2 | m^2 | area at point 2
+v: v_2 | m/s | speed at point 2
+tags: fluids, flow
+
+= Volume flow rate
+latex: Q = Av
+expr: Q = A v
+v: Q | m^3/s | volume flow rate
+v: A | m^2 | cross-sectional area
+v: v | m/s | mean flow speed
+tags: fluids, flow
+
+= Bernoulli's equation
+latex: p_1 + \tfrac{1}{2}\rho v_1^2 + \rho g h_1 = p_2 + \tfrac{1}{2}\rho v_2^2 + \rho g h_2
+expr: p_1 + ρ v_1^2 / 2 + ρ g h_1 = p_2 + ρ v_2^2 / 2 + ρ g h_2
+v: p_1 | Pa | pressure at point 1
+v: ρ | kg/m^3 | density
+v: v_1 | m/s | speed at point 1
+v: g | m/s^2 | gravitational acceleration
+v: h_1 | m | height of point 1
+v: p_2 | Pa | pressure at point 2
+v: v_2 | m/s | speed at point 2
+v: h_2 | m | height of point 2
+tags: fluids, flow, energy
+
+= Torricelli's law
+latex: v = \sqrt{2gh}
+expr: v = sqrt(2 g h)
+v: v | m/s | outflow speed
+v: g | m/s^2 | gravitational acceleration
+v: h | m | liquid height above the opening
+tags: fluids, flow
+
+= Poiseuille's law
+latex: Q = \frac{\pi r^4 \Delta p}{8 \eta L}
+expr: Q = π r^4 Δp / (8 η L)
+v: Q | m^3/s | volume flow rate
+v: r | m | pipe radius
+v: Δp | Pa | pressure difference
+v: η | Pa s | dynamic viscosity
+v: L | m | pipe length
+tags: fluids, viscosity, flow
+
+= Reynolds number
+latex: Re = \frac{\rho v L}{\eta}
+expr: Re = ρ v L / η
+v: Re | 1 | Reynolds number (turbulent above ~2300 in pipes)
+v: ρ | kg/m^3 | density
+v: v | m/s | flow speed
+v: L | m | characteristic length
+v: η | Pa s | dynamic viscosity
+tags: fluids, turbulence, flow
+
+= Stokes' drag
+latex: F_d = 6\pi\eta r v
+expr: F_d = 6 π η r v
+v: F_d | N | drag force on a sphere
+v: η | Pa s | dynamic viscosity
+v: r | m | sphere radius
+v: v | m/s | speed
+tags: fluids, drag, viscosity
+
+= Drag equation
+latex: F_d = \tfrac{1}{2}\rho v^2 C_d A
+expr: F_d = ρ v^2 C_d A / 2
+v: F_d | N | drag force
+v: ρ | kg/m^3 | fluid density
+v: v | m/s | speed
+v: C_d | 1 | drag coefficient
+v: A | m^2 | reference area
+tags: fluids, drag, aerodynamics
+
+= Young–Laplace pressure (bubble or drop)
+latex: \Delta p = \frac{2\gamma}{r}
+expr: Δp = 2 γ / r
+v: Δp | Pa | pressure difference across the surface
+v: γ | N/m | surface tension
+v: r | m | radius
+tags: fluids, surface tension
+
+= Pascal's principle (hydraulic press)
+latex: \frac{F_1}{A_1} = \frac{F_2}{A_2}
+expr: F_1 / A_1 = F_2 / A_2
+v: F_1 | N | input force
+v: A_1 | m^2 | input piston area
+v: F_2 | N | output force
+v: A_2 | m^2 | output piston area
+tags: fluids, pressure, hydraulics

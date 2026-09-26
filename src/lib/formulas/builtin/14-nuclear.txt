@@ -1,0 +1,81 @@
+@category Nuclear physics
+
+= Radioactive decay
+latex: N = N_0 e^{-\lambda t}
+expr: N = N_0 exp(-λ t)
+v: N | 1 | remaining nuclei
+v: N_0 | 1 | initial nuclei
+v: λ | s^-1 | decay constant
+v: t | s | time
+tags: nuclear, decay, radioactivity
+
+= Decay with half-life
+latex: N = N_0\left(\tfrac{1}{2}\right)^{t/t_{1/2}}
+expr: N = N_0 0.5^(t / t_half)
+v: N | 1 | remaining nuclei (or activity, mass)
+v: N_0 | 1 | initial amount
+v: t | s | time
+v: t_half | s | half-life
+tags: nuclear, decay, half-life
+
+= Half-life and decay constant
+latex: t_{1/2} = \frac{\ln 2}{\lambda}
+expr: t_half = ln(2) / λ
+v: t_half | s | half-life
+v: λ | s^-1 | decay constant
+tags: nuclear, decay, half-life
+
+= Mean lifetime
+latex: \tau = \frac{1}{\lambda}
+expr: τ = 1 / λ
+v: τ | s | mean lifetime
+v: λ | s^-1 | decay constant
+tags: nuclear, decay
+
+= Activity
+latex: A = \lambda N
+expr: A = λ N
+v: A | Hz | activity in becquerel (decays per second)
+v: λ | s^-1 | decay constant
+v: N | 1 | number of nuclei
+tags: nuclear, decay, activity
+
+= Binding energy from mass defect
+latex: E_B = \Delta m\,c^2
+expr: E_B = Δm c^2
+v: E_B | eV | binding energy
+v: Δm | kg | mass defect
+note: 1 u of mass defect ≈ 931.494 MeV. In the calculator: 1 u * c^2 to MeV.
+tags: nuclear, binding energy, relativity
+
+= Nuclear radius
+latex: R = R_0 A^{1/3},\quad R_0 \approx 1.2\ \mathrm{fm}
+expr: r = 1.2e-15 m A^(1/3)
+v: r | m | nuclear radius
+v: A | 1 | mass number
+tags: nuclear, nucleus
+
+= Absorbed dose
+latex: D = \frac{E}{m}
+expr: D = E / m
+v: D | J/kg | absorbed dose in gray
+v: E | J | absorbed energy
+v: m | kg | mass
+tags: nuclear, radiation, dosimetry
+
+= Equivalent dose
+latex: H = w_R D
+expr: H = w_R D
+v: H | J/kg | equivalent dose in sievert
+v: w_R | 1 | radiation weighting factor (1 for γ/β, 20 for α)
+v: D | J/kg | absorbed dose in gray
+tags: nuclear, radiation, dosimetry
+
+= Attenuation of radiation
+latex: I = I_0 e^{-\mu x}
+expr: I = I_0 exp(-µ x)
+v: I | W/m^2 | transmitted intensity
+v: I_0 | W/m^2 | incident intensity
+v: µ | m^-1 | linear attenuation coefficient
+v: x | m | thickness
+tags: nuclear, radiation, shielding

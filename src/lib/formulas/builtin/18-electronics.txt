@@ -1,0 +1,196 @@
+@category Electronics
+
+= Inverting amplifier gain
+latex: A_v = -\frac{R_f}{R_\text{in}}
+expr: A_v = -R_f / R_in
+v: A_v | 1 | voltage gain
+v: R_f | Ω | feedback resistor
+v: R_in | Ω | input resistor
+tags: op-amp, amplifier, gain
+
+= Non-inverting amplifier gain
+latex: A_v = 1 + \frac{R_f}{R_g}
+expr: A_v = 1 + R_f / R_g
+v: A_v | 1 | voltage gain
+v: R_f | Ω | feedback resistor
+v: R_g | Ω | resistor to ground
+tags: op-amp, amplifier, gain
+
+= Summing amplifier (two inputs)
+latex: V_\text{out} = -R_f\left(\frac{V_1}{R_1} + \frac{V_2}{R_2}\right)
+expr: V_out = -R_f (V_1 / R_1 + V_2 / R_2)
+v: V_out | V | output voltage
+v: R_f | Ω | feedback resistor
+v: V_1 | V | input 1
+v: R_1 | Ω | input resistor 1
+v: V_2 | V | input 2
+v: R_2 | Ω | input resistor 2
+tags: op-amp, amplifier, summing
+
+= Difference amplifier
+latex: V_\text{out} = \frac{R_f}{R_1}(V_2 - V_1)
+expr: V_out = R_f (V_2 - V_1) / R_1
+v: V_out | V | output voltage
+v: R_f | Ω | feedback resistor (= R to ground on + input)
+v: V_2 | V | non-inverting input
+v: V_1 | V | inverting input
+v: R_1 | Ω | input resistors
+tags: op-amp, amplifier, differential
+
+= Op-amp integrator
+latex: V_\text{out}(t) = -\frac{1}{RC}\int_0^t V_\text{in}\,dt
+tags: op-amp, integrator
+
+= Op-amp differentiator
+latex: V_\text{out} = -RC\frac{dV_\text{in}}{dt}
+tags: op-amp, differentiator
+
+= Gain–bandwidth product
+latex: f_{-3\,\mathrm{dB}} = \frac{\mathrm{GBW}}{A_v}
+expr: f_c = GBW / A_v
+v: f_c | Hz | closed-loop bandwidth
+v: GBW | Hz | gain–bandwidth product
+v: A_v | 1 | closed-loop gain
+tags: op-amp, bandwidth
+
+= Slew-rate-limited frequency
+latex: f_{\max} =\frac{SR}{2\pi V_p}
+expr: f_max = SR / (2 π V_p)
+v: f_max | Hz | full-power bandwidth
+v: SR | V/s | slew rate
+v: V_p | V | output amplitude
+tags: op-amp, slew rate, bandwidth
+
+= BJT current gain
+latex: I_C = \beta I_B
+expr: I_C = β I_B
+v: I_C | A | collector current
+v: β | 1 | current gain (h_FE)
+v: I_B | A | base current
+tags: bjt, transistor
+
+= BJT emitter current
+latex: I_E = I_C + I_B
+expr: I_E = I_C + I_B
+v: I_E | A | emitter current
+v: I_C | A | collector current
+v: I_B | A | base current
+tags: bjt, transistor, kcl
+
+= BJT alpha and beta
+latex: \alpha = \frac{\beta}{\beta + 1}
+expr: α_T = β / (β + 1)
+v: α_T | 1 | common-base current gain
+v: β | 1 | common-emitter current gain
+tags: bjt, transistor
+
+= BJT transconductance
+latex: g_m = \frac{I_C}{V_T}
+expr: g_m = I_C q_e / (k_B T)
+v: g_m | S | transconductance
+v: I_C | A | collector bias current
+v: T | K | temperature
+tags: bjt, transistor, small signal
+
+= BJT input resistance
+latex: r_\pi = \frac{\beta}{g_m}
+expr: r_π = β / g_m
+v: r_π | Ω | small-signal base resistance
+v: β | 1 | current gain
+v: g_m | S | transconductance
+tags: bjt, transistor, small signal
+
+= Common-emitter voltage gain
+latex: A_v \approx -g_m R_C
+expr: A_v = -g_m R_C
+v: A_v | 1 | voltage gain (no emitter degeneration)
+v: g_m | S | transconductance
+v: R_C | Ω | collector load resistance
+tags: bjt, amplifier, gain, small signal
+
+= MOSFET saturation current
+latex: I_D = \tfrac{1}{2}k_n(V_{GS} - V_{th})^2
+expr: I_D = k_n (V_GS - V_th)^2 / 2
+v: I_D | A | drain current
+v: k_n | A/V^2 | process transconductance × W/L
+v: V_GS | V | gate–source voltage
+v: V_th | V | threshold voltage
+tags: mosfet, transistor
+
+= MOSFET triode current
+latex: I_D = k_n\left[(V_{GS} - V_{th})V_{DS} - \tfrac{1}{2}V_{DS}^2\right]
+expr: I_D = k_n ((V_GS - V_th) V_DS - V_DS^2 / 2)
+v: I_D | A | drain current
+v: k_n | A/V^2 | process transconductance × W/L
+v: V_GS | V | gate–source voltage
+v: V_th | V | threshold voltage
+v: V_DS | V | drain–source voltage (< V_GS − V_th)
+tags: mosfet, transistor
+
+= MOSFET transconductance
+latex: g_m = \frac{2I_D}{V_{GS} - V_{th}}
+expr: g_m = 2 I_D / (V_GS - V_th)
+v: g_m | S | transconductance
+v: I_D | A | drain current
+v: V_GS | V | gate–source voltage
+v: V_th | V | threshold voltage
+tags: mosfet, transistor, small signal
+
+= LED series resistor
+latex: R = \frac{V_s - V_f}{I_f}
+expr: R = (V_s - V_f) / I_f
+v: R | Ω | series resistor
+v: V_s | V | supply voltage
+v: V_f | V | LED forward voltage
+v: I_f | A | LED current
+tags: led, resistor, diode
+
+= Zener regulator series resistor
+latex: R = \frac{V_\text{in} - V_Z}{I_Z + I_L}
+expr: R = (V_in - V_Z) / (I_Z + I_L)
+v: R | Ω | series resistor
+v: V_in | V | input voltage
+v: V_Z | V | zener voltage
+v: I_Z | A | zener current
+v: I_L | A | load current
+tags: zener, regulator, diode
+
+= Half-wave rectifier average voltage
+latex: V_\text{avg} = \frac{V_p}{\pi}
+expr: V_avg = V_p / π
+v: V_avg | V | average output voltage
+v: V_p | V | peak voltage
+tags: rectifier, diode, power supply
+
+= Full-wave rectifier average voltage
+latex: V_\text{avg} = \frac{2V_p}{\pi}
+expr: V_avg = 2 V_p / π
+v: V_avg | V | average output voltage
+v: V_p | V | peak voltage
+tags: rectifier, diode, power supply
+
+= Rectifier ripple voltage
+latex: V_r \approx \frac{I}{fC}
+expr: V_r = I / (f C)
+v: V_r | V | peak-to-peak ripple
+v: I | A | load current
+v: f | Hz | ripple frequency (2× mains for full-wave)
+v: C | F | smoothing capacitance
+tags: rectifier, power supply, capacitor
+
+= 555 astable frequency
+latex: f = \frac{1.44}{(R_1 + 2R_2)C}
+expr: f = 1.44 / ((R_1 + 2 R_2) C)
+v: f | Hz | oscillation frequency
+v: R_1 | Ω | resistor R1
+v: R_2 | Ω | resistor R2
+v: C | F | timing capacitor
+tags: 555, timer, oscillator
+
+= Wien bridge oscillator frequency
+latex: f = \frac{1}{2\pi RC}
+expr: f = 1 / (2 π R C)
+v: f | Hz | oscillation frequency
+v: R | Ω | resistance
+v: C | F | capacitance
+tags: oscillator, rc

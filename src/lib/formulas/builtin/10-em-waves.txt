@@ -1,0 +1,150 @@
+@category EM waves & transmission lines
+
+= Speed of light from ε₀ and μ₀
+latex: c = \frac{1}{\sqrt{\mu_0\varepsilon_0}}
+note: Evaluates to 299 792 458 m/s; the calculator has it as c.
+tags: em waves, light, maxwell
+
+= Phase velocity in a medium
+latex: v = \frac{c}{n} = \frac{1}{\sqrt{\mu\varepsilon}}
+expr: v = c / sqrt(ε_r µ_r)
+v: v | m/s | phase velocity
+v: ε_r | 1 | relative permittivity
+v: µ_r | 1 | relative permeability
+tags: em waves, dielectric, velocity
+
+= Refractive index from permittivity
+latex: n = \sqrt{\varepsilon_r\mu_r}
+expr: n = sqrt(ε_r µ_r)
+v: n | 1 | refractive index
+v: ε_r | 1 | relative permittivity
+v: µ_r | 1 | relative permeability
+tags: em waves, optics, dielectric
+
+= E and B amplitudes in a plane wave
+latex: E = cB
+expr: E = c B
+v: E | V/m | electric field amplitude
+v: B | T | magnetic field amplitude
+tags: em waves, plane wave
+
+= Intensity of a plane wave
+latex: I = \tfrac{1}{2}c\varepsilon_0 E_0^2
+expr: I = c ε_0 E_0^2 / 2
+v: I | W/m^2 | time-averaged intensity
+v: E_0 | V/m | electric field amplitude
+tags: em waves, intensity, energy
+
+= Radiation pressure
+latex: p = \frac{I}{c}\ \text{(absorbed)},\quad p = \frac{2I}{c}\ \text{(reflected)}
+expr: p = I / c
+v: p | Pa | radiation pressure on a perfect absorber
+v: I | W/m^2 | intensity
+tags: em waves, pressure, light
+
+= Photon energy flux to photon rate
+latex: \dot N = \frac{P\lambda}{hc}
+expr: N_rate = P λ / (h_P c)
+v: N_rate | s^-1 | photons per second
+v: P | W | optical power
+v: λ | m | wavelength
+tags: em waves, photons, light
+
+= Skin depth
+latex: \delta = \sqrt{\frac{2\rho}{\omega\mu}}
+expr: δ = sqrt(2 ρ / (2 π f µ_0 µ_r))
+v: δ | m | skin depth
+v: ρ | Ω m | resistivity
+v: f | Hz | frequency
+v: µ_r | 1 | relative permeability
+tags: em waves, conductor, skin effect, ac
+
+= Characteristic impedance of a lossless line
+latex: Z_0 = \sqrt{\frac{L'}{C'}}
+expr: Z_c = sqrt(L_l / C_l)
+v: Z_c | Ω | characteristic impedance
+v: L_l | H/m | inductance per metre
+v: C_l | F/m | capacitance per metre
+tags: transmission line, impedance
+
+= Phase velocity on a lossless line
+latex: v_p = \frac{1}{\sqrt{L'C'}}
+expr: v_p = 1 / sqrt(L_l C_l)
+v: v_p | m/s | phase velocity
+v: L_l | H/m | inductance per metre
+v: C_l | F/m | capacitance per metre
+tags: transmission line, velocity
+
+= Coaxial cable impedance
+latex: Z_0 = \frac{\eta_0}{2\pi\sqrt{\varepsilon_r}}\ln\frac{D}{d} \approx \frac{60\,\Omega}{\sqrt{\varepsilon_r}}\ln\frac{D}{d}
+expr: Z_c = Z_0 ln(D / d) / (2 π sqrt(ε_r))
+v: Z_c | Ω | characteristic impedance
+v: ε_r | 1 | dielectric relative permittivity
+v: D | m | inner diameter of the outer conductor
+v: d | m | diameter of the inner conductor
+note: Z_0 here is the impedance of free space (≈ 376.73 Ω).
+tags: transmission line, coax, impedance
+
+= Reflection coefficient
+latex: \Gamma = \frac{Z_L - Z_0}{Z_L + Z_0}
+expr: Γ = (Z_L - Z_c) / (Z_L + Z_c)
+v: Γ | 1 | reflection coefficient (resistive load)
+v: Z_L | Ω | load impedance
+v: Z_c | Ω | line characteristic impedance
+note: For complex loads, compute Γ in the calculator with complex impedances.
+tags: transmission line, reflection, matching
+
+= Voltage standing wave ratio
+latex: \mathrm{VSWR} = \frac{1 + |\Gamma|}{1 - |\Gamma|}
+expr: VSWR = (1 + Γ) / (1 - Γ)
+v: VSWR | 1 | voltage standing wave ratio
+v: Γ | 1 | magnitude of the reflection coefficient
+tags: transmission line, reflection, matching
+
+= Return loss
+latex: RL = -20\log_{10}|\Gamma|
+expr: RL = -20 log(Γ)
+v: RL | 1 | return loss in dB
+v: Γ | 1 | magnitude of the reflection coefficient
+tags: transmission line, reflection, decibel
+
+= Quarter-wave transformer
+latex: Z_1 = \sqrt{Z_0 Z_L}
+expr: Z_1 = sqrt(Z_c Z_L)
+v: Z_1 | Ω | impedance of the quarter-wave section
+v: Z_c | Ω | line impedance
+v: Z_L | Ω | load impedance
+tags: transmission line, matching
+
+= Rectangular waveguide cutoff (TE₁₀)
+latex: f_c = \frac{c}{2a}
+expr: f_c = c / (2 a)
+v: f_c | Hz | cutoff frequency of the dominant mode
+v: a | m | broad wall width
+tags: waveguide, microwave
+
+= Free-space path loss
+latex: \mathrm{FSPL} = \left(\frac{4\pi d f}{c}\right)^2
+expr: FSPL = 20 log(4 π d f / c)
+v: FSPL | 1 | free-space path loss in dB
+v: d | m | distance
+v: f | Hz | frequency
+tags: antenna, propagation, rf, decibel
+
+= Friis transmission equation
+latex: \frac{P_r}{P_t} = G_t G_r\left(\frac{\lambda}{4\pi d}\right)^2
+expr: P_r = P_t G_t G_r (λ / (4 π d))^2
+v: P_r | W | received power
+v: P_t | W | transmitted power
+v: G_t | 1 | transmit antenna gain (linear)
+v: G_r | 1 | receive antenna gain (linear)
+v: λ | m | wavelength
+v: d | m | distance
+tags: antenna, propagation, rf
+
+= Half-wave dipole length
+latex: L \approx \frac{\lambda}{2} = \frac{c}{2f}
+expr: L = c / (2 f)
+v: L | m | dipole length (ignoring end effects, ≈ 5% shorter in practice)
+v: f | Hz | frequency
+tags: antenna, rf

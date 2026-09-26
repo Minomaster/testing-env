@@ -216,7 +216,15 @@ class Parser {
   }
 }
 
-const ASSIGNMENT = /^\s*([\p{L}_][\p{L}\p{N}_]*)\s*=(.*)$/u;
+/** A bare expression (no assignment, no `to` conversion), e.g. one side of a formula. */
+export function parseExpression(src: string): Node {
+  const { tokens, convertTo } = lex(src);
+  if (convertTo !== undefined) throw new CalcError('Unexpected "to"');
+  if (tokens.length === 0) throw new CalcError("Missing value");
+  return new Parser(tokens).parseAll();
+}
+
+const ASSIGNMENT =/^\s*([\p{L}_][\p{L}\p{N}_]*)\s*=(.*)$/u;
 
 export function parseLine(src: string): Line {
   const hash = src.indexOf("#");

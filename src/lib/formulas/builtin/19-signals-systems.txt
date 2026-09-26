@@ -1,0 +1,119 @@
+@category Signals & systems
+
+= Power ratio in decibels
+latex: G_\mathrm{dB} = 10\log_{10}\frac{P_2}{P_1}
+expr: G = 10 log(P_2 / P_1)
+v: G | 1 | gain in dB
+v: P_2 | W | output power
+v: P_1 | W | input power
+tags: decibel, gain, power
+
+= Voltage ratio in decibels
+latex: G_\mathrm{dB} = 20\log_{10}\frac{V_2}{V_1}
+expr: G = 20 log(V_2 / V_1)
+v: G | 1 | gain in dB
+v: V_2 | V | output amplitude
+v: V_1 | V | input amplitude
+tags: decibel, gain, voltage
+
+= Power in dBm
+latex: P_\mathrm{dBm} = 10\log_{10}\frac{P}{1\ \mathrm{mW}}
+expr: P_dBm = 10 log(P / (1 mW))
+v: P_dBm | 1 | power in dBm
+v: P | W | power
+tags: decibel, power, rf
+
+= Nyquist sampling rate
+latex: f_s \geq 2 f_{\max}
+expr: f_s = 2 f_max
+v: f_s | Hz | minimum sampling rate
+v: f_max | Hz | highest signal frequency
+tags: sampling, nyquist, adc
+
+= ADC resolution (step size)
+latex: \Delta = \frac{V_\mathrm{FS}}{2^N}
+expr: Δ = V_FS / 2^N
+v: Δ | V | voltage per LSB
+v: V_FS | V | full-scale range
+v: N | 1 | number of bits
+tags: adc, quantization, sampling
+
+= Quantization SNR
+latex: \mathrm{SQNR} \approx 6.02N + 1.76\ \mathrm{dB}
+expr: SQNR = 6.02 N + 1.76
+v: SQNR | 1 | signal-to-quantization-noise ratio in dB (full-scale sine)
+v: N | 1 | number of bits
+tags: adc, quantization, noise
+
+= Signal-to-noise ratio
+latex: \mathrm{SNR_{dB}} = 10\log_{10}\frac{P_s}{P_n}
+expr: SNR = 10 log(P_s / P_n)
+v: SNR | 1 | SNR in dB
+v: P_s | W | signal power
+v: P_n | W | noise power
+tags: noise, snr, decibel
+
+= Thermal (Johnson) noise voltage
+latex: v_n = \sqrt{4 k_B T R\,\Delta f}
+expr: v_n = sqrt(4 k_B T R Δf)
+v: v_n | V | RMS noise voltage
+v: T | K | temperature
+v: R | Ω | resistance
+v: Δf | Hz | bandwidth
+tags: noise, thermal noise, resistor
+
+= Rise time and bandwidth
+latex: t_r \approx \frac{0.35}{BW}
+expr: t_r = 0.35 / BW
+v: t_r | s | 10–90% rise time
+v: BW | Hz | −3 dB bandwidth (first-order system)
+tags: bandwidth, step response, time domain
+
+= First-order step response
+latex: y(t) = K\left(1 - e^{-t/\tau}\right)
+expr: y = K (1 - exp(-t / τ))
+v: y | 1 | output (in units of the input step)
+v: K | 1 | DC gain
+v: t | s | time
+v: τ | s | time constant
+tags: step response, first order, transient
+
+= Fourier transform
+latex: X(f) = \int_{-\infty}^{\infty} x(t)\,e^{-j2\pi ft}\,dt
+tags: fourier, transform, frequency domain
+
+= Inverse Fourier transform
+latex: x(t) = \int_{-\infty}^{\infty} X(f)\,e^{j2\pi ft}\,df
+tags: fourier, transform
+
+= Fourier series
+latex: x(t) = a_0 + \sum_{n=1}^{\infty}\left[a_n\cos(n\omega_0 t) + b_n\sin(n\omega_0 t)\right]
+tags: fourier, series, periodic
+
+= Laplace transform
+latex: F(s) = \int_0^{\infty} f(t)\,e^{-st}\,dt
+tags: laplace, transform, s-domain
+
+= Z-transform
+latex: X(z) = \sum_{n=-\infty}^{\infty} x[n]\,z^{-n}
+tags: z-transform, discrete, dsp
+
+= Discrete Fourier transform
+latex: X[k] = \sum_{n=0}^{N-1} x[n]\,e^{-j2\pi kn/N}
+tags: dft, fft, discrete, dsp
+
+= Convolution
+latex: (x * h)(t) = \int_{-\infty}^{\infty} x(\tau)\,h(t - \tau)\,d\tau
+tags: convolution, lti, systems
+
+= Parseval's theorem
+latex: \int_{-\infty}^{\infty}|x(t)|^2\,dt = \int_{-\infty}^{\infty}|X(f)|^2\,df
+tags: fourier, energy
+
+= DFT frequency resolution
+latex: \Delta f = \frac{f_s}{N}
+expr: Δf = f_s / N
+v: Δf | Hz | bin spacing
+v: f_s | Hz | sampling rate
+v: N | 1 | number of samples
+tags: dft, fft, sampling, dsp

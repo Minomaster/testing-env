@@ -1,0 +1,70 @@
+@category Power & machines
+
+= DC motor back EMF
+latex: E = k\omega
+expr: EMF = k_m ω
+v: EMF | V | back EMF
+v: k_m | V s | motor constant
+v: ω | rad/s | shaft speed
+tags: motor, dc machine
+
+= DC motor torque
+latex: \tau = kI
+expr: τ = k_m I
+v: τ | N m | torque
+v: k_m | N m/A | motor (torque) constant
+v: I | A | armature current
+tags: motor, dc machine, torque
+
+= DC motor voltage equation
+latex: V = IR_a + k\omega
+expr: V = I R_a + k_m ω
+v: V | V | terminal voltage
+v: I | A | armature current
+v: R_a | Ω | armature resistance
+v: k_m | V s | motor constant
+v: ω | rad/s | shaft speed
+tags: motor, dc machine
+
+= Mechanical power
+latex: P = \tau\omega
+expr: P = τ ω
+v: P | W | mechanical power
+v: τ | N m | torque
+v: ω | rad/s | angular speed
+tags: motor, power, rotation
+
+= Synchronous speed
+latex: \omega_s = \frac{4\pi f}{p}
+expr: ω_s = 4 π f / p
+v: ω_s | rad/s | synchronous speed
+v: f | Hz | supply frequency
+v: p | 1 | number of poles
+note: In rpm: n_s = 120 f / p.
+tags: motor, induction machine, synchronous
+
+= Induction motor slip
+latex: s = \frac{n_s - n}{n_s}
+expr: s = (n_s - n) / n_s
+v: s | 1 | slip
+v: n_s | rad/s | synchronous speed
+v: n | rad/s | rotor speed
+tags: motor, induction machine
+
+= Transmission line loss
+latex: P_\text{loss} = I^2 R = \left(\frac{P}{V}\right)^2 R
+expr: P_loss = (P / V)^2 R
+v: P_loss | W | resistive loss
+v: P | W | delivered power
+v: V | V | transmission voltage
+v: R | Ω | line resistance
+tags: power, transmission, loss
+
+= Energy cost
+latex: \text{cost} = P\,t\cdot\text{price}
+expr: cost = P t price
+v: cost | 1 | cost (currency)
+v: P | W | power
+v: t | s | time
+v: price | J^-1 | price per joule (1 kWh = 3.6e6 J)
+tags: power, energy

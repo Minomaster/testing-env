@@ -50,7 +50,44 @@ export function div(a: unknown, b: unknown): Scalar {
   return math.isUnit(a) && !math.isUnit(b) ? copyForm(result, a) : result;
 }
 
-export const UNIT_ALIASES: Record<string, string> = { mph: "mi/h", kph: "km/h", kmh: "km/h" };
+const ANGLE_INDEX = (math.Unit as unknown as { BASE_DIMENSIONS: string[] }).BASE_DIMENSIONS.indexOf("ANGLE");
+const RAD = math.unit(1, "rad");
+
+function rawDimensions(v: unknown): number[] {
+  return math.isUnit(v) ? [...(v as unknown as { dimensions: number[] }).dimensions] : [];
+}
+
+/** Base dimensions with the angle exponent removed: radians are dimensionless (s = r θ is metres). */
+export function dimensionsWithoutAngle(v: unknown): number[] {
+  const dims = rawDimensions(v);
+  if (dims.length) dims[ANGLE_INDEX] = 0;
+  return dims;
+}
+
+export function sameDimensionIgnoringAngle(a: unknown, b: unknown): boolean {
+  const [da, db] = [dimensionsWithoutAngle(a), dimensionsWithoutAngle(b)];
+  return Array.from({ length: Math.max(da.length, db.length) }, (_, i) => Math.abs((da[i] ?? 0) - (db[i] ?? 0)) < 1e-12).every(Boolean);
+}
+
+/** Divides out any radians, e.g. rad/s → 1/s (the SI value is unchanged). */
+export function stripAngle(v: Scalar): Scalar {
+  const n = rawDimensions(v)[ANGLE_INDEX] ?? 0;
+  return n === 0 ? v : looseMul(v, pow(RAD, -n));
+}
+
+/**
+ * Makes quantities whose units differ only by radians (rad²/s² and 1/s²) addable. A pure angle
+ * plus a plain number stays an error, since "30° + 1" is ambiguous.
+ */
+export function alignAngles(a: Scalar, b: Scalar): [Scalar, Scalar] {
+  if (!math.isUnit(a) && !math.isUnit(b)) return [a, b];
+  const hasOtherDimensions = dimensionsWithoutAngle(a).some((d) => d !== 0) || dimensionsWithoutAngle(b).some((d) => d !== 0);
+  const differ = rawDimensions(a)[ANGLE_INDEX] !== rawDimensions(b)[ANGLE_INDEX];
+  if (!hasOtherDimensions || !differ || !sameDimensionIgnoringAngle(a, b)) return [a, b];
+  return [stripAngle(a), stripAngle(b)];
+}
+
+export const UNIT_ALIASES: Record<string, string> ={ mph: "mi/h", kph: "km/h", kmh: "km/h" };
 
 // Accepts the symbols people actually type (Ω, µ, °) and maps them to math.js unit names.
 export function normalizeUnitName(name: string): string {

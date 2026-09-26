@@ -1,0 +1,79 @@
+@category Special relativity
+
+= Lorentz factor
+latex: \gamma = \frac{1}{\sqrt{1 - v^2/c^2}}
+expr: γ = 1 / sqrt(1 - v^2 / c^2)
+v: γ | 1 | Lorentz factor
+v: v | m/s | speed
+tags: relativity, lorentz
+
+= Time dilation
+latex: \Delta t = \gamma\,\Delta t_0
+expr: Δt = Δt_0 / sqrt(1 - v^2 / c^2)
+v: Δt | s | time in the frame where the clock moves
+v: Δt_0 | s | proper time
+v: v | m/s | relative speed
+tags: relativity, time dilation
+
+= Length contraction
+latex: L = \frac{L_0}{\gamma}
+expr: L = L_0 sqrt(1 - v^2 / c^2)
+v: L | m | contracted length
+v: L_0 | m | proper length
+v: v | m/s | relative speed
+tags: relativity, length contraction
+
+= Relativistic momentum
+latex: p = \gamma m v
+expr: p = m v / sqrt(1 - v^2 / c^2)
+v: p | kg m/s | momentum
+v: m | kg | rest mass
+v: v | m/s | speed
+tags: relativity, momentum
+
+= Total relativistic energy
+latex: E = \gamma m c^2
+expr: E = m c^2 / sqrt(1 - v^2 / c^2)
+v: E | J | total energy
+v: m | kg | rest mass
+v: v | m/s | speed
+tags: relativity, energy
+
+= Mass–energy equivalence
+latex: E_0 = mc^2
+expr: E = m c^2
+v: E | J | rest energy
+v: m | kg | rest mass
+tags: relativity, energy, nuclear
+
+= Relativistic kinetic energy
+latex: K = (\gamma - 1)mc^2
+expr: K = (1 / sqrt(1 - v^2 / c^2) - 1) m c^2
+v: K | J | kinetic energy
+v: v | m/s | speed
+v: m | kg | rest mass
+tags: relativity, energy
+
+= Energy–momentum relation
+latex: E^2 = (pc)^2 + (mc^2)^2
+expr: E^2 = (p c)^2 + (m c^2)^2
+v: E | J | total energy
+v: p | kg m/s | momentum
+v: m | kg | rest mass
+tags: relativity, energy, momentum
+
+= Relativistic velocity addition
+latex: u = \frac{v + u'}{1 + vu'/c^2}
+expr: u = (v + u_p) / (1 + v u_p / c^2)
+v: u | m/s | velocity in the ground frame
+v: v | m/s | frame velocity
+v: u_p | m/s | velocity in the moving frame
+tags: relativity, velocity
+
+= Relativistic Doppler effect
+latex: f_o = f_s\sqrt{\frac{1 + \beta}{1 - \beta}},\quad \beta = \frac{v}{c}
+expr: f_o = f_s sqrt((1 + v / c) / (1 - v / c))
+v: f_o | Hz | observed frequency
+v: f_s | Hz | source frequency
+v: v | m/s | approach speed (negative when receding)
+tags: relativity, doppler, light

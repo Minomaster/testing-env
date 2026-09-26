@@ -1,0 +1,142 @@
+@category Quantum & atomic physics
+
+= Photon energy (frequency)
+latex: E = hf
+expr: E = h_P f
+v: E | J | photon energy
+v: f | Hz | frequency
+tags: quantum, photon
+
+= Photon energy (wavelength)
+latex: E = \frac{hc}{\lambda}
+expr: E = h_P c / λ
+v: E | eV | photon energy
+v: λ | m | wavelength
+tags: quantum, photon, light
+
+= Photon momentum
+latex: p = \frac{h}{\lambda}
+expr: p = h_P / λ
+v: p | kg m/s | photon momentum
+v: λ | m | wavelength
+tags: quantum, photon, momentum
+
+= de Broglie wavelength
+latex: \lambda = \frac{h}{p} = \frac{h}{mv}
+expr: λ = h_P / (m v)
+v: λ | m | matter wavelength
+v: m | kg | mass
+v: v | m/s | speed
+tags: quantum, de broglie, wave-particle
+
+= Photoelectric effect
+latex: K_\text{max} = hf - \phi
+expr: K = h_P f - φ
+v: K | eV | maximum kinetic energy of emitted electrons
+v: f | Hz | light frequency
+v: φ | eV | work function
+tags: quantum, photoelectric, photon
+
+= Compton scattering
+latex: \Delta\lambda = \frac{h}{m_e c}(1 - \cos\theta)
+expr: Δλ = h_P (1 - cos(θ)) / (m_e c)
+v: Δλ | m | wavelength shift
+v: θ | rad | scattering angle
+tags: quantum, compton, photon
+
+= Heisenberg uncertainty (position–momentum)
+latex: \Delta x\,\Delta p \geq \frac{\hbar}{2}
+expr: Δx Δp = hbar / 2
+v: Δx | m | position uncertainty (minimum case)
+v: Δp | kg m/s | momentum uncertainty
+note: Solving gives the minimum-uncertainty case.
+tags: quantum, uncertainty
+
+= Heisenberg uncertainty (energy–time)
+latex: \Delta E\,\Delta t \gtrsim \frac{\hbar}{2}
+expr: ΔE Δt = hbar / 2
+v: ΔE | J | energy uncertainty (minimum case)
+v: Δt | s | time scale
+tags: quantum, uncertainty
+
+= Schrödinger equation (time-dependent)
+latex: i\hbar\frac{\partial\Psi}{\partial t} = -\frac{\hbar^2}{2m}\nabla^2\Psi + V\Psi
+tags: quantum, schrodinger, wavefunction
+
+= Schrödinger equation (time-independent)
+latex: -\frac{\hbar^2}{2m}\frac{d^2\psi}{dx^2} + V\psi = E\psi
+tags: quantum, schrodinger, wavefunction
+
+= Born rule
+latex: P(a \le x \le b) = \int_a^b |\psi(x)|^2\,dx
+tags: quantum, probability, wavefunction
+
+= Expectation value
+latex: \langle A\rangle = \int \psi^*\hat A\,\psi\,dx
+tags: quantum, operator, wavefunction
+
+= Canonical commutator
+latex: [\hat x, \hat p] = i\hbar
+tags: quantum, operator, commutator
+
+= Particle in a 1D box
+latex: E_n = \frac{n^2 h^2}{8 m L^2}
+expr: E = n^2 h_P^2 / (8 m L^2)
+v: E | eV | energy of level n
+v: n | 1 | quantum number (1, 2, 3, …)
+v: m | kg | particle mass
+v: L | m | box width
+tags: quantum, particle in a box
+
+= Quantum harmonic oscillator
+latex: E_n = \hbar\omega\left(n + \tfrac{1}{2}\right)
+expr: E = hbar ω (n + 0.5)
+v: E | eV | energy of level n
+v: ω | rad/s | angular frequency
+v: n | 1 | quantum number (0, 1, 2, …)
+tags: quantum, harmonic oscillator
+
+= Hydrogen energy levels (Bohr)
+latex: E_n = -\frac{m_e e^4}{8\varepsilon_0^2 h^2}\frac{1}{n^2} \approx -\frac{13.6\ \mathrm{eV}}{n^2}
+expr: E = -m_e q_e^4 / (8 ε_0^2 h_P^2 n^2)
+v: E | eV | energy of level n
+v: n | 1 | principal quantum number
+tags: quantum, atomic, hydrogen, bohr
+
+= Bohr orbit radius
+latex: r_n = n^2 a_0
+expr: r = n^2 a_0
+v: r | m | orbit radius
+v: n | 1 | principal quantum number
+tags: quantum, atomic, hydrogen, bohr
+
+= Rydberg formula
+latex: \frac{1}{\lambda} = R_\infty\left(\frac{1}{n_1^2} - \frac{1}{n_2^2}\right)
+expr: 1 / λ = R_inf (1 / n_1^2 - 1 / n_2^2)
+v: λ | m | emitted wavelength
+v: n_1 | 1 | lower level
+v: n_2 | 1 | upper level
+tags: quantum, atomic, hydrogen, spectroscopy
+
+= Tunnelling probability (thick barrier)
+latex: T \approx e^{-2\kappa L},\quad \kappa = \frac{\sqrt{2m(V_0 - E)}}{\hbar}
+expr: T = exp(-2 L sqrt(2 m (V_0 - E)) / hbar)
+v: T | 1 | transmission probability
+v: L | m | barrier width
+v: m | kg | particle mass
+v: V_0 | eV | barrier height
+v: E | eV | particle energy
+tags: quantum, tunnelling
+
+= Bohr magneton
+latex: \mu_B = \frac{e\hbar}{2m_e}
+note: ≈ 9.274 × 10⁻²⁴ J/T. In the calculator: q_e hbar / (2 m_e).
+tags: quantum, atomic, magnetism, spin
+
+= Zeeman splitting
+latex: \Delta E = m_l\,\mu_B B
+expr: ΔE = m_l q_e hbar B / (2 m_e)
+v: ΔE | eV | energy shift
+v: m_l | 1 | magnetic quantum number
+v: B | T | magnetic flux density
+tags: quantum, atomic, magnetism, spectroscopy

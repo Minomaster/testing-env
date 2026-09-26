@@ -1,0 +1,204 @@
+@category DC circuits
+
+= Ohm's law
+latex: V = IR
+expr: V = I R
+v: V | V | voltage
+v: I | A | current
+v: R | Ω | resistance
+tags: circuits, ohm, resistor
+
+= Electrical power
+latex: P = VI
+expr: P = V I
+v: P | W | power
+v: V | V | voltage
+v: I | A | current
+tags: circuits, power
+
+= Power in a resistor (current)
+latex: P = I^2 R
+expr: P = I^2 R
+v: P | W | power dissipated
+v: I | A | current
+v: R | Ω | resistance
+tags: circuits, power, resistor
+
+= Power in a resistor (voltage)
+latex: P = \frac{V^2}{R}
+expr: P = V^2 / R
+v: P | W | power dissipated
+v: V | V | voltage across the resistor
+v: R | Ω | resistance
+tags: circuits, power, resistor
+
+= Resistance from resistivity
+latex: R = \frac{\rho L}{A}
+expr: R = ρ L / A
+v: R | Ω | resistance
+v: ρ | Ω m | resistivity
+v: L | m | length
+v: A | m^2 | cross-sectional area
+tags: circuits, resistor, materials, wire
+
+= Conductance
+latex: G = \frac{1}{R}
+expr: G_c = 1 / R
+v: G_c | S | conductance
+v: R | Ω | resistance
+tags: circuits, conductance
+
+= Charge and current
+latex: Q = It
+expr: Q = I t
+v: Q | C | charge
+v: I | A | current
+v: t | s | time
+tags: circuits, charge, current
+
+= Electrical energy
+latex: E = Pt
+expr: E = P t
+v: E | J | energy
+v: P | W | power
+v: t | s | time
+tags: circuits, energy, power
+
+= Resistors in series (two)
+latex: R = R_1 + R_2
+expr: R = R_1 + R_2
+v: R | Ω | equivalent resistance
+v: R_1 | Ω | resistor 1
+v: R_2 | Ω | resistor 2
+tags: circuits, resistor, series
+
+= Resistors in parallel (two)
+latex: R = \frac{R_1 R_2}{R_1 + R_2}
+expr: R = R_1 R_2 / (R_1 + R_2)
+v: R | Ω | equivalent resistance
+v: R_1 | Ω | resistor 1
+v: R_2 | Ω | resistor 2
+tags: circuits, resistor, parallel
+
+= Voltage divider
+latex: V_\text{out} = V_\text{in}\frac{R_2}{R_1 + R_2}
+expr: V_out = V_in R_2 / (R_1 + R_2)
+v: V_out | V | output voltage (across R₂)
+v: V_in | V | input voltage
+v: R_1 | Ω | top resistor
+v: R_2 | Ω | bottom resistor
+tags: circuits, divider, resistor
+
+= Current divider
+latex: I_1 = I\frac{R_2}{R_1 + R_2}
+expr: I_1 = I R_2 / (R_1 + R_2)
+v: I_1 | A | current through R₁
+v: I | A | total current
+v: R_1 | Ω | resistor 1
+v: R_2 | Ω | resistor 2
+tags: circuits, divider, resistor
+
+= Kirchhoff's current law
+latex: \sum_k I_k = 0\ \text{(at a node)}
+tags: circuits, kirchhoff, kcl
+
+= Kirchhoff's voltage law
+latex: \sum_k V_k = 0\ \text{(around a loop)}
+tags: circuits, kirchhoff, kvl
+
+= Thévenin equivalent
+latex: V_{Th} = V_\text{open circuit},\quad R_{Th} = \frac{V_{Th}}{I_\text{short circuit}}
+expr: R_Th = V_Th / I_sc
+v: R_Th | Ω | Thévenin resistance
+v: V_Th | V | open-circuit voltage
+v: I_sc | A | short-circuit current
+tags: circuits, thevenin, norton
+
+= Maximum power transfer
+latex: P_{\max} =\frac{V_{Th}^2}{4R_{Th}}\quad (R_L = R_{Th})
+expr: P = V_Th^2 / (4 R_Th)
+v: P | W | maximum power into the load
+v: V_Th | V | Thévenin voltage
+v: R_Th | Ω | Thévenin resistance
+tags: circuits, power, thevenin
+
+= Battery internal resistance
+latex: V = \mathcal{E} - Ir
+expr: V = EMF - I r
+v: V | V | terminal voltage
+v: EMF | V | EMF (open-circuit voltage)
+v: I | A | current drawn
+v: r | Ω | internal resistance
+tags: circuits, battery, emf
+
+= Battery energy capacity
+latex: E = QV
+expr: E = Q V
+v: E | J | stored energy
+v: Q | C | charge capacity (1 Ah = 3600 C)
+v: V | V | nominal voltage
+tags: circuits, battery, energy
+
+= Wheatstone bridge balance
+latex: \frac{R_1}{R_2} = \frac{R_3}{R_4}
+expr: R_1 / R_2 = R_3 / R_4
+v: R_1 | Ω | resistor 1
+v: R_2 | Ω | resistor 2
+v: R_3 | Ω | resistor 3
+v: R_4 | Ω | resistor 4
+tags: circuits, bridge, measurement
+
+= Delta to star (Δ–Y) conversion
+latex: R_a = \frac{R_{ab}R_{ca}}{R_{ab} + R_{bc} + R_{ca}}
+expr: R_a = R_ab R_ca / (R_ab + R_bc + R_ca)
+v: R_a | Ω | star resistor at node a
+v: R_ab | Ω | delta resistor between a and b
+v: R_ca | Ω | delta resistor between c and a
+v: R_bc | Ω | delta resistor between b and c
+tags: circuits, delta-wye, resistor
+
+= RC time constant
+latex: \tau = RC
+expr: τ = R C
+v: τ | s | time constant
+v: R | Ω | resistance
+v: C | F | capacitance
+tags: circuits, rc, transient, capacitor
+
+= RL time constant
+latex: \tau = \frac{L}{R}
+expr: τ = L / R
+v: τ | s | time constant
+v: L | H | inductance
+v: R | Ω | resistance
+tags: circuits, rl, transient, inductor
+
+= Capacitor charging
+latex: V_C(t) = V_0\left(1 - e^{-t/RC}\right)
+expr: V_C = V_0 (1 - exp(-t / (R C)))
+v: V_C | V | capacitor voltage
+v: V_0 | V | supply voltage
+v: t | s | time
+v: R | Ω | resistance
+v: C | F | capacitance
+tags: circuits, rc, transient, capacitor
+
+= Capacitor discharging
+latex: V_C(t) = V_0\,e^{-t/RC}
+expr: V_C = V_0 exp(-t / (R C))
+v: V_C | V | capacitor voltage
+v: V_0 | V | initial voltage
+v: t | s | time
+v: R | Ω | resistance
+v: C | F | capacitance
+tags: circuits, rc, transient, capacitor
+
+= Inductor current rise
+latex: I(t) = \frac{V}{R}\left(1 - e^{-tR/L}\right)
+expr: I = V (1 - exp(-t R / L)) / R
+v: I | A | current
+v: V | V | supply voltage
+v: R | Ω | resistance
+v: t | s | time
+v: L | H | inductance
+tags: circuits, rl, transient, inductor

@@ -1,0 +1,128 @@
+@category Induction & Maxwell's equations
+
+= Faraday's law (average EMF)
+latex: \mathcal{E} = -N\frac{\Delta\Phi_B}{\Delta t}
+expr: EMF = N ΔΦ / Δt
+v: EMF | V | induced EMF magnitude
+v: N | 1 | number of turns
+v: ΔΦ | Wb | change in flux
+v: Δt | s | time taken
+tags: induction, faraday, emf
+
+= Motional EMF
+latex: \mathcal{E} = BLv
+expr: EMF = B L v
+v: EMF | V | induced EMF
+v: B | T | magnetic flux density
+v: L | m | rod length
+v: v | m/s | speed perpendicular to B
+tags: induction, emf
+
+= Peak EMF of a rotating coil (generator)
+latex: \mathcal{E}_0 = NBA\omega
+expr: EMF = N B A ω
+v: EMF | V | peak EMF
+v: N | 1 | number of turns
+v: B | T | magnetic flux density
+v: A | m^2 | coil area
+v: ω | rad/s | angular velocity
+tags: induction, generator, emf, ac
+
+= Inductance definition
+latex: L = \frac{N\Phi_B}{I}
+expr: L = N Φ / I
+v: L | H | inductance
+v: N | 1 | number of turns
+v: Φ | Wb | flux through one turn
+v: I | A | current
+tags: inductor, inductance
+
+= Solenoid inductance
+latex: L = \frac{\mu_0\mu_r N^2 A}{l}
+expr: L = µ_0 µ_r N^2 A / l
+v: L | H | inductance
+v: µ_r | 1 | relative permeability of the core
+v: N | 1 | number of turns
+v: A | m^2 | cross-sectional area
+v: l | m | length
+tags: inductor, inductance, solenoid
+
+= Voltage across an inductor
+latex: V = L\frac{dI}{dt}
+expr: V = L ΔI / Δt
+v: V | V | voltage (average over Δt)
+v: L | H | inductance
+v: ΔI | A | change in current
+v: Δt | s | time taken
+tags: inductor, induction
+
+= Energy stored in an inductor
+latex: U = \tfrac{1}{2}LI^2
+expr: U = L I^2 / 2
+v: U | J | stored energy
+v: L | H | inductance
+v: I | A | current
+tags: inductor, energy
+
+= Mutual inductance
+latex: \mathcal{E}_2 = -M\frac{dI_1}{dt}
+expr: EMF = M ΔI / Δt
+v: EMF | V | EMF induced in coil 2
+v: M | H | mutual inductance
+v: ΔI | A | change of current in coil 1
+v: Δt | s | time taken
+tags: inductor, mutual inductance, transformer
+
+= Ideal transformer (voltages)
+latex: \frac{V_s}{V_p} = \frac{N_s}{N_p}
+expr: V_s / V_p = N_s / N_p
+v: V_s | V | secondary voltage
+v: V_p | V | primary voltage
+v: N_s | 1 | secondary turns
+v: N_p | 1 | primary turns
+tags: transformer, ac, power
+
+= Ideal transformer (currents)
+latex: \frac{I_s}{I_p} = \frac{N_p}{N_s}
+expr: I_s / I_p = N_p / N_s
+v: I_s | A | secondary current
+v: I_p | A | primary current
+v: N_p | 1 | primary turns
+v: N_s | 1 | secondary turns
+tags: transformer, ac, power
+
+= Displacement current
+latex: I_d = \varepsilon_0\frac{d\Phi_E}{dt}
+expr: I_d = ε_0 ΔΦ_E / Δt
+v: I_d | A | displacement current
+v: ΔΦ_E | V m | change in electric flux
+v: Δt | s | time taken
+tags: maxwell, displacement current
+
+= Gauss's law (differential form)
+latex: \nabla\cdot\vec E = \frac{\rho}{\varepsilon_0}
+tags: maxwell, gauss, electrostatics
+
+= Gauss's law for magnetism
+latex: \nabla\cdot\vec B = 0
+tags: maxwell, magnetism
+
+= Faraday's law (differential form)
+latex: \nabla\times\vec E = -\frac{\partial\vec B}{\partial t}
+tags: maxwell, faraday, induction
+
+= Ampère–Maxwell law (differential form)
+latex: \nabla\times\vec B = \mu_0\vec J + \mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}
+tags: maxwell, ampere, magnetism
+
+= Maxwell's equations (integral form)
+latex: \oint\vec E\cdot d\vec A = \frac{Q}{\varepsilon_0},\ \oint\vec B\cdot d\vec A = 0,\ \oint\vec E\cdot d\vec l = -\frac{d\Phi_B}{dt},\ \oint\vec B\cdot d\vec l = \mu_0 I + \mu_0\varepsilon_0\frac{d\Phi_E}{dt}
+tags: maxwell, electromagnetism
+
+= Poynting vector magnitude
+latex: S = \frac{EB}{\mu_0}
+expr: S = E B / µ_0
+v: S | W/m^2 | energy flux (intensity)
+v: E | V/m | electric field
+v: B | T | magnetic field
+tags: em waves, energy, poynting

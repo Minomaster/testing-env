@@ -1,0 +1,156 @@
+@category Solid state & semiconductors
+
+= Thermal voltage
+latex: V_T = \frac{k_B T}{q}
+expr: V_th = k_B T / q_e
+v: V_th | V | thermal voltage (≈ 25.85 mV at 300 K)
+v: T | K | temperature
+tags: semiconductors, diode, thermal voltage
+
+= Shockley diode equation
+latex: I = I_S\left(e^{V_D/(nV_T)} - 1\right)
+expr: I = I_S (exp(q_e V_D / (n k_B T)) - 1)
+v: I | A | diode current
+v: I_S | A | saturation current
+v: V_D | V | diode voltage
+v: n | 1 | ideality factor (1–2)
+v: T | K | temperature
+tags: semiconductors, diode, pn junction
+
+= Mass action law
+latex: np = n_i^2
+expr: n p = n_i^2
+v: n | m^-3 | electron concentration
+v: p | m^-3 | hole concentration
+v: n_i | m^-3 | intrinsic carrier concentration
+tags: semiconductors, carriers, doping
+
+= Intrinsic carrier concentration
+latex: n_i = \sqrt{N_c N_v}\;e^{-E_g/(2k_BT)}
+expr: n_i = sqrt(N_c N_v) exp(-E_g / (2 k_B T))
+v: n_i | m^-3 | intrinsic carrier concentration
+v: N_c | m^-3 | effective density of states, conduction band
+v: N_v | m^-3 | effective density of states, valence band
+v: E_g | eV | band gap
+v: T | K | temperature
+tags: semiconductors, carriers, band gap
+
+= Carrier concentration from the Fermi level
+latex: n = n_i\,e^{(E_F - E_i)/k_BT}
+expr: n = n_i exp(ΔE_F / (k_B T))
+v: n | m^-3 | electron concentration
+v: n_i | m^-3 | intrinsic carrier concentration
+v: ΔE_F | eV | Fermi level above the intrinsic level
+v: T | K | temperature
+tags: semiconductors, fermi level, doping
+
+= Conductivity of a semiconductor
+latex: \sigma = q(n\mu_n + p\mu_p)
+expr: σ = q_e (n μ_n + p μ_p)
+v: σ | S/m | conductivity
+v: n | m^-3 | electron concentration
+v: μ_n | m^2/(V s) | electron mobility
+v: p | m^-3 | hole concentration
+v: μ_p | m^2/(V s) | hole mobility
+tags: semiconductors, conductivity, mobility
+
+= Resistivity and conductivity
+latex: \rho = \frac{1}{\sigma}
+expr: ρ = 1 / σ
+v: ρ | Ω m | resistivity
+v: σ | S/m | conductivity
+tags: materials, resistivity, conductivity
+
+= Drift velocity
+latex: v_d = \mu E
+expr: v_d = μ E
+v: v_d | m/s | drift velocity
+v: μ | m^2/(V s) | mobility
+v: E | V/m | electric field
+tags: semiconductors, drift, mobility
+
+= Current and drift velocity
+latex: I = nqAv_d
+expr: I = n q_e A v_d
+v: I | A | current
+v: n | m^-3 | carrier density
+v: A | m^2 | cross-sectional area
+v: v_d | m/s | drift velocity
+tags: conduction, drift, current
+
+= Ohm's law (microscopic)
+latex: \vec J = \sigma\vec E
+expr: J = σ E
+v: J | A/m^2 | current density
+v: σ | S/m | conductivity
+v: E | V/m | electric field
+tags: conduction, current density
+
+= Diffusion current density
+latex: J_n = qD_n\frac{dn}{dx}
+expr: J = q_e D Δn / Δx
+v: J | A/m^2 | diffusion current density
+v: D | m^2/s | diffusion coefficient
+v: Δn | m^-3 | change in concentration
+v: Δx | m | over distance
+tags: semiconductors, diffusion
+
+= Einstein relation
+latex: D = \frac{\mu k_B T}{q}
+expr: D = μ k_B T / q_e
+v: D | m^2/s | diffusion coefficient
+v: μ | m^2/(V s) | mobility
+v: T | K | temperature
+tags: semiconductors, diffusion, mobility
+
+= Built-in potential of a pn junction
+latex: V_{bi} = \frac{k_BT}{q}\ln\frac{N_A N_D}{n_i^2}
+expr: V_bi = k_B T ln(N_A N_D / n_i^2) / q_e
+v: V_bi | V | built-in potential
+v: T | K | temperature
+v: N_A | m^-3 | acceptor concentration
+v: N_D | m^-3 | donor concentration
+v: n_i | m^-3 | intrinsic carrier concentration
+tags: semiconductors, pn junction, diode
+
+= Depletion width
+latex: W = \sqrt{\frac{2\varepsilon_s (V_{bi} - V)}{q}\left(\frac{1}{N_A} + \frac{1}{N_D}\right)}
+expr: W = sqrt(2 ε_0 ε_r V_j (1 / N_A + 1 / N_D) / q_e)
+v: W | m | depletion width
+v: ε_r | 1 | relative permittivity (11.7 for Si)
+v: V_j | V | junction voltage (V_bi − V applied)
+v: N_A | m^-3 | acceptor concentration
+v: N_D | m^-3 | donor concentration
+tags: semiconductors, pn junction, depletion
+
+= Junction capacitance
+latex: C_j = \frac{\varepsilon_s A}{W}
+expr: C_j = ε_0 ε_r A / W
+v: C_j | F | depletion capacitance
+v: ε_r | 1 | relative permittivity
+v: A | m^2 | junction area
+v: W | m | depletion width
+tags: semiconductors, pn junction, capacitance
+
+= Band gap cutoff wavelength
+latex: \lambda_c = \frac{hc}{E_g}
+expr: λ_c = h_P c / E_g
+v: λ_c | m | longest absorbed / emitted wavelength
+v: E_g | eV | band gap
+tags: semiconductors, band gap, led, photodiode
+
+= Hall coefficient
+latex: R_H = \frac{1}{nq}
+expr: R_H = 1 / (n q_e)
+v: R_H | m^3/C | Hall coefficient
+v: n | m^-3 | carrier density
+tags: semiconductors, hall effect
+
+= Resistance temperature dependence
+latex: R = R_0\left[1 + \alpha(T - T_0)\right]
+expr: R = R_0 (1 + α ΔT)
+v: R | Ω | resistance at the new temperature
+v: R_0 | Ω | resistance at the reference temperature
+v: α | K^-1 | temperature coefficient
+v: ΔT | K | temperature change
+tags: materials, resistance, temperature, rtd
